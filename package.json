@@ -1,0 +1,25 @@
+{
+  "name": "intercom-bakend",
+  "version": "1.0.0",
+  "description": "Backend Service For Intercom App",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "nodemon server"
+  },
+  "keywords": [
+    "Rest",
+    "Node",
+    "Express",
+    "CRUD+"
+  ],
+  "author": "Mohamed Aydoun",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.13",
+    "morgan": "^1.9.1"
+  }
+}
