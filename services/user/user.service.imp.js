@@ -15,6 +15,14 @@ exports.getUserImp = (id) => {
     throw new Error('User id is not valid');
 };
 
+exports.updateUserImp = (id, newData) => {
+    return UserModel.updateOne({ _id: id }, newData);
+};
+
+exports.deleteUser = id => {
+    return UserModel.updateOne({ _id: id }, { status: 'Inactive' });
+};
+
 exports.registerUserImp = (name, email, password) => {
     return securePassword(password)
         .then(hash => {
@@ -29,7 +37,7 @@ exports.registerUserImp = (name, email, password) => {
         .then(user => {
             return omit(user.toObject(), FORBIDEN_KEYS);
         });
-}
+};
 
 exports.loginUserImp = (email, password) => {
     return UserModel.findOne({ email }).lean()
@@ -46,4 +54,4 @@ exports.loginUserImp = (email, password) => {
                     }
                 });
         });
-}
+};

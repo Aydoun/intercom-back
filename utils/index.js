@@ -36,8 +36,6 @@ exports.comparePasswords = (candidatePassword, storedPAssword, cb) => {
 
 exports.isValidObjectId = (id) => ObjectId.isValid(id);
 
-exports.isValidEmail = (email) => true;
-
 exports.httpCodes = {
     SUCCESS: 200,
     FAILURE: 401,

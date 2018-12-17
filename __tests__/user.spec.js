@@ -3,7 +3,13 @@ const { closeConnection, connectToDb } = require('../lib/connect');
 const expect = require('expect');
 
 //Importing The Controller
-const { registerUserImp, loginUserImp, getUserImp } = require('../services/user/user.service.imp');
+const {
+    registerUserImp,
+    loginUserImp,
+    getUserImp,
+    updateUserImp,
+    deleteUser,
+} = require('../services/user/user.service.imp');
 
 before(function (done) {
     connectToDb(done);
@@ -33,7 +39,6 @@ describe("User Authentication", function () {
                 done(err);
             });
     });
-
 
     it("Should Login user using an email and a password", (done) => {
         const email = 'testemail';
@@ -65,20 +70,45 @@ describe("User Authentication", function () {
     });
 });
 
- describe("User Crud", function(){
+describe("User Crud", function () {
     it("Should get User By Id", (done) => {
         getUserImp(_userId)
-        .then(user => {
-            expect(user).not.toBeNull();
-            expect(user).toHaveProperty('email');
-            expect(user).not.toHaveProperty('password');
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
+            .then(user => {
+                expect(user).not.toBeNull();
+                expect(user).toHaveProperty('email');
+                expect(user).not.toHaveProperty('password');
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
     });
- });
+
+    it("Should Update User Information By Id", (done) => {
+        const newName = 'newName';
+        updateUserImp(_userId, { name: newName })
+            .then(res => {
+                expect(res).not.toBeNull();
+                expect(res.ok).toBe(1);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
+    });
+
+    it("Should Desactivate User By Id", (done) => {
+        deleteUser(_userId)
+            .then(res => {
+                expect(res).not.toBeNull();
+                expect(res.ok).toBe(1);
+                done();
+            })
+            .catch(err => {
+                done(err);
+            });
+    });
+});
 
 after(() => {
     closeConnection();
