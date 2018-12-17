@@ -1,5 +1,5 @@
 const { getUserImp } = require('./user.service.imp');
-const { formatter } = require('../../utils');
+const { formatter, httpCodes } = require('../../utils');
 
 exports.getUser = (req, res) => {
     const { id } = req.params;
@@ -7,12 +7,12 @@ exports.getUser = (req, res) => {
     try {
         getUserImp(id)
         .then(user => {
-            return res.status(200).send(formatter(user));
+            return res.status(httpCodes.SUCCESS).send(formatter(user));
         })
         .catch(err => {
-            return res.status(401).send(formatter(null, { message: err.message}))
+            return res.status(httpCodes.FAILURE).send(formatter(null, { message: err.message}))
         })
     } catch(e) {
-        return res.status(401).send(formatter(null, { message: e.message}))
+        return res.status(httpCodes.FAILURE).send(formatter(null, { message: e.message}))
     }
 };

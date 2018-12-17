@@ -4,8 +4,8 @@
   "description": "Backend Service For Intercom App",
   "main": "index.js",
   "scripts": {
-    "test": "mocha __tests__/*.spec.js",
-    "start": "nodemon ./lib/server"
+    "test": "export NODE_ENV=test && mocha __tests__/*.spec.js",
+    "start": "export NODE_ENV=development && nodemon ./lib/server"
   },
   "keywords": [
     "Rest",
@@ -19,11 +19,17 @@
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
+    "expect": "^23.6.0",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "mocha": "^5.2.0",
+    "mockgoose": "^7.3.5",
     "mongoose": "^5.3.13",
     "morgan": "^1.9.1",
     "sinon": "^7.1.1",
     "sinon-mongoose": "^2.2.1"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3"
   }
 }

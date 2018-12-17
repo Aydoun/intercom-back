@@ -1,36 +1,72 @@
-const sinon = require('sinon');
-const chai = require('chai');
-const expect = chai.expect;
 
-const mongoose = require('mongoose');
-require('sinon-mongoose');
+const {closeConnection, connectToDb} = require('../lib/connect');
+const expect = require('expect');
 
-//Importing our todo model for our unit testing.
-const User = require('../models/user.model');
+//Importing The Controller
+const { registerUserImp, loginUserImp } = require('../services/user/user.service.imp');
 
-describe("Get all todos", function(){
-    // Test will pass if we get all todos
-   it("should return all todos", function(done){
-       var UserMock = sinon.mock(User);
-       var expectedResult = {status: true, users: []};
-       UserMock.expects('find').yields(null, expectedResult);
-       User.find(function (err, result) {
-           UserMock.verify();
-           UserMock.restore();
-           expect(result.status).to.be.true;
-           done();
-       });
-   });
+before(function(done) {
+    connectToDb(done);
+});
 
-   it("should return an error", function(done){
-    var UserMock = sinon.mock(User);
-    var expectedResult = {status: false, users: []};
-    UserMock.expects('find').yields(expectedResult, null);
-    User.find(function (err, result) {
-        UserMock.verify();
-        UserMock.restore();
-        expect(err.status).to.not.be.true;
-        done();
+describe("User Authentication", function(){
+    let _userId;
+
+    it("Should register user using an email and a password", (done) => {
+        const name = 'testName';
+        const email = 'testemail';
+        const password = 'testpassword';
+
+        registerUserImp(name, email, password)
+        .then(user => {
+            expect(user).toHaveProperty('_id');
+            expect(user).toHaveProperty('email');
+            expect(user).toHaveProperty('password');
+
+            expect(user.email).toBe(email);
+            expect(user.name).toBe(name);
+            expect(user.password).not.toBe(password);
+            _userId = user._id;
+            done();
+        })
+        .catch(err => {
+            done(err);
+        })
     });
-});
-});
+
+
+    it("Should Login user using an email and a password", (done) => {
+        const email = 'testemail';
+        const password = 'testpassword';
+
+        loginUserImp(email, password)
+        .then(user => {
+            expect(user).toHaveProperty('_id');
+            expect(user).toHaveProperty('email');
+            expect(user).not.toHaveProperty('password');
+            done();
+        })
+        .catch(err => {
+            done(err);
+        })
+    });
+
+    it("Should Throw an Error with incorrect Login Information", (done) => {
+        const email = 'testemail';
+        const password = 'fakepassword';
+
+        loginUserImp(email, password)
+        .catch(err => {
+            expect(err).not.toBe(null);
+        })
+        .finally(_ => {
+            done();
+        })
+    });
+ });
+
+ after(() => {
+    closeConnection();
+ })
+
+

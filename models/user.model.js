@@ -3,17 +3,22 @@ const Schema = mongoose.Schema;
 
 const UserSchema = Schema({
   name: {
-    type: String
+    type: String,
+    required: true,
   },
   email: {
-    type: Boolean,
-    default: false
+    type: String,
+    required: true,
   },
-  creation_date: {
-    type: Date,
-    default: Date.now
+  password: {
+    type: String,
+    required: true,
+  },
+  salt: {
+    type: String,
+    required: true,
   }
-});
+}, {timestamps: true});
 //Exporting our model
 const UserModel = mongoose.model('user', UserSchema, 'user');
 
