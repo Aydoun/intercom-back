@@ -30,6 +30,7 @@
     "sinon-mongoose": "^2.2.1"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3"
+    "bcrypt-nodejs": "0.0.3",
+    "object.omit": "^3.0.0"
   }
 }

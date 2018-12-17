@@ -14,10 +14,10 @@ const UserSchema = Schema({
     type: String,
     required: true,
   },
-  salt: {
-    type: String,
-    required: true,
-  }
+  // salt: {
+  //   type: String,
+  //   required: true,
+  // }
 }, {timestamps: true});
 //Exporting our model
 const UserModel = mongoose.model('user', UserSchema, 'user');
