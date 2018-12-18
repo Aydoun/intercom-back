@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const UserSchema = Schema({
   name: {
@@ -29,7 +30,7 @@ const UserSchema = Schema({
   status: { type: String, enum: ['Active', 'Inactive', 'Banned'], default: 'Active' },
 }, { timestamps: true });
 
-//Exporting our model
+// Exporting our model
 const UserModel = mongoose.model('user', UserSchema, 'user');
 
 module.exports = UserModel;

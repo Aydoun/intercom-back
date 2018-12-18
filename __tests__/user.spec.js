@@ -1,5 +1,5 @@
 
-const { closeConnection, connectToDb } = require('../lib/connect');
+const { closeConnection, connectToDb } = require('../src/lib/connect');
 const expect = require('expect');
 
 //Importing The Controller
@@ -9,7 +9,7 @@ const {
     getUserImp,
     updateUserImp,
     deleteUser,
-} = require('../services/user/user.service.imp');
+} = require('../src/services/user/user.service.imp');
 
 before(function (done) {
     connectToDb(done);
