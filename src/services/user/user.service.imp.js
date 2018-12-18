@@ -43,3 +43,22 @@ exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
         }
       });
   });
+
+exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById(id)
+  .then((user) => {
+    if (!user) {
+      throw new Error('User Not Found');
+    }
+    return comparePasswords(oldPassword, user.password)
+      .then((isMatch) => {
+        if (!isMatch) {
+          throw new Error('Wrong Password');
+        } else {
+          return securePassword(newPassword);
+        }
+      })
+      .then((hash) => {
+        user.password = hash;
+        return user.save();
+      });
+  });

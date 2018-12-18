@@ -9,6 +9,7 @@ const {
     getUserImp,
     updateUserImp,
     deleteUser,
+    changePasswordImp,
 } = require('../src/services/user/user.service.imp');
 
 before(function (done) {
@@ -70,6 +71,28 @@ describe("User Authentication", function () {
           } catch (e) {
             expect(e).toBeTruthy();
           }
+    });
+
+    it("Should let the user change the old password", (done) => {
+        const newPassword = 'newPassword';
+
+        changePasswordImp(_userId, password, newPassword)
+        .then(response => {
+            expect(response).not.toBeNull();
+            done();
+        })
+        .catch(err => {
+            done(err);
+        });
+    });
+
+    it("Should not let user use previous password", async () => {
+        expect.assertions(1);
+        try {
+            await loginUserImp(email, password);
+        } catch (e) {
+            expect(e).toBeTruthy();
+        }
     });
 });
 
