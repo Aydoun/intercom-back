@@ -18,11 +18,11 @@ before(function (done) {
 let _userId;
 
 describe("User Authentication", function () {
-    it("Should register user using an email and a password", (done) => {
-        const name = 'testName';
-        const email = 'testemail';
-        const password = 'testpassword';
+    const name = 'testName';
+    const email = 'testemail@testprovider.nl';
+    const password = 'testpassword';
 
+    it("Should register user using an email and a password", (done) => {
         registerUserImp(name, email, password)
             .then(user => {
                 expect(user).toHaveProperty('_id');
@@ -40,10 +40,16 @@ describe("User Authentication", function () {
             });
     });
 
-    it("Should Login user using an email and a password", (done) => {
-        const email = 'testemail';
-        const password = 'testpassword';
+    it("Should not register user with the same email", async () => {
+        expect.assertions(1);
+        try {
+            await registerUserImp(name, email, password);
+          } catch (e) {
+            expect(e).toBeTruthy();
+          }
+    });
 
+    it("Should Login user using an email and a password", (done) => {
         loginUserImp(email, password)
             .then(user => {
                 expect(user).toHaveProperty('_id');
@@ -56,17 +62,14 @@ describe("User Authentication", function () {
             });
     });
 
-    it("Should Throw an Error with incorrect Login Information", (done) => {
-        const email = 'testemail';
-        const password = 'fakepassword';
-
-        loginUserImp(email, password)
-            .then(user => {
-                throw new Error('User should not exist!');
-            })
-            .catch(err => {
-                done();
-            });
+    it("Should Throw an Error with incorrect Login Information", async () => {
+        const fakePassword = 'fakepassword';
+        expect.assertions(1);
+        try {
+            await loginUserImp(email, fakePassword);
+          } catch (e) {
+            expect(e).toBeTruthy();
+          }
     });
 });
 
