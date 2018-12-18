@@ -1,8 +1,7 @@
 
-const { closeConnection, connectToDb } = require('../lib/connect');
 const expect = require('expect');
 
-const { savePLanImp, getPlanImp, updatePlanImp, removePlanImp } = require('../services/plan/plan.service.imp');
+const { savePLanImp, getPlanImp, updatePlanImp, removePlanImp } = require('../src/services/plan/plan.service.imp');
 
 describe("Plans Crud", function(){
     let planId;

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const PLanSchema = Schema({
   title: {
@@ -10,9 +11,9 @@ const PLanSchema = Schema({
     type: String,
     required: true,
   },
-  status: {type : String , enum: ['Active', 'Inactive'] , default : 'Active'},
-}, {timestamps: true});
-//Exporting our model
+  status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
+}, { timestamps: true });
+// Exporting our model
 const PLanModel = mongoose.model('plan', PLanSchema);
 
 module.exports = PLanModel;
