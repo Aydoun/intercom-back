@@ -67,6 +67,6 @@ describe("User Authentication", function(){
 
  after(() => {
     closeConnection();
- })
+ });
 
 
