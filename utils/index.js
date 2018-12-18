@@ -1,8 +1,12 @@
 const ObjectId = require('mongoose').Types.ObjectId;
-const bcrypt = require('bcrypt-nodejs') ;
+const util = require('util');
+const bcrypt = require('bcrypt-nodejs');
+const genSalt = util.promisify(bcrypt.genSalt);
+const hash = util.promisify(bcrypt.hash);
+const compare = util.promisify(bcrypt.compare);
 
 exports.formatter = (data, error) => {
-    if(!error) {
+    if (!error) {
         return {
             status: !error,
             result: data,
@@ -17,33 +21,20 @@ exports.formatter = (data, error) => {
     };
 }
 
-exports.securePassword = function(plainPassword, next){
-    bcrypt.genSalt(10, (saltError, salt) => {
-        if (saltError) {
-          next(null)
-        }
-    
-        bcrypt.hash(plainPassword, salt, null, (hashError, hash) => {
-          if (hashError) {
-            next(null)
-          }
-          next(hash, salt)
-        });
-    });
+exports.securePassword = function (plainPassword) {
+    let _salt;
+    return genSalt(10)
+        .then(salt => {
+            _salt = salt;
+            return hash(plainPassword, salt, null)
+        })
 }
 
 exports.comparePasswords = (candidatePassword, storedPAssword, cb) => {
-    bcrypt.compare(candidatePassword, storedPAssword, (err, isMatch) => {
-        console.log(err);
-      if (err) { return cb(err); }
-  
-      cb(null, isMatch);
-    });
+    return compare(candidatePassword, storedPAssword)
 };
 
-exports.isValidObjectId = (id) =>  ObjectId.isValid(id);
-
-exports.isValidEmail = (email) => true;
+exports.isValidObjectId = (id) => ObjectId.isValid(id);
 
 exports.httpCodes = {
     SUCCESS: 200,

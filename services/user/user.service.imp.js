@@ -1,59 +1,57 @@
 const UserModel = require('../../models/user.model');
+const omit = require('object.omit');
 const { isValidObjectId, securePassword, comparePasswords } = require('../../utils');
 
-exports.getUserImp = (id) => {
-    if(isValidObjectId(id)) {
-        return UserModel.findById(id)
-        .then(user => {
-            return user;
-        });
-    } 
+const FORBIDEN_KEYS = ['password'];
 
-    throw new Error('User id is not valid'); 
+exports.getUserImp = (id) => {
+    if (isValidObjectId(id)) {
+        return UserModel.findById(id).lean()
+            .then(user => {
+                return omit(user, FORBIDEN_KEYS);
+            });
+    }
+
+    throw new Error('User id is not valid');
+};
+
+exports.updateUserImp = (id, newData) => {
+    return UserModel.updateOne({ _id: id }, newData);
+};
+
+exports.deleteUser = id => {
+    return UserModel.updateOne({ _id: id }, { status: 'Inactive' });
 };
 
 exports.registerUserImp = (name, email, password) => {
-    return new Promise((resolve, reject) => {
-        securePassword(password, (hash, salt) => {
-            if (hash !== null) {
-                const newUser = new UserModel({
-                    name,
-                    email,
-                    password: hash,
-                    salt,
-                });
-        
-                newUser.save()
-                .then(user => {
-                    resolve(user);
-                });
-            } else {
-                reject(new Error('Error While Securing User Data'));
-            }
+    return securePassword(password)
+        .then(hash => {
+            const newUser = new UserModel({
+                name,
+                email,
+                password: hash,
+            });
+
+            return newUser.save()
+        })
+        .then(user => {
+            return omit(user.toObject(), FORBIDEN_KEYS);
         });
-    });
-}
+};
 
 exports.loginUserImp = (email, password) => {
-    return UserModel.findOne({ email })
-    .then(user => {
-        if(!user) {
-            throw new Error('Authentication failed. User not found.');
-        }
-
-        return new Promise((resolve, reject) => {
-            comparePasswords(password, user.password, (err, isMatch) => {
-                if (err) {
-                    reject(new Error('Authentication Failed. Comparison Rejection'));
-                } else if (!isMatch) {
-                    reject(new Error('Authentication failed. Wrong Password'));
-                } else {
-                    resolve({
-                        _id : user._id,
-                        email : user.email,
-                    });
-                }
-            }); 
-        });   
-    });
-}
+    return UserModel.findOne({ email }).lean()
+        .then(user => {
+            if (!user) {
+                throw new Error('Authentication failed. User not found.');
+            }
+            return comparePasswords(password, user.password)
+                .then(isMatch => {
+                    if (!isMatch) {
+                        throw new Error('Authentication failed. Wrong Password');
+                    } else {
+                        return omit(user, FORBIDEN_KEYS);
+                    }
+                });
+        });
+};
