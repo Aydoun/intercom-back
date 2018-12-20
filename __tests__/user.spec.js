@@ -2,140 +2,131 @@
 const { closeConnection, connectToDb } = require('../src/lib/connect');
 const expect = require('expect');
 
-//Importing The Controller
-const {
-    registerUserImp,
-    loginUserImp,
-    getUserImp,
-    updateUserImp,
-    deleteUser,
-    changePasswordImp,
-} = require('../src/services/user/user.service.imp');
-
-before(function (done) {
-    connectToDb(done);
+const { registerUser, loginUser, changePassword, getUser, updateUser, deleteUser } = require('../src/services/user/user.service');
+before((done) => {
+  connectToDb(done);
 });
 
 let _userId;
 
-describe("User Authentication", function () {
-    const name = 'testName';
-    const email = 'testemail@testprovider.nl';
-    const password = 'testpassword';
+describe('User Authentication', () => {
+  const name = 'testName';
+  const email = 'testemail@testprovider.nl';
+  const password = 'testpassword';
 
-    it("Should register user using an email and a password", (done) => {
-        registerUserImp(name, email, password)
-            .then(user => {
-                expect(user).toHaveProperty('_id');
-                expect(user).toHaveProperty('email');
-                expect(user).not.toHaveProperty('password');
+  it('Should register user using an email and a password', (done) => {
+    registerUser(name, email, password)
+      .then((user) => {
+        expect(user).toHaveProperty('_id');
+        expect(user).toHaveProperty('email');
+        expect(user).not.toHaveProperty('password');
 
-                expect(user.email).toBe(email);
-                expect(user.name).toBe(name);
-                expect(user.password).not.toBe(password);
-                _userId = user._id;
-                done();
-            })
-            .catch(err => {
-                done(err);
-            });
-    });
+        expect(user.email).toBe(email);
+        expect(user.name).toBe(name);
+        expect(user.password).not.toBe(password);
+        _userId = user._id;
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should not register user with the same email", async () => {
-        expect.assertions(1);
-        try {
-            await registerUserImp(name, email, password);
-          } catch (e) {
-            expect(e).toBeTruthy();
-          }
-    });
+  it('Should not register user with the same email', async () => {
+    expect.assertions(1);
+    try {
+      await registerUser(name, email, password);
+    } catch (e) {
+      expect(e).toBeTruthy();
+    }
+  });
 
-    it("Should Login user using an email and a password", (done) => {
-        loginUserImp(email, password)
-            .then(user => {
-                expect(user).toHaveProperty('_id');
-                expect(user).toHaveProperty('email');
-                expect(user).not.toHaveProperty('password');
-                done();
-            })
-            .catch(err => {
-                done(err);
-            });
-    });
+  it('Should Login user using an email and a password', (done) => {
+    loginUser(email, password)
+      .then((user) => {
+        expect(user).toHaveProperty('_id');
+        expect(user).toHaveProperty('email');
+        expect(user).not.toHaveProperty('password');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should Throw an Error with incorrect Login Information", async () => {
-        const fakePassword = 'fakepassword';
-        expect.assertions(1);
-        try {
-            await loginUserImp(email, fakePassword);
-          } catch (e) {
-            expect(e).toBeTruthy();
-          }
-    });
+  it('Should Throw an Error with incorrect Login Information', async () => {
+    const fakePassword = 'fakepassword';
+    expect.assertions(1);
+    try {
+      await loginUser(email, fakePassword);
+    } catch (e) {
+      expect(e).toBeTruthy();
+    }
+  });
 
-    it("Should let the user change the old password", (done) => {
-        const newPassword = 'newPassword';
+  it('Should let the user change the old password', (done) => {
+    const newPassword = 'newPassword';
 
-        changePasswordImp(_userId, password, newPassword)
-        .then(response => {
-            expect(response).not.toBeNull();
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
-    });
+    changePassword(_userId, password, newPassword)
+      .then((response) => {
+        expect(response).not.toBeNull();
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should not let user use previous password", async () => {
-        expect.assertions(1);
-        try {
-            await loginUserImp(email, password);
-        } catch (e) {
-            expect(e).toBeTruthy();
-        }
-    });
+  it('Should not let user use previous password', async () => {
+    expect.assertions(1);
+    try {
+      await loginUser(email, password);
+    } catch (e) {
+      expect(e).toBeTruthy();
+    }
+  });
 });
 
-describe("User Crud", function () {
-    it("Should get User By Id", (done) => {
-        getUserImp(_userId)
-            .then(user => {
-                expect(user).not.toBeNull();
-                expect(user).toHaveProperty('email');
-                expect(user).not.toHaveProperty('password');
-                done();
-            })
-            .catch(err => {
-                done(err);
-            });
-    });
+describe('User Crud', () => {
+  it('Should get User By Id', (done) => {
+    getUser(_userId)
+      .then((user) => {
+        expect(user).not.toBeNull();
+        expect(user).toHaveProperty('email');
+        expect(user).not.toHaveProperty('password');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should Update User Information By Id", (done) => {
-        const newName = 'newName';
-        updateUserImp(_userId, { name: newName })
-            .then(res => {
-                expect(res).not.toBeNull();
-                expect(res.ok).toBe(1);
-                done();
-            })
-            .catch(err => {
-                done(err);
-            });
-    });
+  it('Should Update User Information By Id', (done) => {
+    const newName = 'newName';
+    updateUser(_userId, { name: newName })
+      .then((res) => {
+        expect(res).not.toBeNull();
+        expect(res.ok).toBe(1);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should Desactivate User By Id", (done) => {
-        deleteUser(_userId)
-            .then(res => {
-                expect(res).not.toBeNull();
-                expect(res.ok).toBe(1);
-                done();
-            })
-            .catch(err => {
-                done(err);
-            });
-    });
+  it('Should Desactivate User By Id', (done) => {
+    deleteUser(_userId)
+      .then((res) => {
+        expect(res).not.toBeNull();
+        expect(res.ok).toBe(1);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 });
 
 after(() => {
-    closeConnection();
+  closeConnection();
 });

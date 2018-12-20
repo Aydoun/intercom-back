@@ -15,7 +15,7 @@ exports.getUserImp = (id) => {
 
 exports.updateUserImp = (id, newData) => UserModel.updateOne({ _id: id }, newData);
 
-exports.deleteUser = id => UserModel.updateOne({ _id: id }, { status: 'Inactive' });
+exports.deleteUserImp = id => UserModel.updateOne({ _id: id }, { status: 'Inactive' });
 
 exports.registerUserImp = (name, email, password) => securePassword(password)
   .then((hash) => {

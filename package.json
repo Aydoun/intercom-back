@@ -6,7 +6,7 @@
   "scripts": {
     "test": "export NODE_ENV=test && mocha __tests__/*.spec.js",
     "start": "export NODE_ENV=development && nodemon ./lib/server",
-    "lint": "eslint './src/**/*.js?(x)'"
+    "lint": "eslint --fix './src/**/*.js?(x)'"
   },
   "keywords": [
     "Rest",

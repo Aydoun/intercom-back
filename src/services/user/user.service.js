@@ -1,14 +1,10 @@
-const { getUserImp } = require('./user.service.imp');
-const { formatter, httpCodes } = require('../../utils');
+const {
+  getUserImp, updateUserImp, registerUserImp, loginUserImp, changePasswordImp, deleteUserImp,
+} = require('./user.service.imp');
 
-exports.getUser = (req, res) => {
-  const { id } = req.params;
-
-  try {
-    return getUserImp(id)
-      .then(user => res.status(httpCodes.SUCCESS).send(formatter(user)))
-      .catch(err => res.status(httpCodes.FAILURE).send(formatter(null, { message: err.message })));
-  } catch (e) {
-    return res.status(httpCodes.FAILURE).send(formatter(null, { message: e.message }));
-  }
-};
+exports.getUser = id => getUserImp(id);
+exports.updateUser = (id, newData) => updateUserImp(id, newData);
+exports.deleteUser = id => deleteUserImp(id);
+exports.registerUser = (name, email, password) => registerUserImp(name, email, password);
+exports.loginUser = (email, password) => loginUserImp(email, password);
+exports.changePassword = (id, oldPassowrd, newPassword) => changePasswordImp(id, oldPassowrd, newPassword);

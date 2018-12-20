@@ -1,6 +1,6 @@
 const PlanModel = require('../../models/plan.model');
 
-exports.savePLanImp = (data) => {
+exports.savePlanImp = (data) => {
   const newPlan = new PlanModel(data);
   return newPlan.save();
 };

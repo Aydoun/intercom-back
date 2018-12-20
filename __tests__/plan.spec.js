@@ -1,72 +1,74 @@
 
 const expect = require('expect');
 
-const { savePLanImp, getPlanImp, updatePlanImp, removePlanImp } = require('../src/services/plan/plan.service.imp');
+const {
+  savePlan, getPlan, updatePlan, removePlan,
+} = require('../src/services/Plan/Plan.service');
 
-describe("Plans Crud", function(){
-    let planId;
-    const planData = {
-        title: 'myplan',
-        description: 'real nice plan',
-    };
+describe('Plans Crud', () => {
+  let PlanId;
+  const PlanData = {
+    title: 'myPlan',
+    description: 'real nice Plan',
+  };
 
-    it("Should save plans details", (done) => {
-        savePLanImp(planData)
-        .then(plan => {
-            expect(plan).toHaveProperty('_id');
-            expect(plan).toHaveProperty('title');
-            expect(plan).toHaveProperty('description');
+  it('Should save Plans details', (done) => {
+    savePlan(PlanData)
+      .then((Plan) => {
+        expect(Plan).toHaveProperty('_id');
+        expect(Plan).toHaveProperty('title');
+        expect(Plan).toHaveProperty('description');
 
-            expect(plan.title).toBe(planData.title);
-            expect(plan.description).toBe(planData.description);
-            planId = plan._id;
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
-    });
+        expect(Plan.title).toBe(PlanData.title);
+        expect(Plan.description).toBe(PlanData.description);
+        PlanId = Plan._id;
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should get plan by Id", (done) => {
-        getPlanImp(planId)
-        .then(plan => {
-            expect(plan).toHaveProperty('_id');
-            expect(plan).toHaveProperty('title');
-            expect(plan).toHaveProperty('description');
+  it('Should get Plan by Id', (done) => {
+    getPlan(PlanId)
+      .then((Plan) => {
+        expect(Plan).toHaveProperty('_id');
+        expect(Plan).toHaveProperty('title');
+        expect(Plan).toHaveProperty('description');
 
-            expect(plan.title).toBe(planData.title);
-            expect(plan.description).toBe(planData.description);
-            planId = plan._id;
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
-    });
+        expect(Plan.title).toBe(PlanData.title);
+        expect(Plan.description).toBe(PlanData.description);
+        PlanId = Plan._id;
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should update plan by Id", (done) => {
-        const newTitle = 'new plan title';
+  it('Should update Plan by Id', (done) => {
+    const newTitle = 'new Plan title';
 
-        updatePlanImp(planId, { title: newTitle })
-        .then(plan => {
-            expect(plan).not.toBeNull();
-            expect(plan.ok).toBe(1);
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
-    });
+    updatePlan(PlanId, { title: newTitle })
+      .then((Plan) => {
+        expect(Plan).not.toBeNull();
+        expect(Plan.ok).toBe(1);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
 
-    it("Should remove Plan by Id", (done) => {
-        removePlanImp(planId)
-        .then(plan => {
-            expect(plan).not.toBeNull();
-            expect(plan.ok).toBe(1);
-            done();
-        })
-        .catch(err => {
-            done(err);
-        });
-    });
- });
+  it('Should remove Plan by Id', (done) => {
+    removePlan(PlanId)
+      .then((Plan) => {
+        expect(Plan).not.toBeNull();
+        expect(Plan.ok).toBe(1);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
