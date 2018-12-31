@@ -7,7 +7,13 @@ const FORBIDEN_KEYS = ['password'];
 exports.getUserImp = (id) => {
   if (isValidObjectId(id)) {
     return UserModel.findById(id).lean()
-      .then(user => omit(user, FORBIDEN_KEYS));
+      .then((user) => {
+        if (user.status === 'Active') {
+          return omit(user, FORBIDEN_KEYS);
+        }
+
+        return {};
+      });
   }
 
   throw new Error('User id is not valid');
@@ -31,7 +37,7 @@ exports.registerUserImp = (name, email, password) => securePassword(password)
 
 exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
   .then((user) => {
-    if (!user) {
+    if (!user || user.status !== 'Active') {
       throw new Error('Authentication failed. User not found.');
     }
     return comparePasswords(password, user.password)
@@ -46,7 +52,7 @@ exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
 
 exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById(id)
   .then((user) => {
-    if (!user) {
+    if (!user || user.status !== 'Active') {
       throw new Error('User Not Found');
     }
     return comparePasswords(oldPassword, user.password)
