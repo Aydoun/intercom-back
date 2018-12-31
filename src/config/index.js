@@ -1,7 +1,7 @@
 const config = {
   host: 'http://127.0.0.1',
   db: 'mongodb://localhost/intercom',
-  port: 3000,
+  port: 3001,
   jwtSecret: 'my-api-secret',
   jwtDuration: '2 hours',
 };

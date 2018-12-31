@@ -8,9 +8,10 @@ const { connectToDb } = require('./connect');
 const app = express();
 
 app.use(morgan('dev')); // log every request to the console
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: 'true', limit: '50mb', parameterLimit: 10000 }));
 app.use(bodyParser.json({ limit: '10mb' }));
-app.use(express.static('uploads'));
+
 app.use('/api', routes);
 app.use('*', (req, res) => res.status(404).send({ error: true, message: "End Point Doesn't Exist" }));
 
