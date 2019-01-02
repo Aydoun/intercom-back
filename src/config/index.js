@@ -1,6 +1,7 @@
 const config = {
   host: 'http://127.0.0.1',
-  db: 'mongodb://amino:QAZzaq123@ds111012.mlab.com:11012/intercom',
+  db: 'mongodb://localhost/intercom',
+  // db: 'mongodb://amino:QAZzaq123@ds111012.mlab.com:11012/intercom',
   port: 3001,
   jwtSecret: 'my-api-secret',
   jwtDuration: '2 hours',
