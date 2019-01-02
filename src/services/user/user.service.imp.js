@@ -1,6 +1,8 @@
 const omit = require('object.omit');
 const UserModel = require('../../models/user.model');
-const { isValidObjectId, securePassword, comparePasswords } = require('../../utils');
+const {
+  isValidObjectId, securePassword, comparePasswords, generateToken,
+} = require('../../utils');
 
 const FORBIDEN_KEYS = ['password'];
 
@@ -33,7 +35,10 @@ exports.registerUserImp = (name, email, password) => securePassword(password)
 
     return newUser.save();
   })
-  .then(user => omit(user.toObject(), FORBIDEN_KEYS));
+  .then(user => ({
+    ...omit(user.toObject(), FORBIDEN_KEYS),
+    token: generateToken(user._id),
+  }));
 
 exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
   .then((user) => {
@@ -45,7 +50,10 @@ exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
         if (!isMatch) {
           throw new Error('Authentication failed. Wrong Password');
         } else {
-          return omit(user, FORBIDEN_KEYS);
+          return {
+            ...omit(user, FORBIDEN_KEYS),
+            token: generateToken(user._id),
+          };
         }
       });
   });

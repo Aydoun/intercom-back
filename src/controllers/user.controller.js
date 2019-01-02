@@ -4,8 +4,8 @@ const {
 } = require('../services/user/user.service');
 const { isValidObjectId } = require('../utils');
 
-exports.userList = (req, res) => {
-  const { id } = req.params;
+exports.userDetails = (req, res) => {
+  const { id } = req.tokenData;
   if (isValidObjectId(id)) {
     return getUser(id)
       .then((user) => {
@@ -39,13 +39,15 @@ exports.register = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  updateUser('5c2a10cd5f51bb07c7d8752d', req.body)
+  const { id } = req.tokenData;
+  updateUser(id, req.body)
     .then(response => res.status(200).send(response))
     .catch(err => res.status(401).send(err.message));
 };
 
 exports.remove = (req, res) => {
-  deleteUser('5c2a10cd5f51bb07c7d8752d')
+  const { id } = req.tokenData;
+  deleteUser(id)
     .then(response => res.status(200).send(response))
     .catch(err => res.status(401).send(err.message));
 };

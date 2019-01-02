@@ -1,6 +1,8 @@
 const { Types: { ObjectId } } = require('mongoose');
 const util = require('util');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt-nodejs');
+const config = require('../config');
 
 const genSalt = util.promisify(bcrypt.genSalt);
 const hash = util.promisify(bcrypt.hash);
@@ -28,6 +30,10 @@ exports.securePassword = plainPassword => genSalt(10)
 exports.comparePasswords = (candidatePassword, storedPAssword) => compare(candidatePassword, storedPAssword);
 
 exports.isValidObjectId = id => ObjectId.isValid(id);
+
+exports.generateToken = userId => jwt.sign({
+  id: userId,
+}, config.jwtSecret);
 
 exports.httpCodes = {
   SUCCESS: 200,
