@@ -4,9 +4,11 @@ const bodyParser = require('body-parser');
 const config = require('../config');
 const routes = require('../routes');
 const { connectToDb } = require('./connect');
+const { signToken } = require('./auth');
 
 const app = express();
 
+app.use(signToken);
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: 'true', limit: '50mb', parameterLimit: 10000 }));
