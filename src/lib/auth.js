@@ -20,5 +20,4 @@ exports.signToken = (req, res, next) => {
       message: 'No token provided.',
     });
   }
-  next();
 };
