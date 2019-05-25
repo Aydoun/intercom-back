@@ -1,6 +1,6 @@
 
 const { updateUser } = require('../services/user/user.service');
-const { addFileService } = require('../services/files/files.service');
+const { addFile } = require('../services/files/files.service');
 const config = require('../config');
 
 exports.fileFilter = (req, file, cb) => {
@@ -30,11 +30,9 @@ exports.processImageUpload = (req, res) => {
 
 exports.addFile = (req, res) => {
   const { repoName, fileName } = req.body;
-  console.log(req.body, (fileName && repoName), 'body');
 
   if ((fileName && repoName)) {
-    console.log('Yoo');
-    addFileService(repoName, fileName)
+    addFile(repoName, fileName)
       .then(() => res.status(200).send({}))
       .catch(err => res.status(401).send(err.message));
   }

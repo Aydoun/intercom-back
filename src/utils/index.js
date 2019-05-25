@@ -35,7 +35,7 @@ exports.generateToken = userId => jwt.sign({
   id: userId,
 }, config.jwtSecret);
 
-exports.gitFolder = repoName => `${config.gitPath}/${repoName}`;
+exports.getGitPath = repoName => `${config.gitPath}/${repoName}`;
 
 exports.httpCodes = {
   SUCCESS: 200,

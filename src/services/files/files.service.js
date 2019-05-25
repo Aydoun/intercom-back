@@ -1,3 +1,8 @@
-const { addFileImp } = require('./files.service.imp');
+const {
+  addFileImp, addDirectoryImp, removeFileImp, addContentImp,
+} = require('./files.service.imp');
 
-exports.addFileService = (repoName, fileName) => addFileImp(repoName, fileName);
+exports.addFile = addFileImp;
+exports.addDirectory = addDirectoryImp;
+exports.removeFile = removeFileImp;
+exports.addContent = addContentImp;
