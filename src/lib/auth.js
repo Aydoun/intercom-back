@@ -8,6 +8,7 @@ exports.signToken = (req, res, next) => {
       const decoded = jwt.decode(token, config.secret);
       req.tokenData = decoded;
       next();
+      return 0;
     } catch (err) {
       return res.status(403).send({
         status: false,

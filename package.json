@@ -4,9 +4,13 @@
   "description": "Backend Service For Intercom App",
   "main": "index.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha __tests__/*.spec.js",
+    "test": "jest",
     "start": "export NODE_ENV=development && nodemon ./src/lib/server",
-    "lint": "eslint --fix './src/**/*.js?(x)'"
+    "lint": "eslint --fix './src/**/*.js?(x)'",
+    "precommit": "yarn lint"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [
     "Rest",
@@ -17,14 +21,13 @@
   "author": "Mohamed Aydoun",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "expect": "^23.6.0",
     "faker": "^4.1.0",
-    "mocha": "^5.2.0",
+    "husky": "^2.3.0",
+    "jest": "^24.8.0",
     "sinon": "^7.1.1",
     "sinon-mongoose": "^2.2.1"
   },
