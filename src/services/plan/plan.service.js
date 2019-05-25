@@ -2,7 +2,14 @@ const {
   savePlanImp, getPlanImp, updatePlanImp, removePlanImp,
 } = require('./plan.service.imp');
 
-exports.savePlan = data => savePlanImp(data);
-exports.getPlan = id => getPlanImp(id);
-exports.updatePlan = (id, newData) => updatePlanImp(id, newData);
-exports.removePlan = id => removePlanImp(id);
+const savePlan = data => savePlanImp(data);
+const getPlan = id => getPlanImp(id);
+const updatePlan = (id, newData) => updatePlanImp(id, newData);
+const removePlan = id => removePlanImp(id);
+
+module.exports = {
+  savePlan,
+  getPlan,
+  updatePlan,
+  removePlan,
+};

@@ -28,7 +28,7 @@ exports.processImageUpload = (req, res) => {
     }));
 };
 
-exports.addFile = (req, res, next) => {
+exports.addFile = (req, res) => {
   const { repoName, fileName } = req.body;
   console.log(req.body, (fileName && repoName), 'body');
 
