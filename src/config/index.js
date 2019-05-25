@@ -4,6 +4,7 @@ const config = {
   db: 'mongodb://amino:QAZzaq123@ds111012.mlab.com:11012/intercom',
   port: 3001,
   jwtSecret: 'my-api-secret',
+  gitPath: '/var/intercom',
   jwtDuration: '2 hours',
 };
 

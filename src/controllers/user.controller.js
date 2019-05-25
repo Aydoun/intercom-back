@@ -8,12 +8,8 @@ exports.userDetails = (req, res) => {
   const { id } = req.tokenData;
   if (isValidObjectId(id)) {
     return getUser(id)
-      .then((user) => {
-        res.status(200).send(user);
-      })
-      .catch((err) => {
-        res.status(401).send(err.message);
-      });
+      .then(user => res.status(200).send(user))
+      .catch(err => res.status(401).send(err.message));
   }
   return res.status(401).send('Invalid User Id');
 };
