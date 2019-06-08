@@ -30,7 +30,6 @@ app.use('*', (req, res) => res.status(404).send({ error: true, message: "End Poi
 connectToDb();
 
 // Port Listening to modify in the Future
-// TODO
 app.listen(config.port, (err) => {
   if (err) throw err;
   console.log(`Server Listening on Port ${config.port}`);

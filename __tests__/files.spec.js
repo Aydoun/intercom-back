@@ -3,7 +3,7 @@ const fse = require('fs-extra');
 const fs = require('fs');
 
 const filesService = require('../src/services/files/files.service');
-const repoName = 'repo';
+const repoName = '__repoXX__';
 const { gitPath } = require('../src/config');
 
 describe('Files Module', () => {
