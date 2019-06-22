@@ -1,8 +1,8 @@
 
-const {
+import {
   getUser, registerUser, loginUser, updateUser, deleteUser,
-} = require('../services/user/user.service');
-const { isValidObjectId } = require('../utils');
+} from 'services/user/user.service';
+import { isValidObjectId } from 'utils';
 
 exports.userDetails = (req, res) => {
   const { id } = req.tokenData;

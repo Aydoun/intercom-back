@@ -5,5 +5,10 @@
         "no-param-reassign": "off",
         "no-underscore-dangle": "off",
         "max-len": [1, 120, 2]
+    },
+    "settings": {
+        "import/resolver": {
+            "babel-module": {}
+        }
     }
 }

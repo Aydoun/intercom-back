@@ -1,7 +1,8 @@
-const fse = require('fs-extra');
-const fs = require('fs');
-const path = require('path');
-const { getGitPath } = require('../../utils');
+import fs from 'fs';
+import path from 'path';
+import fse from 'fs-extra';
+
+import { getGitPath } from 'utils';
 
 exports.addFileImp = (repoName, fileName) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
