@@ -18,11 +18,11 @@ exports.processImageUpload = (req, res) => {
   const url = `${config.host}:${config.port}/${path}`;
 
   return updateUser(id, { avatar: url })
-    .then(() => res.status(200).send({
+    .then(() => res.status(200).formatResponse({
       success: true,
       url,
     }))
-    .catch(err => res.status(401).send({
+    .catch(err => res.status(401).formatResponse({
       success: false,
       message: err.message,
     }));
@@ -33,9 +33,9 @@ exports.addFile = (req, res) => {
 
   if ((fileName && repoName)) {
     addFile(repoName, fileName)
-      .then(() => res.status(200).send({}))
-      .catch(err => res.status(401).send(err.message));
+      .then(() => res.status(200).formatResponse({}))
+      .catch(err => res.status(401).formatResponse(err.message));
   }
 
-  return res.status(401).send('Missing Data Fields');
+  return res.status(401).formatResponse('Missing Data Fields');
 };

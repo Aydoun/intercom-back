@@ -24,14 +24,19 @@ app.use(signToken);
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
 app.use('/api', routes);
-app.use('*', (req, res) => res.status(404).send({ error: true, message: "End Point Doesn't Exist" }));
+app.use('*', (req, res) => res.status(404).formatResponse({ error: true, message: "End Point Doesn't Exist" }));
 
 // Database Connection
 connectToDb();
 
 app.use(function (err, req, res) {
-  res.status(500).send(err.message)
-})
+  res.status(500).formatResponse(err.message)
+});
+
+// Custom Response Wrapper
+express.response.formatResponse = function(res, httpCode = 200) {
+  this.status(httpCode).send({  response: res, httpCode, status: httpCode === 200 });
+};
 
 // Port Listening to modify in the Future
 app.listen(config.port, (err) => {

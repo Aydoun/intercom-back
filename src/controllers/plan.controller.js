@@ -8,7 +8,7 @@ export const PersistPlan = (req, res) => {
     if (data) {
         savePlan(data)
         .then(response => {
-            res.status(200).send(response);
+            res.status(200).formatResponse(response);
         })
         .catch(err => {
             throw new Error(err.message);
