@@ -9,23 +9,21 @@ exports.fileFilter = (req, file, cb) => {
 
 exports.processImageUpload = (req, res) => {
   if (!req.file) {
-    return res.status(401).json({
+    return res.formatResponse({
       error: 'Error Uploading The File',
-    });
+    }, 401);
   }
   const { path } = req.file;
   const { id } = req.tokenData;
   const url = `${config.host}:${config.port}/${path}`;
 
   return updateUser(id, { avatar: url })
-    .then(() => res.status(200).formatResponse({
-      success: true,
+    .then(() => res.formatResponse({
       url,
     }))
-    .catch(err => res.status(401).formatResponse({
-      success: false,
+    .catch(err => res.formatResponse({
       message: err.message,
-    }));
+    }), 401);
 };
 
 exports.addFile = (req, res) => {
@@ -33,9 +31,9 @@ exports.addFile = (req, res) => {
 
   if ((fileName && repoName)) {
     addFile(repoName, fileName)
-      .then(() => res.status(200).formatResponse({}))
-      .catch(err => res.status(401).formatResponse(err.message));
+      .then(() => res.formatResponse({}))
+      .catch(err => res.formatResponse(err.message, 401));
   }
 
-  return res.status(401).formatResponse('Missing Data Fields');
+  return res.formatResponse('Missing Data Fields', 401);
 };

@@ -10,15 +10,13 @@ exports.signToken = (req, res, next) => {
       next();
       return 0;
     } catch (err) {
-      return res.status(403).formatResponse({
-        status: false,
+      return res.formatResponse({
         message: 'Invalid Token',
-      });
+      }, 403);
     }
   } else {
-    return res.status(403).formatResponse({
-      status: false,
+    return res.formatResponse({
       message: 'No token provided.',
-    });
+    }, 403);
   }
 };

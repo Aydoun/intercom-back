@@ -36,10 +36,10 @@ exports.registerUserImp = (name, email, password) => securePassword(password)
 
     return newUser.save();
   })
-  .then(user => ({
+  .then(user => (({
     ...omit(user.toObject(), FORBIDEN_KEYS),
     token: generateToken(user._id),
-  }));
+  })));
 
 exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
   .then((user) => {
