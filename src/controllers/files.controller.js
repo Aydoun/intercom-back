@@ -1,7 +1,7 @@
 
-const { updateUser } = require('../services/user/user.service');
-const { addFile } = require('../services/files/files.service');
-const config = require('../config');
+const { updateUser } = require('services/user/user.service');
+const { addFile } = require('services/files/files.service');
+const config = require('config');
 
 exports.fileFilter = (req, file, cb) => {
   cb(null, file && file.mimetype.indexOf('image/') === 0);

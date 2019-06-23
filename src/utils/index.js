@@ -2,7 +2,7 @@ const { Types: { ObjectId } } = require('mongoose');
 const util = require('util');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt-nodejs');
-const config = require('../config');
+const config = require('config');
 
 const genSalt = util.promisify(bcrypt.genSalt);
 const hash = util.promisify(bcrypt.hash);

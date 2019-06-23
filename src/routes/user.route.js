@@ -1,7 +1,7 @@
 const users = require('express').Router();
 const {
   userDetails, update, remove,
-} = require('../controllers/user.controller');
+} = require('controllers/user.controller');
 
 users.get('', userDetails);
 users.put('', update);

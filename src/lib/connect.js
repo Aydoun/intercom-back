@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Mockgoose } = require('mockgoose');
-const config = require('../config');
+const config = require('config');
 
 const mockgoose = new Mockgoose(mongoose);
 

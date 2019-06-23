@@ -3,7 +3,7 @@ import {
 } from 'utils';
 
 const omit = require('object.omit');
-const UserModel = require('../../models/user.model');
+const UserModel = require('models/user.model');
 
 const FORBIDEN_KEYS = ['password'];
 

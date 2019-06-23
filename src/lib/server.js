@@ -2,11 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const config = require('../config');
-const routes = require('../routes');
+const config = require('config');
+const routes = require('routes');
 const { connectToDb } = require('./connect');
 const { signToken } = require('./auth');
-const { login, register } = require('../controllers/user.controller');
+const { login, register } = require('controllers/user.controller');
 
 const app = express();
 

@@ -1,6 +1,6 @@
 const files = require('express').Router();
 const multer = require('multer');
-const { fileFilter, processImageUpload, addFile } = require('../controllers/files.controller');
+const { fileFilter, processImageUpload, addFile } = require('controllers/files.controller');
 
 const upload = multer({ dest: 'uploads/profiles', fileFilter });
 
