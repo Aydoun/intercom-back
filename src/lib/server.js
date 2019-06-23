@@ -29,6 +29,10 @@ app.use('*', (req, res) => res.status(404).send({ error: true, message: "End Poi
 // Database Connection
 connectToDb();
 
+app.use(function (err, req, res) {
+  res.status(500).send(err.message)
+})
+
 // Port Listening to modify in the Future
 app.listen(config.port, (err) => {
   if (err) throw err;

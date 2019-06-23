@@ -1,10 +1,22 @@
 {
-    "extends": "airbnb-base",
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+        "commonjs": true
+    },
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
     "rules": {
         "no-console": "off",
         "no-param-reassign": "off",
         "no-underscore-dangle": "off",
-        "max-len": [1, 120, 2]
+        "max-len": [1, 120, 2],
+        "no-reserved-keys": "off",
+        "no-undef": "off"
     },
     "settings": {
         "import/resolver": {
