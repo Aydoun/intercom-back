@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "start": "export NODE_ENV=development && nodemon ./src/lib/start",
     "lint": "eslint . --fix",
     "precommit": "yarn lint && yarn test"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "services(.*)": "<rootDir>/src/services/$1.js"
+    }
   },
   "keywords": [
     "Rest",

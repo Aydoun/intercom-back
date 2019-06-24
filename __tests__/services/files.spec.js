@@ -1,10 +1,11 @@
-const path = require('path');
-const fse = require('fs-extra');
-const fs = require('fs');
+import path from 'path';
+import fse from 'fs-extra';
+import fs from 'fs';
 
-const filesService = require('../src/services/files/files.service');
+import filesService from 'services/files/files.service';
+import { gitPath } from 'config';
+
 const repoName = '__repoXX__';
-const { gitPath } = require('../src/config');
 
 describe('Files Module', () => {
   it('Should Add a file', async () => {
@@ -39,6 +40,4 @@ describe('Files Module', () => {
   });
 });
 
-afterAll(() => {
-    fse.removeSync(path.join(gitPath, repoName));
-});
+afterAll(() => fse.removeSync(path.join(gitPath, repoName)));

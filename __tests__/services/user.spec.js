@@ -1,5 +1,4 @@
-
-import userService from '../src/services/user/user.service';
+import userService from 'services/user/user.service';
 
 describe('User Module', () => {
   it('Should register user using an email and a password', async () => {
