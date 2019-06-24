@@ -30,7 +30,4 @@ const UserSchema = Schema({
   status: { type: String, enum: ['Active', 'Inactive', 'Banned'], default: 'Active' },
 }, { timestamps: true });
 
-// Exporting our model
-const UserModel = mongoose.model('user', UserSchema, 'user');
-
-module.exports = UserModel;
+module.exports = mongoose.model('user', UserSchema, 'user');

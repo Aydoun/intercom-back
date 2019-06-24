@@ -48,6 +48,8 @@
     "mongoose": "^5.3.13",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "object.omit": "^3.0.0"
+    "nodegit": "^0.24.3",
+    "object.omit": "^3.0.0",
+    "uuid": "^3.3.2"
   }
 }
