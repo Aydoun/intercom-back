@@ -5,7 +5,7 @@ exports.savePlanImp = (data) => {
   return newPlan.save();
 };
 
-exports.getPlanImp = id => PlanModel.findById(id).lean();
+exports.getPlanImp = id => PlanModel.find({ _id: id, status: 'Active' }).lean();
 
 exports.updatePlanImp = (id, newData) => PlanModel.updateOne({ _id: id }, newData);
 

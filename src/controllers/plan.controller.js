@@ -1,6 +1,6 @@
 
 import {
-  savePlan, getPlan,
+  savePlan, getPlan, updatePlan, removePlan,
 } from 'services/plan/plan.service';
 import { createRepository } from 'services/git/git.service';
 import uuid from 'uuid/v1';
@@ -31,6 +31,41 @@ export const getPlanById = (req, res) => {
 
     if(id) {
         getPlan(id)
+        .then(plan => {
+            res.formatResponse(plan);
+        })
+        .catch(err => {
+            res.formatResponse(err.message, 401);
+        });
+    } else {
+        res.formatResponse('Invalid plan id', 401);
+    }
+};
+
+
+export const updateById = (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+
+    if(id && body) {
+        updatePlan(id, body)
+        .then(plan => {
+            res.formatResponse(plan);
+        })
+        .catch(err => {
+            res.formatResponse(err.message, 401);
+        });
+    } else {
+        res.formatResponse('Invalid plan id', 401);
+    }
+};
+
+
+export const removeById = (req, res) => {
+    const { id } = req.params;
+    
+    if(id) {
+        removePlan(id)
         .then(plan => {
             res.formatResponse(plan);
         })
