@@ -1,6 +1,6 @@
 
 import {
-  savePlan,
+  savePlan, getPlan,
 } from 'services/plan/plan.service';
 import { createRepository } from 'services/git/git.service';
 import uuid from 'uuid/v1';
@@ -23,5 +23,21 @@ export const PersistPlan = (req, res) => {
         })
     } else {
         res.formatResponse('Request Body is Empty', 401);
+    }
+};
+
+export const getPlanById = (req, res) => {
+    const { id } = req.params;
+
+    if(id) {
+        getPlan(id)
+        .then(plan => {
+            res.formatResponse(plan);
+        })
+        .catch(err => {
+            res.formatResponse(err.message, 401);
+        });
+    } else {
+        res.formatResponse('Invalid plan id', 401);
     }
 };
