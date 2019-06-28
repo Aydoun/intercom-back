@@ -4,6 +4,7 @@ import {
 } from 'services/plan/plan.service';
 import { createRepository } from 'services/git/git.service';
 import uuid from 'uuid/v1';
+import { isValidObjectId } from 'utils';
 
 export const PersistPlan = (req, res) => {
     const { title, description, username, email } = req.body;
@@ -29,7 +30,7 @@ export const PersistPlan = (req, res) => {
 export const getPlanById = (req, res) => {
     const { id } = req.params;
 
-    if(id) {
+    if(isValidObjectId(id)) {
         getPlan(id)
         .then(plan => {
             res.formatResponse(plan);
@@ -47,7 +48,7 @@ export const updateById = (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
-    if(id && body) {
+    if(isValidObjectId(id) && body) {
         updatePlan(id, body)
         .then(plan => {
             res.formatResponse(plan);
@@ -64,7 +65,7 @@ export const updateById = (req, res) => {
 export const removeById = (req, res) => {
     const { id } = req.params;
     
-    if(id) {
+    if(isValidObjectId(id)) {
         removePlan(id)
         .then(plan => {
             res.formatResponse(plan);
