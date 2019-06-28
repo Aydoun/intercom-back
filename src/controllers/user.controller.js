@@ -1,4 +1,5 @@
 
+import { validationResult } from 'express-validator';
 import {
   getUser, registerUser, loginUser, updateUser, deleteUser,
 } from 'services/user/user.service';
@@ -17,12 +18,14 @@ exports.userDetails = (req, res) => {
 
 exports.login = (req, res) => {
   const { email, password } = req.body;
-  if ((email && password)) {
-    return loginUser(email, password)
-      .then(data => res.formatResponse(data))
-      .catch(err => res.formatResponse(err.message, 401));
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.formatResponse({ errors: errors.array() }, 401);
   }
-  return res.formatResponse('Missing Data', 401);
+
+  return loginUser(email, password)
+    .then(data => res.formatResponse(data))
+    .catch(err => res.formatResponse(err.message, 401));
 };
 
 exports.register = (req, res) => {

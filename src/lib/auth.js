@@ -1,7 +1,19 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import config from 'config';
+import { check } from 'express-validator';
+import { login, register } from 'controllers/user.controller';
 
-exports.signToken = (req, res, next) => {
+const auth = express.Router();
+
+auth.post('/api/user/register', register);
+auth.post('/api/user/login', [
+  check('email').isEmail(),
+  check('password').isLength({ min: 8 })
+], login);
+
+// Token Check
+auth.use((req, res, next) => {
   const token = req.headers['x-access-token'];
   if (token) {
     try {
@@ -19,4 +31,6 @@ exports.signToken = (req, res, next) => {
       message: 'No token provided.',
     }, 403);
   }
-};
+});
+
+module.exports = auth;
