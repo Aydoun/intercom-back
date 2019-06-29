@@ -1,5 +1,5 @@
 import {
-  isValidObjectId, securePassword, comparePasswords, generateToken,
+  securePassword, comparePasswords, generateToken,
 } from 'utils';
 
 import omit from 'object.omit';
@@ -7,19 +7,15 @@ import UserModel from 'models/user.model';
 
 const FORBIDEN_KEYS = ['password'];
 
-exports.getUserImp = (id) => {
-  if (isValidObjectId(id)) {
-    return UserModel.findById(id).lean()
-      .then((user) => {
-        if (user.status === 'Active') {
-          return omit(user, FORBIDEN_KEYS);
-        }
+exports.getUserImp = id => {
+  return UserModel.findById(id).lean()
+    .then((user) => {
+      if (user.status === 'Active') {
+        return omit(user, FORBIDEN_KEYS);
+      }
 
-        return {};
-      });
-  }
-
-  throw new Error('User id is not valid');
+      return {};
+    });
 };
 
 exports.updateUserImp = (id, newData) => UserModel.updateOne({ _id: id }, newData);

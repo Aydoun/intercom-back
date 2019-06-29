@@ -1,7 +1,7 @@
 
 import { validationResult } from 'express-validator';
 import {
-    saveConversation
+    saveConversation, getConversationById
 } from 'services/conversation/conversation.service';
 
 export const PersistConversation = (req, res) => { 
@@ -21,19 +21,19 @@ export const PersistConversation = (req, res) => {
     });
 };
 
-// export const getPlanById = (req, res) => {
-//     const { id } = req.params;
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.formatResponse({ ...errors.array()[0] }, 401);
-//     }
+export const fetchConversationById = (req, res) => {
+    const { id } = req.params;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.formatResponse({ ...errors.array()[0] }, 401);
+    }
 
-//     getPlan(id)
-//     .then(plan => {
-//         res.formatResponse(plan);
-//     })
-//     .catch(err => {
-//         res.formatResponse(err.message, 401);
-//     });
-// };
+    getConversationById(id)
+    .then(plan => {
+        res.formatResponse(plan);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
 

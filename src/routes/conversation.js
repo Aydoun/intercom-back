@@ -1,9 +1,14 @@
 import express from 'express';
-import { PersistConversation } from 'controllers/conversation.controller.js';
-import { body } from 'express-validator';
+import { PersistConversation, fetchConversationById } from 'controllers/conversation.controller.js';
+import { body, param } from 'express-validator';
 import { isValidObjectId } from 'utils';
 
 const conversations = express.Router();
+
+conversations.get('/:id', param('id').custom((value) => {
+    if (!isValidObjectId(value)) throw new Error('Passed id is invalid');
+    return true;
+}), fetchConversationById);
 
 conversations.post('',
     body('participants').custom(participants => {
