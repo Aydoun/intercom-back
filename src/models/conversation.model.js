@@ -9,9 +9,7 @@ const Messages = new Schema({
 } , {timestamps: true});
 
 const Conversation = new Schema({
-  creator : {type : Schema.Types.ObjectId, required: true},
-  receiver: {type : Schema.Types.ObjectId, required: true},
-  participatants: [Schema.Types.ObjectId],
+  participants: [Schema.Types.ObjectId],
   messages: [Messages],
 } , {timestamps: true});
 
