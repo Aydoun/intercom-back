@@ -1,15 +1,19 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
-import { check } from 'express-validator';
+import { body } from 'express-validator';
 import { login, register } from 'controllers/user.controller';
 
 const auth = express.Router();
 
-auth.post('/api/user/register', register);
+auth.post('/api/user/register', [
+  body('email').isEmail(),
+  body('password').isLength({ min: 8 }),
+  body('name').not().isEmpty()
+], register);
 auth.post('/api/user/login', [
-  check('email').isEmail(),
-  check('password').isLength({ min: 8 })
+  body('email').isEmail(),
+  body('password').isLength({ min: 8 })
 ], login);
 
 // Token Check

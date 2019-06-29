@@ -20,7 +20,7 @@ exports.login = (req, res) => {
   const { email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.formatResponse({ errors: errors.array() }, 401);
+    return res.formatResponse({ ...errors.array()[0] }, 401);
   }
 
   return loginUser(email, password)
@@ -30,12 +30,14 @@ exports.login = (req, res) => {
 
 exports.register = (req, res) => {
   const { name, email, password } = req.body;
-  if ((name && email && password)) {
-    return registerUser(name, email, password)
-      .then(data => res.formatResponse(data))
-      .catch(err => res.formatResponse(err.message, 401));
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.formatResponse({ ...errors.array()[0] }, 401);
   }
-  return res.formatResponse('Missing Data', 401);
+
+  return registerUser(name, email, password)
+    .then(data => res.formatResponse(data))
+    .catch(err => res.formatResponse(err.message, 401));
 };
 
 exports.update = (req, res) => {

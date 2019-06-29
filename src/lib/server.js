@@ -12,12 +12,12 @@ const app = express();
 // Body Parsing
 app.use(bodyParser.urlencoded({ extended: 'true', limit: '50mb', parameterLimit: 10000 }));
 app.use(bodyParser.json({ limit: '10mb' }));
-app.use(auth);
 
 // Express Middlewares
 app.use(compression());
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
+app.use(auth);
 app.use('/api', routes);
 app.use('*', (req, res) => res.formatResponse({ message: "End Point Doesn't Exist" }, 404));
 
