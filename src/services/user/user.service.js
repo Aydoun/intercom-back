@@ -1,6 +1,6 @@
-const {
+import {
   getUserImp, updateUserImp, registerUserImp, loginUserImp, changePasswordImp, deleteUserImp,
-} = require('./user.service.imp');
+} from './user.service.imp';
 
 const getUser = id => getUserImp(id);
 const updateUser = (id, newData) => updateUserImp(id, newData);

@@ -1,9 +1,10 @@
-const { Types: { ObjectId } } = require('mongoose');
-const util = require('util');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt-nodejs');
-const config = require('config');
+import { Types } from 'mongoose';
+import util from 'util';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt-nodejs';
+import config from 'config';
 
+const ObjectId = Types.ObjectId;
 const genSalt = util.promisify(bcrypt.genSalt);
 const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);

@@ -1,6 +1,6 @@
-const {
+import {
   savePlanImp, getPlanImp, updatePlanImp, removePlanImp,
-} = require('./plan.service.imp');
+} from './plan.service.imp';
 
 const savePlan = data => savePlanImp(data);
 const getPlan = id => getPlanImp(id);

@@ -2,8 +2,8 @@ import {
   isValidObjectId, securePassword, comparePasswords, generateToken,
 } from 'utils';
 
-const omit = require('object.omit');
-const UserModel = require('models/user.model');
+import omit from 'object.omit';
+import UserModel from 'models/user.model';
 
 const FORBIDEN_KEYS = ['password'];
 

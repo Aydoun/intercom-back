@@ -1,23 +1,10 @@
-const mongoose = require('mongoose');
-const { Mockgoose } = require('mockgoose');
-const config = require('config');
-
-const mockgoose = new Mockgoose(mongoose);
+import mongoose from 'mongoose';
+import config from 'config';
 
 mongoose.Promise = Promise;
 
-exports.connectToDb = (done) => {
-  if (process.env.NODE_ENV === 'test') {
-    mockgoose.prepareStorage().then(() => {
-      mongoose.connect(config.db, { useNewUrlParser: true })
-        .then(() => {
-          done();
-        })
-        .catch(() => {
-          console.log(`Error Connecting to The Database ${config.db}`);
-        });
-    });
-  } else {
+exports.connectToDb = () => {
+  if (process.env.NODE_ENV !== 'test') {
     mongoose.connect(config.db, { useNewUrlParser: true })
       .then(() => {
         console.log(`Mongoose default connection open to ${config.db}`);
@@ -25,7 +12,7 @@ exports.connectToDb = (done) => {
       .catch(() => {
         console.log(`Error Connecting to The Database ${config.db}`);
       });
-  }
+  } 
 };
 
 exports.closeConnection = () => {

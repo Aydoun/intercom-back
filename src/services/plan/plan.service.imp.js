@@ -1,4 +1,4 @@
-const PlanModel = require('models/plan.model');
+import PlanModel from 'models/plan.model';
 
 exports.savePlanImp = (data) => {
   const newPlan = new PlanModel(data);

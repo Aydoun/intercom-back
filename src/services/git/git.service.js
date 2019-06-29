@@ -1,10 +1,10 @@
-const {
-    createRepositoryImp,
-  } = require('./git.service.imp');
+import {
+  createRepositoryImp,
+} from './git.service.imp';
   
-  const createRepository = createRepositoryImp;
+const createRepository = createRepositoryImp;
   
-  module.exports = {
-    createRepository,
-  };
+module.exports = {
+  createRepository,
+};
   

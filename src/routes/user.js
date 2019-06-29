@@ -1,7 +1,9 @@
-const users = require('express').Router();
-const {
+import express from 'express';
+import {
   userDetails, update, remove,
-} = require('controllers/user.controller');
+} from 'controllers/user.controller';
+
+const users = express.Router();
 
 users.get('', userDetails);
 users.put('', update);

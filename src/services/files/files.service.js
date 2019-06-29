@@ -1,6 +1,6 @@
-const {
+import {
   addFileImp, addDirectoryImp, removeFileImp, addContentImp, renameFileImp
-} = require('./files.service.imp');
+} from './files.service.imp';
 
 exports.addFile = addFileImp;
 exports.addDirectory = addDirectoryImp;
