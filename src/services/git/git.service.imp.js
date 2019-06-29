@@ -3,9 +3,9 @@ import path from 'path';
 import fse from 'fs-extra';
 import { getGitPath } from 'utils';
 
-exports.createRepositoryImp = (creator, repoName, repoDescription) => {
+exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
     const fileName = "README.md";
-    var fileContent = repoDescription;
+    const fileContent = repoDescription;
     const repoDir = getGitPath(repoName);
     const { username, email } = creator;
 
@@ -39,6 +39,6 @@ exports.createRepositoryImp = (creator, repoName, repoDescription) => {
         const author = nodegit.Signature.now(username, email);
         const committer = nodegit.Signature.now(username, email);
 
-        return repository.createCommit("HEAD", author, committer, "message", oid, []);
+        return repository.createCommit("HEAD", author, committer, initialMessage, oid, []);
     });
 };
