@@ -1,7 +1,8 @@
 
-const { updateUser } = require('services/user/user.service');
-const { addFile } = require('services/files/files.service');
-const config = require('config');
+import { validationResult } from 'express-validator';
+import { updateUser } from 'services/user/user.service';
+import { addFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
+import config from 'config';
 
 exports.fileFilter = (req, file, cb) => {
   cb(null, file && file.mimetype.indexOf('image/') === 0);
@@ -27,13 +28,81 @@ exports.processImageUpload = (req, res) => {
 };
 
 exports.addFile = (req, res) => {
-  const { repoName, fileName } = req.body;
-
-  if ((fileName && repoName)) {
-    addFile(repoName, fileName)
-      .then(() => res.formatResponse({}))
-      .catch(err => res.formatResponse(err.message, 401));
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.formatResponse({ ...errors.array()[0] }, 401);
   }
 
-  return res.formatResponse('Missing Data Fields', 401);
+  const { repoName, fileName } = req.body;
+
+  try {
+    addFile(repoName, fileName);
+    res.formatResponse({});
+  } catch(err) {
+    res.formatResponse(err.message, 401);
+  }
+};
+
+exports.addDir = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.formatResponse({ ...errors.array()[0] }, 401);
+  }
+
+  const { repoName, dirName } = req.body;
+
+  try {
+    addDirectory(repoName, dirName);
+    res.formatResponse({ });
+  } catch(err) {
+    res.formatResponse(err.message, 401);
+  }
+};
+
+exports.writeContent = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.formatResponse({ ...errors.array()[0] }, 401);
+  }
+
+  const { repoName, fileName, content } = req.body;
+
+  try {
+    addContent(repoName, fileName, content);
+    res.formatResponse({ });
+  } catch(err) {
+    res.formatResponse(err.message, 401);
+  }
+};
+
+exports.changeFileName = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.formatResponse({ ...errors.array()[0] }, 401);
+  }
+
+  const { repoName, oldName, newName } = req.body;
+
+  try {
+    renameFile(repoName, oldName, newName);
+    res.formatResponse({ });
+  } catch(err) {
+    res.formatResponse(err.message, 401);
+  }
+};
+
+exports.deleteFile = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.formatResponse({ ...errors.array()[0] }, 401);
+  }
+
+  const { repoName, fileName } = req.body;
+
+  try {
+    removeFile(repoName, fileName);
+    res.formatResponse({ });
+  } catch(err) {
+    res.formatResponse(err.message, 401);
+  }
 };

@@ -45,7 +45,6 @@ export const getPlanById = (req, res) => {
     });
 };
 
-
 export const updateById = (req, res) => {
     const { id } = req.params;
     const body = req.body;
@@ -67,7 +66,6 @@ export const updateById = (req, res) => {
         res.formatResponse('Request body is empty', 401);
     }
 };
-
 
 export const removeById = (req, res) => {
     const { id } = req.params;

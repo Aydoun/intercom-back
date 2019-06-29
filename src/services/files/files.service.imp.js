@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import fse from 'fs-extra';
-
 import { getGitPath } from 'utils';
 
 exports.addFileImp = (repoName, fileName) => {
@@ -28,6 +27,13 @@ exports.removeFileImp = (repoName, fileName) => {
 exports.addContentImp = (repoName, fileName, content) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
 
-  fs.writeFileSync(writingPath, content);
+  fse.outputFileSync(writingPath, content);
   return writingPath;
+};
+
+exports.renameFileImp = (repoName, oldName, newName) => {
+  const repoPath = path.resolve(getGitPath(repoName));
+
+  fs.renameSync(`${repoPath}/${oldName}`, `${repoPath}/${newName}`);
+  return `${repoPath}/${newName}`;
 };
