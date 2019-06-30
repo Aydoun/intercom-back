@@ -8,7 +8,7 @@
     "test:watch": "jest --watch",
     "start": "export NODE_ENV=development && nodemon ./src/lib/start",
     "lint": "eslint . --fix",
-    "precommit": "yarn lint && yarn test"
+    "precommit": "yarn lint"
   },
   "jest": {
     "testEnvironment": "node",
