@@ -4,26 +4,28 @@ import UserModel from 'models/user.model';
 import { generateHash } from 'utils';
 
 exports.saveConversationImp = (data) => {
-  let newConversation;
+  let conversationItem;
+  let savedConversation;
   const conversationHash = generateHash(data.participants.sort().join(''));
 
   return ConversationModel.find({ hash: conversationHash })
   .then(conversation => {
-    if(Array.isArray(conversation) && conversation.length === 0) {
+    if(conversation.length === 0) {
       return new ConversationModel({ hash: conversationHash, participants: data.participants }).save();
     }
     return conversation;
   })
   .then(conversation => {
-    newConversation = conversation;
+    savedConversation = Array.isArray(conversation) ? conversation : [conversation];
+    conversationItem = savedConversation[0];
     return UserModel.find({ _id : { $in : data.participants } })
   })
   .then(users => {
-    if (Array.isArray(users) && users.length > 1) {
+    if (users.length > 1) {
       users.forEach(user => {
         user.conversations = user.conversations || [];
-        if (newConversation._id && user.conversations.indexOf(newConversation._id) < 0) {
-          user.conversations.push(newConversation._id);
+        if (conversationItem._id && user.conversations.indexOf(conversationItem._id) < 0) {
+          user.conversations.push(conversationItem._id);
           user.save();
         }
       });
@@ -31,7 +33,7 @@ exports.saveConversationImp = (data) => {
       throw new Error('Couldnt find users');
     }
   })
-  .then(() => newConversation);
+  .then(() => conversationItem);
 };
 
 exports.getAllConversationsImp = userId => {  
