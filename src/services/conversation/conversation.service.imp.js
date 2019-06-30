@@ -21,17 +21,12 @@ exports.saveConversationImp = (data) => {
     return UserModel.find({ _id : { $in : data.participants } })
   })
   .then(users => {
-    if (users.length > 1) {
-      users.forEach(user => {
-        user.conversations = user.conversations || [];
-        if (conversationItem._id && user.conversations.indexOf(conversationItem._id) < 0) {
-          user.conversations.push(conversationItem._id);
-          user.save();
-        }
-      });
-    } else {
-      throw new Error('Couldnt find users');
-    }
+    users.forEach(user => {
+      if (conversationItem._id && user.conversations.indexOf(conversationItem._id) < 0) {
+        user.conversations.push(conversationItem._id);
+        user.save();
+      }
+    });
   })
   .then(() => conversationItem);
 };
@@ -39,13 +34,13 @@ exports.saveConversationImp = (data) => {
 exports.getAllConversationsImp = userId => {  
   return UserModel.findById(userId)
   .then(user => {
-    return user.conversations || [];
+    return user.conversations;
   })
   .then(userConversations => {
     return ConversationModel.find({ _id : { $in : userConversations } });
   })
   .then(conversations => {
-    return conversations || [];
+    return conversations;
   });
 };
 
