@@ -6,6 +6,15 @@ const config = {
   jwtSecret: 'my-api-secret',
   gitPath: '/var/intercom',
   jwtDuration: '2 hours',
+  mail: {
+    auth: {
+      user: 'mohamed.aydoun@frontmen.nl',
+      pass: 'bwqvijpadfrredng'
+    },
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    sender: 'mohamed.aydoun@frontmen.nl'
+  }
 };
 
 module.exports = config;

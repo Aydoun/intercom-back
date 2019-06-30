@@ -4,6 +4,8 @@ import {
   getUser, registerUser, loginUser, updateUser, deleteUser,
 } from 'services/user/user.service';
 import { isValidObjectId } from 'utils';
+import { sendMail } from 'services/mail/mail.service';
+import welcomeTemplate from 'templates/welcome';
 
 exports.userDetails = (req, res) => {
   const { id } = req.tokenData;
@@ -36,7 +38,10 @@ exports.register = (req, res) => {
   }
 
   return registerUser(name, email, password)
-    .then(data => res.formatResponse(data))
+    .then(data => {
+      sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom');
+      res.formatResponse(data);
+    })
     .catch(err => res.formatResponse(err.message, 401));
 };
 
