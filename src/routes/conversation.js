@@ -4,7 +4,8 @@ import {
     fetchConversationById, 
     fetchMessages, 
     PersistMessage ,
-    fetchAllConversations
+    fetchAllConversations,
+    DeleteConversation
 } from 'controllers/conversation.controller.js';
 import { body, param } from 'express-validator';
 import { isValidObjectId } from 'utils';
@@ -30,7 +31,8 @@ conversations.post('/:id/messages', param('id').custom((value) => {
 
 conversations.post('',
     body('participants').custom(participants => {
-    if (participants) {
+    if (participants
+        ) {
         const users = participants.split(',');
         return !users.some(element => !isValidObjectId(element));
     }
@@ -38,5 +40,6 @@ conversations.post('',
     return false;
 }), PersistConversation);
 
+conversations.delete('/:id', param('id').custom(value => isValidObjectId(value)), DeleteConversation);
 
 module.exports = conversations;

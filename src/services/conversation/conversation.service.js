@@ -1,12 +1,13 @@
 import {
-    saveConversationImp, getConversationByIdImp, getConversationMessagesImp, saveMessageImp, getAllConversationsImp
+    saveConversationImp, getConversationByIdImp, getConversationMessagesImp, saveMessageImp, getAllConversationsImp, removeConversationImp,
 } from './conversation.service.imp';
   
 const saveConversation = saveConversationImp;
 const getConversationById = getConversationByIdImp;
 const getConversationMessages = getConversationMessagesImp;
 const saveMessage = saveMessageImp;
-const getAllConversations = getAllConversationsImp
+const getAllConversations = getAllConversationsImp;
+const removeConversation = removeConversationImp;
   
 module.exports = {
   saveConversation,
@@ -14,5 +15,6 @@ module.exports = {
   getConversationMessages,
   saveMessage,
   getAllConversations,
+  removeConversation,
 };
   

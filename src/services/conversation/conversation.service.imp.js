@@ -19,11 +19,8 @@ exports.saveConversationImp = (data) => {
     return UserModel.find({ _id : { $in : data.participants } })
   })
   .then(users => {
-    // Todo check if the conversation already exists
-    console.log(users, 3333);
     if (Array.isArray(users) && users.length > 1) {
       users.forEach(user => {
-        // Todo Assure the uniquness of _id
         user.conversations = user.conversations || [];
         if (newConversation._id && user.conversations.indexOf(newConversation._id) < 0) {
           user.conversations.push(newConversation._id);
@@ -73,5 +70,13 @@ exports.saveMessageImp = (id, sender, content) => {
       sender
     });
     return conversation.save();
+  });
+};
+
+exports.removeConversationImp = (id, userId) => {
+  return UserModel.findById(userId)
+  .then(user => {
+    user.conversations = user.conversations.filter(conversation => conversation === id);
+    user.save();
   });
 };

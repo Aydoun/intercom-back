@@ -1,7 +1,7 @@
 
 import { validationResult } from 'express-validator';
 import {
-    saveConversation, getConversationById, getConversationMessages, saveMessage, getAllConversations
+    saveConversation, getConversationById, getConversationMessages, saveMessage, getAllConversations, removeConversation
 } from 'services/conversation/conversation.service';
 
 export const PersistConversation = (req, res) => { 
@@ -87,3 +87,15 @@ export const PersistMessage = (req, res) => {
     });
 };
 
+export const DeleteConversation = (req, res) => {
+    const { id: userId } = req.tokenData;
+    const { id } = req.params;
+
+    removeConversation(id, userId)
+    .then(() => {
+        res.formatResponse({});
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
