@@ -1,9 +1,17 @@
 import express from 'express';
-import { PersistConversation, fetchConversationById, fetchMessages, PersistMessage } from 'controllers/conversation.controller.js';
+import { 
+    PersistConversation, 
+    fetchConversationById, 
+    fetchMessages, 
+    PersistMessage ,
+    fetchAllConversations
+} from 'controllers/conversation.controller.js';
 import { body, param } from 'express-validator';
 import { isValidObjectId } from 'utils';
 
 const conversations = express.Router();
+
+conversations.get('', fetchAllConversations);
 
 conversations.get('/:id', param('id').custom((value) => {
     if (!isValidObjectId(value)) throw new Error('Passed id is invalid');
@@ -22,10 +30,12 @@ conversations.post('/:id/messages', param('id').custom((value) => {
 
 conversations.post('',
     body('participants').custom(participants => {
-    const users = participants.split(',');
-    
-    if (users.some(element => !isValidObjectId(element))) throw new Error('User ids are not valid');
-    return true;
+    if (participants) {
+        const users = participants.split(',');
+        return !users.some(element => !isValidObjectId(element));
+    }
+
+    return false;
 }), PersistConversation);
 
 

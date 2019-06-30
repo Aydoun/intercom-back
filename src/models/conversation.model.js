@@ -10,6 +10,7 @@ const Messages = new Schema({
 
 const Conversation = new Schema({
   participants: [Schema.Types.ObjectId],
+  hash: { type: String, index: { unique: true } },
   messages: [Messages],
 } , {timestamps: true});
 

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add express-validator
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add lodash.uniq
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/mohamedaydoun/Projects/intercom-bakend/node_modules/@babel/core/node_modules/debug/package.json'
+  Error: EACCES: permission denied, unlink '/Users/mohamedaydoun/Projects/intercom-bakend/node_modules/@babel/core/node_modules/debug/README.md'
 
 npm manifest: 
   {
@@ -65,6 +65,7 @@ npm manifest:
       "body-parser": "^1.18.3",
       "compression": "^1.7.3",
       "express": "^4.16.4",
+      "express-validator": "^6.1.0",
       "fs-extra": "^8.0.1",
       "jsonwebtoken": "^8.4.0",
       "mockgoose": "^7.3.5",
@@ -2307,6 +2308,14 @@ Lockfile:
       jest-matcher-utils "^24.8.0"
       jest-message-util "^24.8.0"
       jest-regex-util "^24.3.0"
+  
+  express-validator@^6.1.0:
+    version "6.1.0"
+    resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.1.0.tgz#131061a6bdaa3547b76df163c0310197b2d4723b"
+    integrity sha512-1zakkbF72uFqJS/6btO70GLn0REhLGbLtMdRHCaek2IqSK9VoReohMDVwJpHIu4Jt2IXDmV9P7p/ZLdlDv7P7w==
+    dependencies:
+      lodash "^4.17.11"
+      validator "^11.0.0"
   
   express@^4.16.4:
     version "4.17.1"
@@ -6123,6 +6132,11 @@ Lockfile:
     dependencies:
       spdx-correct "^3.0.0"
       spdx-expression-parse "^3.0.0"
+  
+  validator@^11.0.0:
+    version "11.0.0"
+    resolved "https://registry.yarnpkg.com/validator/-/validator-11.0.0.tgz#fb10128bfb1fd14ce4ed36b79fc94289eae70667"
+    integrity sha512-+wnGLYqaKV2++nUv60uGzUJyJQwYVOin6pn1tgEiFCeCQO60yeu3Og9/yPccbBX574kxIcEJicogkzx6s6eyag==
   
   vary@^1, vary@~1.1.2:
     version "1.1.2"

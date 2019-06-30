@@ -1,7 +1,7 @@
 
 import { validationResult } from 'express-validator';
 import {
-    saveConversation, getConversationById, getConversationMessages, saveMessage
+    saveConversation, getConversationById, getConversationMessages, saveMessage, getAllConversations
 } from 'services/conversation/conversation.service';
 
 export const PersistConversation = (req, res) => { 
@@ -11,10 +11,23 @@ export const PersistConversation = (req, res) => {
     }
 
     const { participants } = req.body;
+    const aParticipants = participants.split(',');
     
-    saveConversation({ participants: participants.split(',') })
+    saveConversation({ participants: aParticipants })
     .then(response => {
         res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
+export const fetchAllConversations = (req, res) => {
+    const { id } = req.tokenData;
+
+    getAllConversations(id)
+    .then(conversation => {
+        res.formatResponse(conversation);
     })
     .catch(err => {
         res.formatResponse(err.message, 401);
@@ -30,8 +43,8 @@ export const fetchConversationById = (req, res) => {
     const { id } = req.params;
 
     getConversationById(id)
-    .then(plan => {
-        res.formatResponse(plan);
+    .then(conversation => {
+        res.formatResponse(conversation);
     })
     .catch(err => {
         res.formatResponse(err.message, 401);

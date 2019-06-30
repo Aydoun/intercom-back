@@ -2,6 +2,7 @@ import { Types } from 'mongoose';
 import util from 'util';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt-nodejs';
+import crypto from 'crypto';
 import config from 'config';
 
 const ObjectId = Types.ObjectId;
@@ -37,6 +38,8 @@ exports.generateToken = userId => jwt.sign({
 }, config.jwtSecret);
 
 exports.getGitPath = repoName => `${config.gitPath}/${repoName}`;
+
+exports.generateHash = data => crypto.createHash('sha256').update(data).digest('hex');
 
 exports.httpCodes = {
   SUCCESS: 200,

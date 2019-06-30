@@ -13,7 +13,7 @@ auth.post('/api/user/register', [
 ], register);
 auth.post('/api/user/login', [
   body('email').isEmail(),
-  body('password').isLength({ min: 8 })
+  body('password').isLength({ min: 6 })
 ], login);
 
 // Token Check

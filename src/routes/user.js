@@ -9,4 +9,6 @@ users.get('', userDetails);
 users.put('', update);
 users.delete('', remove);
 
+// Todo get user by username
+
 module.exports = users;
