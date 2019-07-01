@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import {
   savePlan, getPlan, updatePlan, removePlan,
 } from 'services/plan/plan.service';
-import { createRepository } from 'services/git/git.service';
+import { createRepository } from 'services/repository/repository.service';
 import uuid from 'uuid/v1';
 
 export const PersistPlan = (req, res) => { 

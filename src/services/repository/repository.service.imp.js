@@ -42,3 +42,32 @@ exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessag
         return repository.createCommit("HEAD", author, committer, initialMessage, oid, []);
     });
 };
+
+exports.getRepositoryHistoryImp = (branch, repoName) => {
+    const repoDir = getGitPath(repoName);
+    
+    return nodegit.Repository.open(repoDir)
+    .then(repository => {
+        return repository.getBranchCommit(branch);
+    })
+    .then(firstCommit => {
+        const history = firstCommit.history(nodegit.Revwalk.SORT.Time);
+
+        return new Promise(resolve => {
+            history.on('end', function(commits) {
+                const logs = commits.map(function(commit) {
+                    return {
+                        sha : commit.sha(),
+                        author : commit.author().name(),
+                        email: commit.author().email(),
+                        date : commit.date(),
+                        comment : commit.message()
+                    };
+                });
+                resolve(logs);
+            });
+
+            history.start();
+        });      
+    });
+}

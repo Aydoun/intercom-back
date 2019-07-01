@@ -23,7 +23,7 @@ const UserSchema = Schema({
     required: true,
   },
   conversations: [Schema.Types.ObjectId],
-  status: { type: String, enum: ['Active', 'Inactive', 'Banned'], default: 'Active' },
+  status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
 }, { timestamps: true });
 
 module.exports = mongoose.model('user', UserSchema, 'user');
