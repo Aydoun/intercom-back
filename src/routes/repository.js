@@ -6,7 +6,16 @@ import {
 
 const repository = express.Router();
 
-repository.use(['/:repoName/history'], [
+repository.use([
+    '/:repoName/history',
+    '/:repoName/commit',
+    '/:repoName/file',
+    '/:repoName/tree',
+    '/:repoName/branch',
+    '/:repoName/participants',
+    '/:repoName/status',
+    '/:repoName/summary',
+], [
     param('repoName').isUUID(),
     query('branch').exists(),
 ]);
