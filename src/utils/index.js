@@ -10,22 +10,6 @@ const genSalt = util.promisify(bcrypt.genSalt);
 const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);
 
-exports.formatter = (data, error) => {
-  if (!error) {
-    return {
-      status: !error,
-      result: data,
-    };
-  }
-
-  return {
-    status: !error,
-    result: {
-      message: error.message,
-    },
-  };
-};
-
 exports.securePassword = plainPassword => genSalt(10)
   .then(salt => hash(plainPassword, salt, null));
 
