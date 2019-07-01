@@ -35,7 +35,7 @@ exports.statusToText = status => {
   else if (status.isIgnored()) { words.push("IGNORED"); }
 
   return words.join(" ");
-}
+};
 
 exports.httpCodes = {
   SUCCESS: 200,

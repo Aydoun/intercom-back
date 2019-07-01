@@ -14,7 +14,8 @@
         "no-underscore-dangle": "off",
         "max-len": [1, 120, 2],
         "no-reserved-keys": "off",
-        "no-undef": "off"
+        "no-undef": "off",
+        "semi": 1
     },
     "settings": {
         "import/resolver": {

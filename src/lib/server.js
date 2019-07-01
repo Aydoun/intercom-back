@@ -25,7 +25,7 @@ app.use('*', (req, res) => res.formatResponse({ message: "End Point Doesn't Exis
 connectToDb();
 
 app.use(function (err, req, res) {
-  res.status(500).formatResponse(err.message)
+  res.status(500).formatResponse(err.message);
 });
 
 // Custom Response Wrapper

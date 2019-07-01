@@ -2,7 +2,9 @@ import {
     getRepositoryHistory,
     getRepositoryStatus,
     getRepositoryTree,
+    commit,
 } from 'services/repository/repository.service';
+import { validationResult } from 'express-validator';
 
 exports.fetchHistory = (req, res) => {
     const { repoName } = req.params;
@@ -36,6 +38,30 @@ exports.listTree = (req, res) => {
     getRepositoryTree(branch, repoName)
     .then(tree => {
         res.formatResponse(tree);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
+exports.submitCommit = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.formatResponse({ ...errors.array()[0] }, 401);
+    }
+
+    const { repoName } = req.params;
+    const { branch } = req.query;
+    const { username, email, message } = req.body;
+    // TODO: Remove Status Check for empty commits!
+    getRepositoryStatus(repoName)
+    .then(response => {
+        if (Object.keys(response).length !== 0) {
+            return commit(branch, repoName, { username, email }, message);
+        } 
+    })
+    .then(commit => {
+        res.formatResponse(commit ? commit.tostrS() : {});
     })
     .catch(err => {
         res.formatResponse(err.message, 401);

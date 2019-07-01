@@ -5,23 +5,14 @@ import { isValidObjectId } from 'utils';
 
 const plans = express.Router();
 
-plans.get('/:id', param('id').custom((value) => {
-    if (!isValidObjectId(value)) throw new Error('Passed id is invalid');
-    return true;
-}), getPlanById);
+plans.get('/:id', param('id').custom(value => isValidObjectId(value)), getPlanById);
 plans.post('', [
-    body('username').not().isEmpty(),
+    body('username').exists(),
     body('email').isEmail(),
-    body('description').not().isEmpty(),
-    body('title').not().isEmpty(),
+    body('description').exists(),
+    body('title').exists(),
 ], PersistPlan);
-plans.put('/:id', param('id').custom((value) => {
-    if (!isValidObjectId(value)) throw new Error('Passed id is invalid');
-    return true;
-}), updateById);
-plans.delete('/:id', param('id').custom((value) => {
-    if (!isValidObjectId(value)) throw new Error('Passed id is invalid');
-    return true;
-}), removeById);
+plans.put('/:id', param('id').custom(value => isValidObjectId(value)), updateById);
+plans.delete('/:id', param('id').custom(value => isValidObjectId(value)), removeById);
 
 module.exports = plans;

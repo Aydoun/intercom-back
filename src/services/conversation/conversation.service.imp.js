@@ -18,7 +18,7 @@ exports.saveConversationImp = (data) => {
   .then(conversation => {
     savedConversation = Array.isArray(conversation) ? conversation : [conversation];
     conversationItem = savedConversation[0];
-    return UserModel.find({ _id : { $in : data.participants } })
+    return UserModel.find({ _id : { $in : data.participants } });
   })
   .then(users => {
     users.forEach(user => {

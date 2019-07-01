@@ -10,32 +10,22 @@ exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessag
     const { username, email } = creator;
 
     let repository;
-    let index;
 
     return fse.ensureDir(path.resolve(__dirname, repoDir))
-    .then(function() {
+    .then(() => {
         return nodegit.Repository.init(path.resolve(__dirname, repoDir), 0);
     })
-    .then(function(repo) {
+    .then(repo => {
         repository = repo;
-        return fse.writeFile(path.join(repository.workdir(), fileName), fileContent);
-    })
-    .then(function(){
+        fse.outputFileSync(path.join(repository.workdir(), fileName), fileContent);
         return repository.refreshIndex();
     })
-    .then(function(idx) {
-        index = idx;
+    .then(idx => {
+        idx.addByPath(fileName);
+        idx.write();
+        return idx.writeTree();
     })
-    .then(function() {
-        return index.addByPath(fileName);
-    })
-    .then(function() {
-        return index.write();
-    })
-    .then(function() {
-        return index.writeTree();
-    })
-    .then(function(oid) {
+    .then(oid => {
         const author = nodegit.Signature.now(username, email);
         const committer = nodegit.Signature.now(username, email);
 
@@ -70,7 +60,7 @@ exports.getRepositoryHistoryImp = (branch, repoName) => {
             history.start();
         });      
     });
-}
+};
 
 exports.getRepositoryStatusImp = (repoName) => {
     const repoDir = getGitPath(repoName);
@@ -90,7 +80,7 @@ exports.getRepositoryStatusImp = (repoName) => {
 
         return allStatus;
     });
-}
+};
 
 exports.getRepositoryTreeImp = (branch, repoName) => {
     const repoDir = getGitPath(repoName);
@@ -98,7 +88,7 @@ exports.getRepositoryTreeImp = (branch, repoName) => {
     let sha;
 
     return nodegit.Repository.open(repoDir)
-    .then(function(repo) {
+    .then(repo => {
       return repo.getBranchCommit(branch);
     })
     .then(firstCommit => {
@@ -113,8 +103,45 @@ exports.getRepositoryTreeImp = (branch, repoName) => {
             date,
             isDirectory : entry.isDirectory(),
             isFile : entry.isFile(),
-            isTree : entry.isTree(),
             name : entry.name(), 
         }));
     });
-}
+};
+
+exports.commitImp = (branch, repoName, user, message) => {
+    const repoDir = getGitPath(repoName);
+    const { username, email } = user;
+
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+        return registerCommit({ 
+            username,
+            email,
+            message,
+         }, repo, branch);
+    });
+};
+
+const registerCommit = (inputs , repo, branch) => {
+    const { username, email, message } = inputs;
+    var index;
+    var oid;
+
+    return repo.refreshIndex()
+    .then(indexResult => {
+        index = indexResult;
+        index.addAll(['.']);
+        index.write();
+        return index.writeTree();
+    })
+    .then(oidResult => {
+        oid = oidResult;
+        return repo.getBranchCommit(branch);
+    })
+    .then(parent => {
+        const author = nodegit.Signature.now(username, email);
+        const committer = nodegit.Signature.now(username, email);
+
+        return repo.createCommit('HEAD', author, committer, message, oid, [parent]);
+    });
+};
