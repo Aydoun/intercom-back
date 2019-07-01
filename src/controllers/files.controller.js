@@ -1,5 +1,4 @@
 
-import { validationResult } from 'express-validator';
 import { updateUser } from 'services/user/user.service';
 import { addFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
 import config from 'config';
@@ -28,11 +27,6 @@ exports.processImageUpload = (req, res) => {
 };
 
 exports.addFile = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { repoName, fileName } = req.body;
 
   try {
@@ -44,11 +38,6 @@ exports.addFile = (req, res) => {
 };
 
 exports.addDir = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { repoName, dirName } = req.body;
 
   try {
@@ -60,11 +49,6 @@ exports.addDir = (req, res) => {
 };
 
 exports.writeContent = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { repoName, fileName, content } = req.body;
 
   try {
@@ -76,11 +60,6 @@ exports.writeContent = (req, res) => {
 };
 
 exports.changeFileName = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { repoName, oldName, newName } = req.body;
 
   try {
@@ -92,11 +71,6 @@ exports.changeFileName = (req, res) => {
 };
 
 exports.deleteFile = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-      return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { repoName, fileName } = req.body;
 
   try {

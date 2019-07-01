@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import config from 'config';
 import { body } from 'express-validator';
 import { login, register } from 'controllers/user.controller';
+import { catchValidationError } from 'utils/validation';
 
 const auth = express.Router();
 
@@ -10,11 +11,11 @@ auth.post('/api/user/register', [
   body('email').isEmail(),
   body('password').isLength({ min: 8 }),
   body('name').not().isEmpty()
-], register);
+], catchValidationError, register);
 auth.post('/api/user/login', [
   body('email').isEmail(),
   body('password').isLength({ min: 6 })
-], login);
+], catchValidationError, login);
 
 // Token Check
 auth.use((req, res, next) => {

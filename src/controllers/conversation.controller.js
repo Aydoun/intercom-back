@@ -1,15 +1,9 @@
 
-import { validationResult } from 'express-validator';
 import {
     saveConversation, getConversationById, getConversationMessages, saveMessage, getAllConversations, removeConversation
 } from 'services/conversation/conversation.service';
 
 export const PersistConversation = (req, res) => { 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { participants } = req.body;
     const aParticipants = participants.split(',');
     
@@ -35,11 +29,6 @@ export const fetchAllConversations = (req, res) => {
 };
 
 export const fetchConversationById = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id } = req.params;
 
     getConversationById(id)
@@ -52,11 +41,6 @@ export const fetchConversationById = (req, res) => {
 };
 
 export const fetchMessages = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id } = req.params;
 
     getConversationMessages(id)
@@ -69,11 +53,6 @@ export const fetchMessages = (req, res) => {
 };
 
 export const PersistMessage = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id: conversationID } = req.params;
     const { id: sender } = req.tokenData;
     const { content } = req.body;

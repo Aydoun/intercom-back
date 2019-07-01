@@ -1,5 +1,4 @@
 
-import { validationResult } from 'express-validator';
 import {
   savePlan, getPlan, updatePlan, removePlan,
 } from 'services/plan/plan.service';
@@ -7,11 +6,6 @@ import { createRepository } from 'services/repository/repository.service';
 import uuid from 'uuid/v1';
 
 export const PersistPlan = (req, res) => { 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { title, description, username, email } = req.body;
     const { id } = req.tokenData;
     const repoName = uuid();
@@ -30,11 +24,6 @@ export const PersistPlan = (req, res) => {
 };
 
 export const getPlanById = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id } = req.params;
 
     getPlan(id)
@@ -47,13 +36,6 @@ export const getPlanById = (req, res) => {
 };
 
 export const updateById = (req, res) => {
-    const body = req.body;
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id } = req.params;
 
     if(body) {
@@ -70,11 +52,6 @@ export const updateById = (req, res) => {
 };
 
 export const removeById = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
-
     const { id } = req.params;
     
     removePlan(id)

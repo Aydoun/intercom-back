@@ -1,5 +1,4 @@
 
-import { validationResult } from 'express-validator';
 import {
   getUser, registerUser, loginUser, updateUser, deleteUser,
 } from 'services/user/user.service';
@@ -15,11 +14,6 @@ exports.userDetails = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { email, password } = req.body;
 
   return loginUser(email, password)
@@ -28,11 +22,6 @@ exports.login = (req, res) => {
 };
 
 exports.register = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.formatResponse({ ...errors.array()[0] }, 401);
-  }
-
   const { name, email, password } = req.body;
 
   return registerUser(name, email, password)

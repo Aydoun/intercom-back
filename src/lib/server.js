@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import config from 'config';
 import routes from'routes';
 import { connectToDb } from'./connect';
-import auth from './auth';
+import auth from 'routes/auth';
 
 const app = express();
 
