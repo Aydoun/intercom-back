@@ -3,6 +3,8 @@ import { validationResult } from 'express-validator';
 import {
   getUser, registerUser, loginUser, updateUser, deleteUser,
 } from 'services/user/user.service';
+import { sendMail } from 'services/mail/mail.service';
+import welcomeTemplate from 'templates/welcome';
 
 exports.userDetails = (req, res) => {
   const { id } = req.tokenData;
@@ -34,7 +36,10 @@ exports.register = (req, res) => {
   const { name, email, password } = req.body;
 
   return registerUser(name, email, password)
-    .then(data => res.formatResponse(data))
+    .then(data => {
+      sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom');
+      res.formatResponse(data);
+    })
     .catch(err => res.formatResponse(err.message, 401));
 };
 
