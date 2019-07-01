@@ -54,8 +54,8 @@ exports.getRepositoryHistoryImp = (branch, repoName) => {
         const history = firstCommit.history(nodegit.Revwalk.SORT.Time);
 
         return new Promise(resolve => {
-            history.on('end', function(commits) {
-                const logs = commits.map(function(commit) {
+            history.on('end', commits => {
+                const logs = commits.map(commit => {
                     return {
                         sha : commit.sha(),
                         author : commit.author().name(),
@@ -70,4 +70,35 @@ exports.getRepositoryHistoryImp = (branch, repoName) => {
             history.start();
         });      
     });
+}
+
+exports.getRepositoryStatusImp = (branch, repoName) => {
+    const repoDir = getGitPath(repoName);
+    
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+        return repo.getStatus();
+    })    
+    .then(statuses => {
+        var allStatus = {};
+        
+        statuses.forEach(file => {
+            const statusWord = statusToText(file);
+            if (allStatus.statusWord) allStatus[statusWord].push(file.path()); 
+            else allStatus[statusWord] = [file.path()];
+        });
+
+        return allStatus;
+    });
+}
+
+const statusToText = status => {
+    var words = [];
+    if (status.isNew()) { words.push("NEW"); }
+    else if (status.isModified()) { words.push("MODIFIED"); }
+    else if (status.isTypechange()) { words.push("TYPECHANGE"); }
+    else if (status.isRenamed()) { words.push("RENAMED"); }
+    else if (status.isIgnored()) { words.push("IGNORED"); }
+
+    return words.join(" ");
 }

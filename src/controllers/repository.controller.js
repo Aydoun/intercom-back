@@ -1,11 +1,9 @@
-import { validationResult } from 'express-validator';
-import { getRepositoryHistory } from 'services/repository/repository.service';
+import { 
+    getRepositoryHistory,
+    getRepositoryStatus,
+} from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.formatResponse({ ...errors.array()[0] }, 401);
-    }
     const { repoName } = req.params;
     const { branch } = req.query;
 
@@ -18,3 +16,15 @@ exports.fetchHistory = (req, res) => {
     });
 };
 
+exports.listStatus = (req, res) => {
+    const { repoName } = req.params;
+    const { branch } = req.query;
+
+    getRepositoryStatus(branch, repoName)
+    .then(status => {
+        res.formatResponse(status);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
