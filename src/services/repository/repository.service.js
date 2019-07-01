@@ -2,15 +2,11 @@ import {
   createRepositoryImp, 
   getRepositoryHistoryImp,
   getRepositoryStatusImp,
+  getRepositoryTreeImp,
 } from './repository.service.imp';
   
-const createRepository = createRepositoryImp;
-const getRepositoryHistory = getRepositoryHistoryImp;
-const getRepositoryStatus = getRepositoryStatusImp;
-  
-module.exports = {
-  createRepository,
-  getRepositoryHistory,
-  getRepositoryStatus,
-};
-  
+exports.createRepository = createRepositoryImp;
+exports.getRepositoryHistory = getRepositoryHistoryImp;
+exports.getRepositoryStatus = getRepositoryStatusImp;
+exports.getRepositoryTree = getRepositoryTreeImp;
+    

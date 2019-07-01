@@ -1,7 +1,7 @@
 import nodegit from 'nodegit';
 import path from 'path';
 import fse from 'fs-extra';
-import { getGitPath } from 'utils';
+import { getGitPath, statusToText } from 'utils';
 
 exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
     const fileName = "README.md";
@@ -72,7 +72,7 @@ exports.getRepositoryHistoryImp = (branch, repoName) => {
     });
 }
 
-exports.getRepositoryStatusImp = (branch, repoName) => {
+exports.getRepositoryStatusImp = (repoName) => {
     const repoDir = getGitPath(repoName);
     
     return nodegit.Repository.open(repoDir)
@@ -92,13 +92,29 @@ exports.getRepositoryStatusImp = (branch, repoName) => {
     });
 }
 
-const statusToText = status => {
-    var words = [];
-    if (status.isNew()) { words.push("NEW"); }
-    else if (status.isModified()) { words.push("MODIFIED"); }
-    else if (status.isTypechange()) { words.push("TYPECHANGE"); }
-    else if (status.isRenamed()) { words.push("RENAMED"); }
-    else if (status.isIgnored()) { words.push("IGNORED"); }
+exports.getRepositoryTreeImp = (branch, repoName) => {
+    const repoDir = getGitPath(repoName);
+    let date;
+    let sha;
 
-    return words.join(" ");
+    return nodegit.Repository.open(repoDir)
+    .then(function(repo) {
+      return repo.getBranchCommit(branch);
+    })
+    .then(firstCommit => {
+      date = firstCommit.date();
+      sha = firstCommit.sha();
+      return firstCommit.getTree();
+    })
+    .then(tree => {
+        return tree.entries().map(entry => ({
+            key : entry.sha(),
+            sha,
+            date,
+            isDirectory : entry.isDirectory(),
+            isFile : entry.isFile(),
+            isTree : entry.isTree(),
+            name : entry.name(), 
+        }));
+    });
 }

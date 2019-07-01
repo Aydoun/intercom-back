@@ -1,6 +1,7 @@
 import { 
     getRepositoryHistory,
     getRepositoryStatus,
+    getRepositoryTree,
 } from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
@@ -18,11 +19,23 @@ exports.fetchHistory = (req, res) => {
 
 exports.listStatus = (req, res) => {
     const { repoName } = req.params;
-    const { branch } = req.query;
 
-    getRepositoryStatus(branch, repoName)
+    getRepositoryStatus(repoName)
     .then(status => {
         res.formatResponse(status);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
+exports.listTree = (req, res) => {
+    const { repoName } = req.params;
+    const { branch } = req.query;
+
+    getRepositoryTree(branch, repoName)
+    .then(tree => {
+        res.formatResponse(tree);
     })
     .catch(err => {
         res.formatResponse(err.message, 401);

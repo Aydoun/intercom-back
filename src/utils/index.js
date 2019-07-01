@@ -25,6 +25,18 @@ exports.getGitPath = repoName => `${config.gitPath}/${repoName}`;
 
 exports.generateHash = data => crypto.createHash('sha256').update(data).digest('hex');
 
+exports.statusToText = status => {
+  let words = [];
+  
+  if (status.isNew()) { words.push("NEW"); }
+  else if (status.isModified()) { words.push("MODIFIED"); }
+  else if (status.isTypechange()) { words.push("TYPECHANGE"); }
+  else if (status.isRenamed()) { words.push("RENAMED"); }
+  else if (status.isIgnored()) { words.push("IGNORED"); }
+
+  return words.join(" ");
+}
+
 exports.httpCodes = {
   SUCCESS: 200,
   FAILURE: 401,
