@@ -6,3 +6,8 @@
 5. Send collaboration Invitation
 7. User Points and awards
 8. Utils Unit test
+9. Logging
+10. Security
+11. Permissions
+12. Privacy
+13. 

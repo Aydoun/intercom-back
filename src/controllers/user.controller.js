@@ -26,9 +26,9 @@ exports.register = (req, res) => {
 
   return registerUser(name, email, password)
     .then(data => {
-      sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom');
       res.formatResponse(data);
     })
+    .then(() => sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom'))
     .catch(err => res.formatResponse(err.message, 401));
 };
 
