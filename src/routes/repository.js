@@ -5,6 +5,7 @@ import {
     listStatus,
     listTree,
     submitCommit,
+    createBranch
 } from 'controllers/repository.controller';
 import { catchValidationError } from 'utils/validation';
 
@@ -35,5 +36,7 @@ repository.post('/:repoName/commit', [
     body('email').isEmail(),
     body('message').exists(),
 ], catchValidationError, submitCommit);
+
+repository.post('/:repoName/branch', [query('branchName').exists()], catchValidationError, createBranch);
 
 module.exports = repository;

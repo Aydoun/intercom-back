@@ -3,6 +3,7 @@ import {
     getRepositoryStatus,
     getRepositoryTree,
     commit,
+    addBranch,
 } from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
@@ -61,3 +62,17 @@ exports.submitCommit = (req, res) => {
         res.formatResponse(err.message, 401);
     });
 };
+
+exports.createBranch = (req, res) => {
+    const { repoName } = req.params;
+    const { branch, branchName } = req.query;
+
+    addBranch(repoName, branch, branchName)
+    .then(response => {
+        res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+

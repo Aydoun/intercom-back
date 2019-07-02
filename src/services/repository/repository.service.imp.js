@@ -91,10 +91,10 @@ exports.getRepositoryTreeImp = (branch, repoName) => {
     .then(repo => {
       return repo.getBranchCommit(branch);
     })
-    .then(firstCommit => {
-      date = firstCommit.date();
-      sha = firstCommit.sha();
-      return firstCommit.getTree();
+    .then(commit => {
+      date = commit.date();
+      sha = commit.sha();
+      return commit.getTree();
     })
     .then(tree => {
         return tree.entries().map(entry => ({
@@ -119,6 +119,20 @@ exports.commitImp = (branch, repoName, user, message) => {
             email,
             message,
          }, repo, branch);
+    });
+};
+
+exports.addBranchImp = (repoName, sourceBranch, branchName) => {
+    let repository;
+    const repoDir = getGitPath(repoName);
+    
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+      repository = repo;
+      return repo.getBranchCommit(sourceBranch);
+    })
+    .then(commit => {
+        return repository.createBranch(branchName.replace(/ /g , '-'), commit, 0);
     });
 };
 
