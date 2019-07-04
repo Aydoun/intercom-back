@@ -150,15 +150,27 @@ exports.getBranchListImp = repoName => {
      });
 };
 
-exports.deleteBranchImp = (repoName, branchName) => {
+exports.deleteBranchImp = (repoName, branch) => {
     const repoDir = getGitPath(repoName);
 
     return nodegit.Repository.open(repoDir)
     .then(repo => {
-        return repo.getBranch(branchName);
+        return repo.getBranch(branch);
     })
     .then(reference => {
         return nodegit.Branch.delete(reference);
+    });
+};
+
+exports.mergeToMasterImp = (repoName, branch, user) => {
+    const repoDir = getGitPath(repoName);
+    const { username, email } = user;
+
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+        const now = Date.now() / 1000;
+        const signature = nodegit.Signature.create(username, email, now, 480);
+        return repo.mergeBranches("master", branch, signature);
     });
 };
 

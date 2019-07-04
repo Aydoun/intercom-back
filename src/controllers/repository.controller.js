@@ -6,6 +6,7 @@ import {
     addBranch,
     getBranchList,
     deleteBranch,
+    mergeToMaster,
 } from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
@@ -95,6 +96,20 @@ exports.removeBranch = (req, res) => {
     const { branch } = req.query;
     
     deleteBranch(repoName, branch)
+    .then(response => {
+        res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
+exports.mergeBranch = (req, res) => {
+    const { repoName } = req.params;
+    const { branch } = req.query;
+    const { username, email } = req.body;
+    
+    mergeToMaster(repoName, branch, { username, email })
     .then(response => {
         res.formatResponse(response);
     })

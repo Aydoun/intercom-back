@@ -8,6 +8,7 @@ import {
     createBranch,
     getBranch,
     removeBranch,
+    mergeBranch,
 } from 'controllers/repository.controller';
 import { catchValidationError } from 'utils/validation';
 
@@ -21,6 +22,7 @@ repository.use([
     '/:repoName/participants',
     '/:repoName/status',
     '/:repoName/summary',
+    '/:repoName/merge',
     '/:repoName/file/history',
     '/:repoName/commit/:sha/diff',
 ], [
@@ -51,5 +53,10 @@ repository.delete('/:repoName/branch', [
     param('repoName').isUUID(),
     query('branch').exists(),
 ], catchValidationError, removeBranch);
+
+repository.post('/:repoName/merge', [
+    body('username').exists(),
+    body('email').isEmail(),
+], catchValidationError, mergeBranch);
 
 module.exports = repository;
