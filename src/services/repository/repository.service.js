@@ -1,22 +1,13 @@
-import {
-  createRepositoryImp, 
-  getRepositoryHistoryImp,
-  getRepositoryStatusImp,
-  getRepositoryTreeImp,
-  commitImp,
-  addBranchImp,
-  getBranchListImp,
-  deleteBranchImp,
-  mergeToMasterImp,
-} from './repository.service.imp';
+import * as I from './repository.service.imp';
   
-exports.createRepository = createRepositoryImp;
-exports.getRepositoryHistory = getRepositoryHistoryImp;
-exports.getRepositoryStatus = getRepositoryStatusImp;
-exports.getRepositoryTree = getRepositoryTreeImp;
-exports.commit = commitImp;
-exports.addBranch = addBranchImp;
-exports.getBranchList = getBranchListImp;
-exports.deleteBranch = deleteBranchImp;
-exports.mergeToMaster = mergeToMasterImp;
+exports.createRepository = I.createRepositoryImp;
+exports.getRepositoryHistory = I.getRepositoryHistoryImp;
+exports.getRepositoryStatus = I.getRepositoryStatusImp;
+exports.getRepositoryTree = I.getRepositoryTreeImp;
+exports.commit = I.commitImp;
+exports.addBranch = I.addBranchImp;
+exports.getBranchList = I.getBranchListImp;
+exports.deleteBranch = I.deleteBranchImp;
+exports.mergeToMaster = I.mergeToMasterImp;
+exports.getRepositorySummary = I.getRepositoryHistorySummary;
     

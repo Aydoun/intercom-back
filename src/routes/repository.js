@@ -9,6 +9,7 @@ import {
     getBranch,
     removeBranch,
     mergeBranch,
+    getSummary,
 } from 'controllers/repository.controller';
 import { catchValidationError } from 'utils/validation';
 
@@ -21,7 +22,6 @@ repository.use([
     '/:repoName/tree',
     '/:repoName/participants',
     '/:repoName/status',
-    '/:repoName/summary',
     '/:repoName/merge',
     '/:repoName/file/history',
     '/:repoName/commit/:sha/diff',
@@ -43,6 +43,7 @@ repository.post('/:repoName/commit', [
 repository.get('/:repoName/branch', [
     param('repoName').isUUID(),
 ], catchValidationError, getBranch);
+
 repository.post('/:repoName/branch', [
     param('repoName').isUUID(),
     query('branch').exists(),
@@ -58,5 +59,10 @@ repository.post('/:repoName/merge', [
     body('username').exists(),
     body('email').isEmail(),
 ], catchValidationError, mergeBranch);
+
+repository.get('/:repoName/summary', [
+    param('repoName').isUUID(),
+    query('repoId').exists(),
+], catchValidationError, getSummary);
 
 module.exports = repository;

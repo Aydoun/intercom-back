@@ -2,6 +2,7 @@ import nodegit from 'nodegit';
 import path from 'path';
 import fse from 'fs-extra';
 import { getGitPath, statusToText } from 'utils';
+import PlanModel from 'models/plan.model';
 
 exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
     const fileName = "README.md";
@@ -171,6 +172,44 @@ exports.mergeToMasterImp = (repoName, branch, user) => {
         const now = Date.now() / 1000;
         const signature = nodegit.Signature.create(username, email, now, 480);
         return repo.mergeBranches("master", branch, signature);
+    });
+};
+
+exports.getRepositoryHistorySummary = (repoId, repoName) => {
+    const repoDir = getGitPath(repoName);
+    let foundPLan;
+    
+    return PlanModel.findById(repoId)
+    .then(plan => {
+        foundPLan = plan;
+        return nodegit.Repository.open(repoDir);
+    })
+    .then(repository => {
+        return repository.getBranchCommit('master');
+    })
+    .then(firstCommit => {
+        const history = firstCommit.history();
+        let contributors = {};
+
+        return new Promise(resolve => {
+            history.on("commit", commit => {
+                const name = commit.author().name();
+    
+                if (contributors.name) contributors[name] += 1; 
+                else contributors[name] = 1;
+            });
+    
+            history.on('end', commits => {
+                resolve({
+                    totalContributions : commits.length,
+                    contributors,
+                    totalContributors : Object.keys(contributors).length,
+                    meta: foundPLan,
+                });
+            });
+    
+            history.start();
+        });
     });
 };
 
