@@ -143,11 +143,23 @@ exports.getBranchListImp = repoName => {
     .then(repo => {
       return repo.getReferenceNames(nodegit.Reference.TYPE.LISTALL);
     })  
-    .then(function(arrayReference) {
+    .then(arrayReference => {
         // Use reference
         return arrayReference
         .map(reference => reference.toString().replace('refs/heads/', ''));
      });
+};
+
+exports.deleteBranchImp = (repoName, branchName) => {
+    const repoDir = getGitPath(repoName);
+
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+        return repo.getBranch(branchName);
+    })
+    .then(reference => {
+        return nodegit.Branch.delete(reference);
+    });
 };
 
 const registerCommit = (inputs , repo, branch) => {

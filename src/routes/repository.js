@@ -6,7 +6,8 @@ import {
     listTree,
     submitCommit,
     createBranch,
-    getBranch
+    getBranch,
+    removeBranch,
 } from 'controllers/repository.controller';
 import { catchValidationError } from 'utils/validation';
 
@@ -45,5 +46,10 @@ repository.post('/:repoName/branch', [
     query('branch').exists(),
     query('branchName').exists(),
 ], catchValidationError, createBranch);
+
+repository.delete('/:repoName/branch', [
+    param('repoName').isUUID(),
+    query('branch').exists(),
+], catchValidationError, removeBranch);
 
 module.exports = repository;

@@ -5,6 +5,7 @@ import {
     commit,
     addBranch,
     getBranchList,
+    deleteBranch,
 } from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
@@ -89,4 +90,15 @@ exports.getBranch = (req, res) => {
     });
 };
 
-
+exports.removeBranch = (req, res) => {
+    const { repoName } = req.params;
+    const { branch } = req.query;
+    
+    deleteBranch(repoName, branch)
+    .then(response => {
+        res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};

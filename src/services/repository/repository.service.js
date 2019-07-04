@@ -6,6 +6,7 @@ import {
   commitImp,
   addBranchImp,
   getBranchListImp,
+  deleteBranchImp,
 } from './repository.service.imp';
   
 exports.createRepository = createRepositoryImp;
@@ -15,4 +16,5 @@ exports.getRepositoryTree = getRepositoryTreeImp;
 exports.commit = commitImp;
 exports.addBranch = addBranchImp;
 exports.getBranchList = getBranchListImp;
+exports.deleteBranch = deleteBranchImp;
     
