@@ -136,6 +136,20 @@ exports.addBranchImp = (repoName, sourceBranch, branchName) => {
     });
 };
 
+exports.getBranchListImp = repoName => {
+    const repoDir = getGitPath(repoName);
+
+    return nodegit.Repository.open(repoDir)
+    .then(repo => {
+      return repo.getReferenceNames(nodegit.Reference.TYPE.LISTALL);
+    })  
+    .then(function(arrayReference) {
+        // Use reference
+        return arrayReference
+        .map(reference => reference.toString().replace('refs/heads/', ''));
+     });
+};
+
 const registerCommit = (inputs , repo, branch) => {
     const { username, email, message } = inputs;
     var index;

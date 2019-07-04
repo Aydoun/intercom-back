@@ -4,6 +4,7 @@ import {
     getRepositoryTree,
     commit,
     addBranch,
+    getBranchList,
 } from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
@@ -75,4 +76,17 @@ exports.createBranch = (req, res) => {
         res.formatResponse(err.message, 401);
     });
 };
+
+exports.getBranch = (req, res) => {
+    const { repoName } = req.params;
+    
+    getBranchList(repoName)
+    .then(response => {
+        res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
 

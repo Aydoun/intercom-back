@@ -5,7 +5,8 @@ import {
     listStatus,
     listTree,
     submitCommit,
-    createBranch
+    createBranch,
+    getBranch
 } from 'controllers/repository.controller';
 import { catchValidationError } from 'utils/validation';
 
@@ -16,7 +17,6 @@ repository.use([
     '/:repoName/commit',
     '/:repoName/file',
     '/:repoName/tree',
-    '/:repoName/branch',
     '/:repoName/participants',
     '/:repoName/status',
     '/:repoName/summary',
@@ -37,6 +37,13 @@ repository.post('/:repoName/commit', [
     body('message').exists(),
 ], catchValidationError, submitCommit);
 
-repository.post('/:repoName/branch', [query('branchName').exists()], catchValidationError, createBranch);
+repository.get('/:repoName/branch', [
+    param('repoName').isUUID(),
+], catchValidationError, getBranch);
+repository.post('/:repoName/branch', [
+    param('repoName').isUUID(),
+    query('branch').exists(),
+    query('branchName').exists(),
+], catchValidationError, createBranch);
 
 module.exports = repository;
