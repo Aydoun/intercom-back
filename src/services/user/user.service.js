@@ -1,19 +1,9 @@
-import {
-  getUserImp, updateUserImp, registerUserImp, loginUserImp, changePasswordImp, deleteUserImp,
-} from './user.service.imp';
+import * as U from './user.service.imp';
 
-const getUser = id => getUserImp(id);
-const updateUser = (id, newData) => updateUserImp(id, newData);
-const deleteUser = id => deleteUserImp(id);
-const registerUser = (name, email, password) => registerUserImp(name, email, password);
-const loginUser = (email, password) => loginUserImp(email, password);
-const changePassword = (id, oldPassowrd, newPassword) => changePasswordImp(id, oldPassowrd, newPassword);
+exports.getUser = U.getUserImp;
+exports.updateUser = U.updateUserImp;
+exports.deleteUser = U.deleteUserImp;
+exports.registerUser = U.registerUserImp;
+exports.loginUser = U.loginUserImp;
+exports.changePassword = U.changePasswordImp;
 
-module.exports = {
-  getUser,
-  updateUser,
-  deleteUser,
-  registerUser,
-  loginUser,
-  changePassword,
-};

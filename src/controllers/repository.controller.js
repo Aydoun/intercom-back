@@ -1,10 +1,10 @@
-import * as C from 'services/repository/repository.service';
+import * as S from 'services/repository/repository.service';
 
 exports.fetchHistory = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
 
-    C.getRepositoryHistory(branch, repoName)
+    S.getRepositoryHistory(branch, repoName)
     .then(history => {
         res.formatResponse(history);
     })
@@ -16,7 +16,7 @@ exports.fetchHistory = (req, res) => {
 exports.listStatus = (req, res) => {
     const { repoName } = req.params;
 
-    C.getRepositoryStatus(repoName)
+    S.getRepositoryStatus(repoName)
     .then(status => {
         res.formatResponse(status);
     })
@@ -29,7 +29,7 @@ exports.listTree = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
 
-    C.getRepositoryTree(branch, repoName)
+    S.getRepositoryTree(branch, repoName)
     .then(tree => {
         res.formatResponse(tree);
     })
@@ -43,7 +43,7 @@ exports.submitCommit = (req, res) => {
     const { branch } = req.query;
     const { username, email, message } = req.body;
     // TODO: Remove Status Check for empty commits!
-    C.getRepositoryStatus(repoName)
+    S.getRepositoryStatus(repoName)
     .then(response => {
         if (Object.keys(response).length !== 0) {
             return commit(branch, repoName, { username, email }, message);
@@ -61,7 +61,7 @@ exports.createBranch = (req, res) => {
     const { repoName } = req.params;
     const { branch, branchName } = req.query;
 
-    C.addBranch(repoName, branch, branchName)
+    S.addBranch(repoName, branch, branchName)
     .then(response => {
         res.formatResponse(response);
     })
@@ -73,7 +73,7 @@ exports.createBranch = (req, res) => {
 exports.getBranch = (req, res) => {
     const { repoName } = req.params;
     
-    C.getBranchList(repoName)
+    S.getBranchList(repoName)
     .then(response => {
         res.formatResponse(response);
     })
@@ -86,7 +86,7 @@ exports.removeBranch = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
     
-    C.deleteBranch(repoName, branch)
+    S.deleteBranch(repoName, branch)
     .then(response => {
         res.formatResponse(response);
     })
@@ -100,7 +100,7 @@ exports.mergeBranch = (req, res) => {
     const { branch } = req.query;
     const { username, email } = req.body;
     
-    C.mergeToMaster(repoName, branch, { username, email })
+    S.mergeToMaster(repoName, branch, { username, email })
     .then(response => {
         res.formatResponse(response);
     })
@@ -113,7 +113,7 @@ exports.getSummary = (req, res) => {
     const { repoName } = req.params;
     const { repoId } = req.query;
     
-    C.getRepositorySummary(repoId, repoName)
+    S.getRepositorySummary(repoId, repoName)
     .then(response => {
         res.formatResponse(response);
     })

@@ -1,9 +1,7 @@
-import {
-  addFileImp, addDirectoryImp, removeFileImp, addContentImp, renameFileImp
-} from './files.service.imp';
+import * as F from './files.service.imp';
 
-exports.addFile = addFileImp;
-exports.addDirectory = addDirectoryImp;
-exports.removeFile = removeFileImp;
-exports.addContent = addContentImp;
-exports.renameFile = renameFileImp;
+exports.addFile = F.addFileImp;
+exports.addDirectory = F.addDirectoryImp;
+exports.removeFile = F.removeFileImp;
+exports.addContent = F.addContentImp;
+exports.renameFile = F.renameFileImp;

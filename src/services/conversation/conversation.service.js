@@ -1,25 +1,9 @@
-import {
-    saveConversationImp, 
-    getConversationByIdImp, 
-    getConversationMessagesImp, 
-    saveMessageImp, 
-    getAllConversationsImp, 
-    removeConversationImp,
-} from './conversation.service.imp';
+import * as C from './conversation.service.imp';
   
-const saveConversation = saveConversationImp;
-const getConversationById = getConversationByIdImp;
-const getConversationMessages = getConversationMessagesImp;
-const saveMessage = saveMessageImp;
-const getAllConversations = getAllConversationsImp;
-const removeConversation = removeConversationImp;
-  
-module.exports = {
-  saveConversation,
-  getConversationById,
-  getConversationMessages,
-  saveMessage,
-  getAllConversations,
-  removeConversation,
-};
+exports.saveConversation = C.saveConversationImp;
+exports.getConversationById = C.getConversationByIdImp;
+exports.getConversationMessages = C.getConversationMessagesImp;
+exports.saveMessage = C.saveMessageImp;
+exports.getAllConversations = C.getAllConversationsImp;
+exports.removeConversation = C.removeConversationImp;
   

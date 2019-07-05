@@ -1,15 +1,6 @@
-import {
-  savePlanImp, getPlanImp, updatePlanImp, removePlanImp,
-} from './plan.service.imp';
+import * as P from './plan.service.imp';
 
-const savePlan = savePlanImp;
-const getPlan = getPlanImp;
-const updatePlan = updatePlanImp;
-const removePlan = removePlanImp;
-
-module.exports = {
-  savePlan,
-  getPlan,
-  updatePlan,
-  removePlan,
-};
+exports.savePlan = P.savePlanImp;
+exports.getPlan = P.getPlanImp;
+exports.updatePlan = P.updatePlanImp;
+exports.removePlan = P.removePlanImp;
