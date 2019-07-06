@@ -1,9 +1,15 @@
-const welcomeHTML = `
-    <html>
-        <body>
-            <p>Welcome Using Intercom</p>
-        </body>
-    </html>
+exports.welcomeHTML = `
+<html>
+    <body>
+        <p>Welcome Using Intercom</p>
+    </body>
+</html>
 `;
 
-module.exports = welcomeHTML;
+exports.getInviteMarkup = user => `
+<html>
+    <body>
+        <p>${user.name} invites to join intercom</p>
+    </body>
+</html>
+`;

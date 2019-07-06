@@ -1,8 +1,5 @@
-import {
-  securePassword, comparePasswords, generateToken,
-} from 'utils';
-
 import omit from 'object.omit';
+import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 
 const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'status', 'privacy'];

@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer';
 import config from 'config';
+import UserModel from 'models/user.model';
+import { getInviteMarkup } from 'templates/welcome';
 
-exports.sendMail = (receiver, markup, subject) => {
+const sendMail = (receiver, markup, subject) => {
     const transporter = nodemailer.createTransport({
         ...config.mail
     });
@@ -17,5 +19,14 @@ exports.sendMail = (receiver, markup, subject) => {
         if (error) console.log(err.message);
         
         console.log('Email sent: ' + info.response);
+    });
+};
+
+exports.sendMail = sendMail;
+
+exports.sendInvite = (sender, receiver) => {
+    return UserModel.findById(sender)
+    .then(user => {
+        sendMail(receiver, getInviteMarkup(user), `${user.name} invites you to join intercom`);
     });
 };
