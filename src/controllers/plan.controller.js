@@ -1,8 +1,7 @@
 
-import {
-  savePlan, getPlan, updatePlan, removePlan,
-} from 'services/plan/plan.service';
+import * as S from 'services/plan/plan.service';
 import { createRepository } from 'services/repository/repository.service';
+import { addPlan } from 'services/user/user.service';
 import uuid from 'uuid/v1';
 
 export const PersistPlan = (req, res) => { 
@@ -10,13 +9,18 @@ export const PersistPlan = (req, res) => {
     const { id } = req.tokenData;
     const repoName = uuid();
     const message = `${title} is created`;
+    let newPlan;
 
     createRepository({ username, email }, repoName, description, message)
     .then(() => {
-        return savePlan({ id, title, description, repoName });
+        return S.savePlan({ creator: id, title, description, repoName });
     })
-    .then(response => {
-        res.formatResponse(response);
+    .then(plan => {
+        newPlan = plan;
+        return addPlan(id, plan._id);
+    })
+    .then(() => {
+        res.formatResponse(newPlan);
     })
     .catch(err => {
         res.formatResponse(err.message, 401);
@@ -26,7 +30,7 @@ export const PersistPlan = (req, res) => {
 export const getPlanById = (req, res) => {
     const { id } = req.params;
 
-    getPlan(id)
+    S.getPlan(id)
     .then(plan => {
         res.formatResponse(plan);
     })
@@ -36,10 +40,11 @@ export const getPlanById = (req, res) => {
 };
 
 export const updateById = (req, res) => {
+    const body = req.body;
     const { id } = req.params;
 
     if(body) {
-        updatePlan(id, body)
+        S.updatePlan(id, body)
         .then(plan => {
             res.formatResponse(plan);
         })
@@ -54,7 +59,7 @@ export const updateById = (req, res) => {
 export const removeById = (req, res) => {
     const { id } = req.params;
     
-    removePlan(id)
+    S.removePlan(id)
     .then(plan => {
         res.formatResponse(plan);
     })

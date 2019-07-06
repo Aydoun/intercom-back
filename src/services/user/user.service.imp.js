@@ -73,3 +73,11 @@ exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById
         return user.save();
       });
   });
+
+  exports.addPlan = (id, planId) => {
+    return UserModel.findById(id)
+    .then(user => {
+      user.plans.push(planId);
+      user.save();
+    });
+  };

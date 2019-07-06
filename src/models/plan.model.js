@@ -15,6 +15,7 @@ const PLanSchema = Schema({
     type: String,
     required: true,
   },
+  creator: Schema.Types.ObjectId,
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
 }, { timestamps: true });
 

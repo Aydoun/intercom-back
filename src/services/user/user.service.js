@@ -6,4 +6,5 @@ exports.deleteUser = U.deleteUserImp;
 exports.registerUser = U.registerUserImp;
 exports.loginUser = U.loginUserImp;
 exports.changePassword = U.changePasswordImp;
+exports.addPlan = U.addPlan;
 

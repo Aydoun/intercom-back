@@ -23,6 +23,7 @@ const UserSchema = Schema({
     required: true,
   },
   conversations: [Schema.Types.ObjectId],
+  plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
 }, { timestamps: true });
 
