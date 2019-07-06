@@ -5,16 +5,19 @@ import {
 import omit from 'object.omit';
 import UserModel from 'models/user.model';
 
-const FORBIDEN_KEYS = ['password'];
+const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'status', 'privacy'];
 
 exports.getUserImp = id => {
   return UserModel.findById(id).lean()
-    .then((user) => {
-      if (user.status === 'Active') {
-        return omit(user, FORBIDEN_KEYS);
+    .then(user => {
+      if (user && user.status === 'Active') {
+        const omittedValues = omit(user, FORBIDEN_KEYS);
+        return {
+          ...omittedValues,
+          conversations: user.conversations.length,
+          plans: user.plans.length,
+        };
       }
-
-      return {};
     });
 };
 
