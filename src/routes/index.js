@@ -5,6 +5,7 @@ import plansRoutes from './plans';
 import conversationRoutes from './conversation';
 import mailRoutes from './mail';
 import repositoryRoutes from './repository';
+import InvitationRoutes from './invitation';
 
 const Router = express.Router();
 
@@ -14,7 +15,7 @@ Router.use('/plan', plansRoutes);
 Router.use('/conversation', conversationRoutes);
 Router.use('/mail', mailRoutes);
 Router.use('/repository', repositoryRoutes);
-
+Router.use('/invitation', InvitationRoutes);
 
 //TODO: Add issue management
 
