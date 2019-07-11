@@ -1,9 +1,9 @@
 1. Integration Testing
 2. Migrate to micro services
 3. Issue Management
-4. Send invitation To join
-5. Merge Requests
-5. Send collaboration Invitation
+4. Send invitation To join [X]
+5. Merge Requests [X]
+5. Send collaboration Invitation [X]
 7. User Points and awards
 8. Utils Unit test
 9. Logging
@@ -12,3 +12,9 @@
 12. Privacy
 13. Node inspection
 14. add module script
+15. Real time messaging
+16. Search Plans
+17. get USer's plans
+18. system design diagram
+19. caching
+20. Indexing Revision

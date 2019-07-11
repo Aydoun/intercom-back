@@ -9,5 +9,5 @@ module.exports = mongoose.model('invitation', new Schema({
     motivation: { type: String, default: '' },
     planName: { type: String, default: '' },
     planAvatar: { type: String, default: '' },
-    status: { type: String, enum: ['Accepted', 'Waiting', 'Rejected'], default: 'Waiting' },
+    status: { type: String, enum: ['Accepted', 'Pending', 'Rejected'], default: 'Pending' },
 }, { timestamps: true }));
