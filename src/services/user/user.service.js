@@ -1,6 +1,7 @@
 import * as U from './user.service.imp';
 
 exports.getUser = U.getUserImp;
+exports.getUsersPlan = U.getUsersPlan;
 exports.updateUser = U.updateUserImp;
 exports.deleteUser = U.deleteUserImp;
 exports.registerUser = U.registerUserImp;

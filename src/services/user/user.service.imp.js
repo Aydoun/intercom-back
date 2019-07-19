@@ -1,6 +1,7 @@
 import omit from 'object.omit';
 import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
+import PlanModel from 'models/plan.model';
 
 const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'status', 'privacy'];
 
@@ -16,6 +17,15 @@ exports.getUserImp = id => {
         };
       }
     });
+};
+
+exports.getUsersPlan = id => {
+  return UserModel.findById(id)
+    .then(user => {
+      if (user && user.status === 'Active') {
+        return PlanModel.find({ _id : { $in : user.plans } });
+      }
+    }); 
 };
 
 exports.updateUserImp = (id, newData) => UserModel.updateOne({ _id: id }, newData);
@@ -64,9 +74,8 @@ exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById
       .then((isMatch) => {
         if (!isMatch) {
           throw new Error('Wrong Password');
-        } else {
-          return securePassword(newPassword);
-        }
+        } 
+        return securePassword(newPassword);
       })
       .then((hash) => {
         user.password = hash;

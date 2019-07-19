@@ -30,7 +30,12 @@ app.use(function (err, req, res) {
 
 // Custom Response Wrapper
 express.response.formatResponse = function(response, httpCode = 200) {
-  return this.send({ response, httpCode, status: httpCode === 200 });
+  const correctedHttpCode = typeof response !== 'undefined' ? httpCode : 401;
+  return this.send({ 
+    response, 
+    httpCode: correctedHttpCode, 
+    status: correctedHttpCode >= 200 && correctedHttpCode < 300 
+  });
 };
 
 // Port Listening to modify in the Future

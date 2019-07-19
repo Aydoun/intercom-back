@@ -1,22 +1,28 @@
 
-import {
-  getUser, registerUser, loginUser, updateUser, deleteUser,
-} from 'services/user/user.service';
+import * as U from 'services/user/user.service';
 import { sendMail } from 'services/mail/mail.service';
 import welcomeTemplate from 'templates/welcome';
 
 exports.userDetails = (req, res) => {
   const { id } = req.tokenData;
 
-  return getUser(id)
+  return U.getUser(id)
     .then(user => res.formatResponse(user))
     .catch(err => res.formatResponse(err.message, 401));
+};
+
+exports.userPlansList = (req, res) => {
+  const { id } = req.tokenData;
+
+  return U.getUsersPlan(id)
+  .then(plans => res.formatResponse(plans))
+  .catch(err => res.formatResponse(err.message, 401));
 };
 
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  return loginUser(email, password)
+  return U.loginUser(email, password)
     .then(data => res.formatResponse(data))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -24,7 +30,7 @@ exports.login = (req, res) => {
 exports.register = (req, res) => {
   const { name, email, password } = req.body;
 
-  return registerUser(name, email, password)
+  return U.registerUser(name, email, password)
     .then(data => {
       res.formatResponse(data);
     })
@@ -35,7 +41,7 @@ exports.register = (req, res) => {
 exports.update = (req, res) => {
   const { id } = req.tokenData;
 
-  updateUser(id, req.body)
+  return U.updateUser(id, req.body)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -43,7 +49,7 @@ exports.update = (req, res) => {
 exports.remove = (req, res) => {
   const { id } = req.tokenData;
   
-  deleteUser(id)
+  return U.deleteUser(id)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
