@@ -13,8 +13,8 @@
 13. Node inspection
 14. add module script
 15. Real time messaging
-16. Search Plans
-17. get USer's plans
+16. Search Plans [X]
+17. get USer's plans [X]
 18. system design diagram
 19. caching
 20. Indexing Revision
