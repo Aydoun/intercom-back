@@ -39,6 +39,18 @@ export const getPlanById = (req, res) => {
     });
 };
 
+export const searchPlan = (req, res) => {
+    const { term } = req.query;
+
+    S.searchPlan(term)
+    .then(plans => {
+        res.formatResponse(plans);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    });
+};
+
 export const updateById = (req, res) => {
     const body = req.body;
     const { id } = req.params;

@@ -19,4 +19,15 @@ const PLanSchema = Schema({
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
 }, { timestamps: true });
 
+PLanSchema.index({
+  title: 'text',
+  description: 'text',
+}, {
+  weights: {
+    title: 5,
+    description: 1,
+  },
+});
+
+
 module.exports = mongoose.model('plan', PLanSchema);

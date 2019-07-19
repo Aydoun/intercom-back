@@ -6,7 +6,6 @@ exports.savePlanImp = (data) => {
 };
 
 exports.getPlanImp = id => PlanModel.find({ _id: id, status: 'Active' });
-
+exports.searchPlan = term => PlanModel.find({ $text: { $search: term },  status: 'Active'});
 exports.updatePlanImp = (id, newData) => PlanModel.updateOne({ _id: id }, newData);
-
 exports.removePlanImp = id => PlanModel.updateOne({ _id: id }, { status: 'Inactive' });
