@@ -14,11 +14,3 @@ exports.connectToDb = () => {
       console.log(`Error Connecting to The Database, env = ${process.env.NODE_ENV}`);
     }); 
 };
-
-exports.closeConnection = () => {
-  if (mongoose) {
-    mongoose.connection.close();
-    mongoose.models = {};
-    mongoose.modelSchemas = {};
-  }
-};
