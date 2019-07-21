@@ -18,3 +18,9 @@
 18. system design diagram
 19. caching
 20. Indexing Revision
+21. Download the repository as a zip
+22. Add a worktree (Important!!!)
+23. Database Duplicates / Sharding
+24. Build a git server
+25. make API use https
+26. Data Deduplication to save bandwidth
