@@ -4,9 +4,9 @@
   "description": "Backend Service For Intercom App",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "export NODE_ENV=test && jest --watch",
     "test:watch": "jest --watch",
-    "start": "export NODE_ENV=development && nodemon ./src/lib/start",
+    "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
     "develop": "nodemon --inspect-brk ./src/lib/start",
     "lint": "eslint . --fix",
     "precommit": "yarn lint"
@@ -30,6 +30,8 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
     "babel-plugin-module-resolver": "^3.2.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
