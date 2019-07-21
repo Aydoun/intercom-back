@@ -6,9 +6,10 @@ import conversationRoutes from './conversation';
 import mailRoutes from './mail';
 import repositoryRoutes from './repository';
 import InvitationRoutes from './invitation';
-
+import { welcomeJson } from 'utils';
 const Router = express.Router();
 
+Router.use('/', (req, res) => res.formatResponse(welcomeJson));
 Router.use('/user', userRoutes);
 Router.use('/files', filesRoutes);
 Router.use('/plan', plansRoutes);

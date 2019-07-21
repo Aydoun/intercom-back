@@ -41,3 +41,7 @@ exports.httpCodes = {
   SUCCESS: 200,
   FAILURE: 401,
 };
+
+export const welcomeJson = {
+  name: 'intercom api',
+};

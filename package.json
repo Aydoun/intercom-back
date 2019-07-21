@@ -7,6 +7,7 @@
     "test": "export NODE_ENV=test && jest --watch",
     "test:watch": "jest --watch",
     "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
+    "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
     "develop": "nodemon --inspect-brk ./src/lib/start",
     "lint": "eslint . --fix",
     "precommit": "yarn lint"

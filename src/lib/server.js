@@ -4,6 +4,7 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import routes from'routes';
 import auth from 'routes/auth';
+import TokenCheck from 'middlewares/token';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(compression());
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
 app.use(auth);
+app.use(TokenCheck);
 app.use('/api', routes);
 app.use('*', (req, res) => res.formatResponse({ message: "End Point Doesn't Exist" }, 404));
 
