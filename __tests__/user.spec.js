@@ -71,7 +71,6 @@ describe('User Endpoints', () => {
         .set('x-api-key', config.testAccount.token)
         .query({ name: fakeUser.name})
         .end(function (err, res) {
-            // console.log(res.body, 22)
             expect(err).toEqual(null);
             expect(res.body.httpCode).toEqual(200);
             expect(res.body.response).toBeTruthy();
@@ -84,29 +83,6 @@ describe('User Endpoints', () => {
             expect(status).toEqual('Active');
             expect(password).toBeFalsy();
             expect(privacy).toBeFalsy();
-            done();
-        });
-    });
-
-    it('should Delete User By Setting Status to Innactive', (done) => {
-        chai.request(baseUrl)
-        .delete('/user')
-        .set('x-api-key', config.testAccount.token)
-        .end(function (err, res) {
-            expect(err).toEqual(null);
-            expect(res.body.status).toEqual(true);
-            expect(res.body.response).toEqual({});
-            
-            done();
-        });
-    });
-
-    afterAll((done) => {
-        chai.request(baseUrl)
-        .put('/user')
-        .set('x-api-key', config.testAccount.token)
-        .send({ status: 'Active' })
-        .end(function (err, res) {
             done();
         });
     });
