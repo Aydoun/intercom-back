@@ -19,7 +19,6 @@ app.use('/uploads', express.static('uploads'));
 app.use(auth);
 app.use(TokenCheck);
 app.use('/api', routes);
-app.use('*', (req, res) => res.formatResponse({ message: "End Point Doesn't Exist" }, 404));
 
 app.use(function (err, req, res) {
   res.status(500).formatResponse(err.message);

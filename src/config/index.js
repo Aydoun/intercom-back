@@ -14,6 +14,9 @@ const config = {
     service: 'gmail',
     host: 'smtp.gmail.com',
     sender: 'mohamed.aydoun@frontmen.nl'
+  },
+  testAccount: {
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzc1MWNmOGNiZTFlMDUyNWNhY2U2OSIsImlhdCI6MTU2MzkwNjUxMX0.NdznCqHPm5g2PWCXaO3W9E8EtohiQcxYB56UZp3U_IU',
   }
 };
 
