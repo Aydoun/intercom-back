@@ -3,7 +3,7 @@ import * as U from 'services/user/user.service';
 import { sendMail } from 'services/mail/mail.service';
 import welcomeTemplate from 'templates/welcome';
 
-exports.userDetails = (req, res) => {
+export const userDetails = (req, res) => {
   const { id } = req.tokenData;
 
   return U.getUser(id)
@@ -11,7 +11,15 @@ exports.userDetails = (req, res) => {
     .catch(err => res.formatResponse(err.message, 401));
 };
 
-exports.userPlansList = (req, res) => {
+export const getUserById = (req, res) => {
+  const { id } = req.params;
+
+  return U.getUser(id)
+    .then(user => res.formatResponse(user))
+    .catch(err => res.formatResponse(err.message, 401));
+};
+
+export const userPlansList = (req, res) => {
   const { id } = req.tokenData;
 
   return U.getUsersPlan(id)
@@ -19,7 +27,7 @@ exports.userPlansList = (req, res) => {
   .catch(err => res.formatResponse(err.message, 401));
 };
 
-exports.login = (req, res) => {
+export const login = (req, res) => {
   const { email, password } = req.body;
 
   return U.loginUser(email, password)
@@ -27,7 +35,7 @@ exports.login = (req, res) => {
     .catch(err => res.formatResponse(err.message, 401));
 };
 
-exports.register = (req, res) => {
+export const register = (req, res) => {
   const { name, email, password } = req.body;
 
   return U.registerUser(name, email, password)
@@ -38,7 +46,7 @@ exports.register = (req, res) => {
     .catch(err => res.formatResponse(err.message, 401));
 };
 
-exports.update = (req, res) => {
+export const update = (req, res) => {
   const { id } = req.tokenData;
 
   return U.updateUser(id, req.body)
@@ -46,7 +54,7 @@ exports.update = (req, res) => {
     .catch(err => res.formatResponse(err.message, 401));
 };
 
-exports.remove = (req, res) => {
+export const remove = (req, res) => {
   const { id } = req.tokenData;
   
   return U.deleteUser(id)

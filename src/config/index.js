@@ -16,6 +16,9 @@ const config = {
     sender: 'mohamed.aydoun@frontmen.nl'
   },
   testAccount: {
+    email: 'test@email.com',
+    password: '12345678',
+    _id: '5d34bec352a365054575cbee',
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMzc1MWNmOGNiZTFlMDUyNWNhY2U2OSIsImlhdCI6MTU2MzkwNjUxMX0.NdznCqHPm5g2PWCXaO3W9E8EtohiQcxYB56UZp3U_IU',
   }
 };

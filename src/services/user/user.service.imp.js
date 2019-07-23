@@ -3,7 +3,7 @@ import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
-const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'status', 'privacy'];
+const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'privacy'];
 
 exports.getUserImp = id => {
   return UserModel.findById(id).lean()
@@ -28,9 +28,15 @@ exports.getUsersPlan = id => {
     }); 
 };
 
-exports.updateUserImp = (id, newData) => UserModel.updateOne({ _id: id }, newData);
+exports.updateUserImp = (id, newData) => {
+  return UserModel.updateOne({ _id: id }, newData)
+  .then(() => newData);
+};
 
-exports.deleteUserImp = id => UserModel.updateOne({ _id: id }, { status: 'Inactive' });
+exports.deleteUserImp = id => {
+  return UserModel.updateOne({ _id: id }, { status: 'Inactive' })
+  .then(() => ({}));
+};
 
 exports.registerUserImp = (name, email, password) => securePassword(password)
   .then((hash) => {
