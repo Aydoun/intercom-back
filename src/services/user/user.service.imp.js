@@ -5,7 +5,7 @@ import PlanModel from 'models/plan.model';
 
 const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'privacy'];
 
-exports.getUserImp = id => {
+export const getUserImp = id => {
   return UserModel.findById(id).lean()
     .then(user => {
       if (user && user.status === 'Active') {
@@ -19,7 +19,7 @@ exports.getUserImp = id => {
     });
 };
 
-exports.getUsersPlan = id => {
+export const getUsersPlan = id => {
   return UserModel.findById(id)
     .then(user => {
       if (user && user.status === 'Active') {
@@ -28,17 +28,31 @@ exports.getUsersPlan = id => {
     }); 
 };
 
-exports.updateUserImp = (id, newData) => {
+export const searchUser = term => {
+  return UserModel.find({ $text: { $search: term },  status: 'Active'}).lean()
+  .then(users => {
+    return users.map(user => {
+      const omittedValues = omit(user, FORBIDEN_KEYS);
+      return {
+        ...omittedValues,
+        conversations: user.conversations.length,
+        plans: user.plans.length,
+      };
+    });
+  });
+};
+
+export const updateUserImp = (id, newData) => {
   return UserModel.updateOne({ _id: id }, newData)
   .then(() => newData);
 };
 
-exports.deleteUserImp = id => {
+export const deleteUserImp = id => {
   return UserModel.updateOne({ _id: id }, { status: 'Inactive' })
   .then(() => ({}));
 };
 
-exports.registerUserImp = (name, email, password) => securePassword(password)
+export const registerUserImp = (name, email, password) => securePassword(password)
   .then((hash) => {
     const newUser = new UserModel({
       name,
@@ -53,7 +67,7 @@ exports.registerUserImp = (name, email, password) => securePassword(password)
     token: generateToken(user._id),
   })));
 
-exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
+export const loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
   .then((user) => {
     if (!user || user.status !== 'Active') {
       throw new Error('Authentication failed. User not found.');
@@ -71,7 +85,7 @@ exports.loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
       });
   });
 
-exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById(id)
+export const changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById(id)
   .then((user) => {
     if (!user || user.status !== 'Active') {
       throw new Error('User Not Found');
@@ -89,7 +103,7 @@ exports.changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById
       });
   });
 
-  exports.addPlan = (id, planId) => {
+  export const addPlan = (id, planId) => {
     return UserModel.findById(id)
     .then(user => {
       user.plans.push(planId);

@@ -1,11 +1,11 @@
 import * as U from './user.service.imp';
 
-exports.getUser = U.getUserImp;
-exports.getUsersPlan = U.getUsersPlan;
-exports.updateUser = U.updateUserImp;
-exports.deleteUser = U.deleteUserImp;
-exports.registerUser = U.registerUserImp;
-exports.loginUser = U.loginUserImp;
-exports.changePassword = U.changePasswordImp;
-exports.addPlan = U.addPlan;
-
+export const getUser = U.getUserImp;
+export const getUsersPlan = U.getUsersPlan;
+export const updateUser = U.updateUserImp;
+export const deleteUser = U.deleteUserImp;
+export const registerUser = U.registerUserImp;
+export const loginUser = U.loginUserImp;
+export const changePassword = U.changePasswordImp;
+export const addPlan = U.addPlan;
+export const searchUser = U.searchUser;

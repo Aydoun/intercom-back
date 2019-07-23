@@ -27,4 +27,8 @@ const UserSchema = Schema({
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
 }, { timestamps: true });
 
+UserSchema.index({
+  name: 'text',
+});
+
 module.exports = mongoose.model('user', UserSchema, 'user');

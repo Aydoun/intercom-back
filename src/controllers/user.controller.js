@@ -27,6 +27,14 @@ export const userPlansList = (req, res) => {
   .catch(err => res.formatResponse(err.message, 401));
 };
 
+export const searchByname = (req, res) => {
+  const { name } = req.query;
+
+  return U.searchUser(name)
+  .then(users => res.formatResponse(users))
+  .catch(err => res.formatResponse(err.message, 401));
+};
+
 export const login = (req, res) => {
   const { email, password } = req.body;
 
