@@ -7,6 +7,7 @@ chai.use(chaiHttp);
 const baseUrl = `${config.host}:${config.port}/api`;
 const resourceNotFound = `${config.host}:${config.port}/api/notFound`;
 
+
 describe('API Root', () => {
     it('Should return error when token is not provided', (done) => {
         chai.request(baseUrl)

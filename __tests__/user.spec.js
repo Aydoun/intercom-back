@@ -7,6 +7,7 @@ chai.use(chaiHttp);
 
 const baseUrl = `${config.host}:${config.port}/api`;
 
+
 describe('User Endpoints', () => {
     let fakeUser = {
         name: faker.name.findName(),
@@ -23,7 +24,6 @@ describe('User Endpoints', () => {
             expect(res.body.response).toBeTruthy();
             
             const { status, password, privacy } = res.body.response;
-
             expect(status).toEqual('Active');
             expect(password).toBeFalsy();
             expect(privacy).toBeFalsy();
@@ -60,7 +60,7 @@ describe('User Endpoints', () => {
             expect(res.body.status).toEqual(true);
             expect(res.body.response).toBeTruthy();
             expect(res.body.response).toMatchObject(fakeUser);
-
+            // console.log(this.global.rr, 'saved');
             done();
         });
     });
