@@ -19,7 +19,9 @@
       "services(.*)": "<rootDir>/src/services/$1.js"
     },
     "testRegex": "\\.spec\\.js$",
-    "setupFilesAfterEnv": ["<rootDir>/__tests__/shared.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/shared.js"
+    ]
   },
   "keywords": [
     "Rest",
@@ -53,6 +55,7 @@
     "express": "^4.16.4",
     "express-validator": "^6.1.0",
     "fs-extra": "^8.0.1",
+    "helmet": "^3.20.0",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.13",
     "morgan": "^1.9.1",

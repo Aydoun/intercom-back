@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add faker --dev
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add cors
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/mohamedaydoun/Projects/intercom-bakend/node_modules/@babel/core/node_modules/debug/package.json'
+  Error: EACCES: permission denied, mkdir '/Users/mohamedaydoun/Projects/intercom-bakend/node_modules/chalk/node_modules'
 
 npm manifest: 
   {
@@ -27,6 +27,7 @@ npm manifest:
       "test:watch": "jest --watch",
       "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
       "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
+      "start:prd": "pm2 start ./src/lib/start.js",
       "develop": "nodemon --inspect-brk ./src/lib/start",
       "lint": "eslint . --fix",
       "precommit": "yarn lint"
@@ -35,7 +36,9 @@ npm manifest:
       "testEnvironment": "node",
       "moduleNameMapper": {
         "services(.*)": "<rootDir>/src/services/$1.js"
-      }
+      },
+      "testRegex": "\\.spec\\.js$",
+      "setupFilesAfterEnv": ["<rootDir>/__tests__/shared.js"]
     },
     "keywords": [
       "Rest",
@@ -60,9 +63,7 @@ npm manifest:
       "faker": "^4.1.0",
       "husky": "^2.3.0",
       "jest": "^24.8.0",
-      "prettier": "1.18.2",
-      "sinon": "^7.1.1",
-      "sinon-mongoose": "^2.2.1"
+      "prettier": "1.18.2"
     },
     "dependencies": {
       "bcrypt-nodejs": "0.0.3",
@@ -72,8 +73,6 @@ npm manifest:
       "express-validator": "^6.1.0",
       "fs-extra": "^8.0.1",
       "jsonwebtoken": "^8.4.0",
-      "lodash.uniq": "^4.5.0",
-      "mockgoose": "^7.3.5",
       "mongoose": "^5.3.13",
       "morgan": "^1.9.1",
       "multer": "^1.4.1",

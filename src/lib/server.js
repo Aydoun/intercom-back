@@ -2,6 +2,8 @@ import express from 'express';
 import morgan  from'morgan';
 import compression from 'compression';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import helmet from 'helmet';
 import routes from'routes';
 import auth from 'routes/auth';
 import TokenCheck from 'middlewares/token';
@@ -13,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: 'true', limit: '50mb', parameterLimit:
 app.use(bodyParser.json({ limit: '10mb' }));
 
 // Express Middlewares
+app.use(cors());
+app.use(helmet());
 app.use(compression());
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
