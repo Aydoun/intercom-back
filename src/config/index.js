@@ -1,6 +1,6 @@
 const config = {
   host: 'http://127.0.0.1',
-  devdb: 'mongodb://amino:QAZzaq123@ds111012.mlab.com:11012/intercom',
+  devdb: 'mongodb://amino:QAZzaq123@ds263127.mlab.com:63127/intercom-dev',
   testdb: 'mongodb://amino:QAZzaq123@ds347707.mlab.com:47707/intercom-test',
   port: 3001,
   jwtSecret: 'my-api-secret',
