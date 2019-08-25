@@ -15,13 +15,7 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "moduleNameMapper": {
-      "services(.*)": "<rootDir>/src/services/$1.js"
-    },
-    "testRegex": "\\.spec\\.js$",
-    "setupFilesAfterEnv": [
-      "<rootDir>/__tests__/shared.js"
-    ]
+    "testRegex": "\\.spec\\.js$"
   },
   "keywords": [
     "Rest",

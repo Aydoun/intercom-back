@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
+const AwardHistory = new Schema({
+  actionType: { type: String, },
+  value: { type: Number },
+} , {timestamps: true});
+
 const UserSchema = Schema({
   name: { type: String, required: true },
   sexe: { type: Number, enum: [0, 1, -1], default: 0 },
@@ -22,6 +27,8 @@ const UserSchema = Schema({
     type: String,
     required: true,
   },
+  points: { type: Number, default: 100},
+  awardHistory: [AwardHistory],
   conversations: [Schema.Types.ObjectId],
   plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },

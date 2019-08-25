@@ -195,7 +195,7 @@ exports.getRepositoryHistorySummary = (repoId, repoName) => {
             history.on("commit", commit => {
                 const name = commit.author().name();
     
-                if (contributors.name) contributors[name] += 1; 
+                if (contributors[name]) contributors[name] += 1; 
                 else contributors[name] = 1;
             });
     

@@ -2,88 +2,85 @@ const chai = require('chai')
   , chaiHttp = require('chai-http');
 const faker = require('faker');
 const config = require('../src/config');
-
 chai.use(chaiHttp);
 
 const baseUrl = `${config.host}:${config.port}/api`;
 
-
 describe('User Endpoints', () => {
-    let fakeUser = {
-        name: faker.name.findName(),
-        bio: faker.lorem.paragraph(),
-    }; 
+  let fakeUser = {
+    name: faker.name.findName(),
+    bio: faker.lorem.paragraph(),
+  };
 
-    it('should list user\'s Details', (done) => {
-        chai.request(baseUrl)
-        .get('/user')
-        .set('x-api-key', config.testAccount.token)
-        .end(function (err, res) {
-            expect(err).toEqual(null);
-            expect(res.body.httpCode).toEqual(200);
-            expect(res.body.response).toBeTruthy();
-            
-            const { status, password, privacy } = res.body.response;
-            expect(status).toEqual('Active');
-            expect(password).toBeFalsy();
-            expect(privacy).toBeFalsy();
-            done();
-        });
-    });
+  it('should list user\'s Details', (done) => {
+      chai.request(baseUrl)
+      .get('/user')
+      .set('x-api-key', config.testAccount.token)
+      .end(function (err, res) {
+          expect(err).toEqual(null);
+          expect(res.body.httpCode).toEqual(200);
+          expect(res.body.response).toBeTruthy();
 
-    it('should list user\'s details by Id', (done) => {
-        chai.request(baseUrl)
-        .get(`/user/${config.testAccount._id}`)
-        .set('x-api-key', config.testAccount.token)
-        .end(function (err, res) {
-            expect(err).toEqual(null);
-            expect(res.body.httpCode).toEqual(200);
-            expect(res.body.response).toBeTruthy();
-            
-            const { status, password, privacy, _id } = res.body.response;
+          const { status, password, privacy } = res.body.response;
+          expect(status).toEqual('Active');
+          expect(password).toBeFalsy();
+          expect(privacy).toBeFalsy();
+          done();
+      });
+  });
 
-            expect(_id).toEqual(config.testAccount._id);
-            expect(status).toEqual('Active');
-            expect(password).toBeFalsy();
-            expect(privacy).toBeFalsy();
-            done();
-        });
-    });
+  it('should list user\'s details by Id', (done) => {
+      chai.request(baseUrl)
+      .get(`/user/${config.testAccount._id}`)
+      .set('x-api-key', config.testAccount.token)
+      .end(function (err, res) {
+          expect(err).toEqual(null);
+          expect(res.body.httpCode).toEqual(200);
+          expect(res.body.response).toBeTruthy();
 
-    it('should Update User\'s Data', (done) => {
-        chai.request(baseUrl)
-        .put('/user')
-        .set('x-api-key', config.testAccount.token)
-        .send(fakeUser)
-        .end(function (err, res) {
-            expect(err).toEqual(null);
-            expect(res.body.status).toEqual(true);
-            expect(res.body.response).toBeTruthy();
-            expect(res.body.response).toMatchObject(fakeUser);
-            // console.log(this.global.rr, 'saved');
-            done();
-        });
-    });
+          const { status, password, privacy, _id } = res.body.response;
 
-    it('should find users by names', (done) => {
-        chai.request(baseUrl)
-        .get(`/user/search`)
-        .set('x-api-key', config.testAccount.token)
-        .query({ name: fakeUser.name})
-        .end(function (err, res) {
-            expect(err).toEqual(null);
-            expect(res.body.httpCode).toEqual(200);
-            expect(res.body.response).toBeTruthy();
-            expect(res.body.response.length).toBeGreaterThan(0);
-            
-            const responseUser = res.body.response[0];
-            const { status, password, privacy, name } = responseUser;
+          expect(_id).toEqual(config.testAccount._id);
+          expect(status).toEqual('Active');
+          expect(password).toBeFalsy();
+          expect(privacy).toBeFalsy();
+          done();
+      });
+  });
 
-            expect(name).toEqual(fakeUser.name);
-            expect(status).toEqual('Active');
-            expect(password).toBeFalsy();
-            expect(privacy).toBeFalsy();
-            done();
-        });
-    });
+  it('should Update User\'s Data', (done) => {
+      chai.request(baseUrl)
+      .put('/user')
+      .set('x-api-key', config.testAccount.token)
+      .send(fakeUser)
+      .end(function (err, res) {
+          expect(err).toEqual(null);
+          expect(res.body.status).toEqual(true);
+          expect(res.body.response).toBeTruthy();
+          expect(res.body.response).toMatchObject(fakeUser);
+          done();
+      });
+  });
+
+  it('should find users by names', (done) => {
+      chai.request(baseUrl)
+      .get(`/user/search`)
+      .set('x-api-key', config.testAccount.token)
+      .query({ name: fakeUser.name})
+      .end(function (err, res) {
+          expect(err).toEqual(null);
+          expect(res.body.httpCode).toEqual(200);
+          expect(res.body.response).toBeTruthy();
+          expect(res.body.response.length).toBeGreaterThan(0);
+
+          const responseUser = res.body.response[0];
+          const { status, password, privacy, name } = responseUser;
+
+          expect(name).toEqual(fakeUser.name);
+          expect(status).toEqual('Active');
+          expect(password).toBeFalsy();
+          expect(privacy).toBeFalsy();
+          done();
+      });
+  });
 });
