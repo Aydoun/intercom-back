@@ -79,3 +79,16 @@ export const removeById = (req, res) => {
         res.formatResponse(err.message, 401);
     });
 };
+
+export const likePlan = (req, res) => {
+  const { id: planId } = req.params;
+  const { id: userId } = req.tokenData;
+
+  S.registerLike(planId, userId)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};

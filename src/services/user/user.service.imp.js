@@ -3,13 +3,14 @@ import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
-const FORBIDEN_KEYS = ['password', 'conversations', 'plans', 'privacy'];
+const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy'];
+const FORBIDEN_PLANS_KEYS = ['likes'];
 
 export const getUserImp = id => {
   return UserModel.findById(id).lean()
     .then(user => {
       if (user && user.status === 'Active') {
-        const omittedValues = omit(user, FORBIDEN_KEYS);
+        const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
         return {
           ...omittedValues,
           conversations: user.conversations.length,
@@ -23,7 +24,17 @@ export const getUsersPlan = id => {
   return UserModel.findById(id)
     .then(user => {
       if (user && user.status === 'Active') {
-        return PlanModel.find({ _id : { $in : user.plans } });
+        return PlanModel.find({ _id : { $in : user.plans } }).lean()
+        .then(plans => {
+          return plans.map(plan => {
+            const omittedValues = omit(plan, FORBIDEN_PLANS_KEYS);
+            return {
+              ...omittedValues,
+              likes: plan.likes && plan.likes.length,
+            };
+          });
+          
+        });
       }
     }); 
 };
@@ -32,7 +43,7 @@ export const searchUser = term => {
   return UserModel.find({ $text: { $search: term },  status: 'Active'}).lean()
   .then(users => {
     return users.map(user => {
-      const omittedValues = omit(user, FORBIDEN_KEYS);
+      const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
       return {
         ...omittedValues,
         conversations: user.conversations.length,
@@ -63,7 +74,7 @@ export const registerUserImp = (name, email, password) => securePassword(passwor
     return newUser.save();
   })
   .then(user => (({
-    ...omit(user.toObject(), FORBIDEN_KEYS),
+    ...omit(user.toObject(), FORBIDEN_USERS_KEYS),
     token: generateToken(user._id),
   })));
 
@@ -78,7 +89,7 @@ export const loginUserImp = (email, password) => UserModel.findOne({ email }).le
           throw new Error('Authentication failed. Wrong Password');
         } else {
           return {
-            ...omit(user, FORBIDEN_KEYS),
+            ...omit(user, FORBIDEN_USERS_KEYS),
             token: generateToken(user._id),
           };
         }

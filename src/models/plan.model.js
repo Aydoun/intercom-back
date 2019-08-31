@@ -15,7 +15,7 @@ const PLanSchema = Schema({
     type: String,
     required: true,
   },
-  likes: { type: Number, default: 0 },
+  likes: { type: [Schema.Types.ObjectId], default: [] },
   avatar: { type: String, default : '' },
   creator: Schema.Types.ObjectId,
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },

@@ -17,4 +17,6 @@ plans.post('', [
 plans.put('/:id', param('id').custom(value => isValidObjectId(value)), catchValidationError, C.updateById);
 plans.delete('/:id', param('id').custom(value => isValidObjectId(value)), catchValidationError, C.removeById);
 
+plans.put('/:id/like', param('id').custom(value => isValidObjectId(value)), catchValidationError, C.likePlan);
+
 module.exports = plans;
