@@ -11,6 +11,7 @@ exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessag
     const { username, email } = creator;
 
     let repository;
+    let index;
 
     return fse.ensureDir(path.resolve(__dirname, repoDir))
     .then(() => {
@@ -22,9 +23,16 @@ exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessag
         return repository.refreshIndex();
     })
     .then(idx => {
-        idx.addByPath(fileName);
-        idx.write();
-        return idx.writeTree();
+      index = idx;
+    })
+    .then(function() {
+      return index.addByPath(fileName);
+    })
+    .then(function() {
+      return index.write();
+    })
+    .then(function() {
+      return index.writeTree();
     })
     .then(oid => {
         const author = nodegit.Signature.now(username, email);
