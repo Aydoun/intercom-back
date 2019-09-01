@@ -133,3 +133,14 @@ export const addPlan = (id, planId) => {
       user.save();
     });
 };
+
+export const saveActivity = (id, actionType, value) => {
+  return UserModel.findById(id)
+    .then(user => {
+      user.awardHistory.push({ actionType, value, });
+      user.save();
+    })
+    .then(() => ({}));
+};
+
+export const getActivity = id => UserModel.findById(id).then(user => user.awardHistory);

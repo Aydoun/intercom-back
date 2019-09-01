@@ -69,3 +69,23 @@ export const remove = (req, res) => {
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
+
+export const addActivity = (req, res) => {
+  const { id } = req.tokenData;
+  const { actionType } = req.body;
+
+  //TODO: map action Type to Value
+  const value = 100;
+  
+  return U.saveActivity(id, actionType, value)
+    .then(response => res.formatResponse(response))
+    .catch(err => res.formatResponse(err.message, 401));
+};
+
+export const listActivity = (req, res) => {
+  const { id } = req.tokenData;
+  
+  return U.getActivity(id)
+    .then(response => res.formatResponse(response))
+    .catch(err => res.formatResponse(err.message, 401));
+};

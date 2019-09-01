@@ -9,3 +9,6 @@ export const loginUser = U.loginUserImp;
 export const changePassword = U.changePasswordImp;
 export const addPlan = U.addPlan;
 export const searchUser = U.searchUser;
+
+export const saveActivity = U.saveActivity;
+export const getActivity = U.getActivity;

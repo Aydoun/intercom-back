@@ -7,7 +7,7 @@ import {
     fetchAllConversations,
     DeleteConversation
 } from 'controllers/conversation.controller.js';
-import { body, param } from 'express-validator';
+import { body, check } from 'express-validator';
 import { isValidObjectId } from 'utils';
 import { catchValidationError } from 'utils/validation';
 
@@ -15,13 +15,13 @@ const conversations = express.Router();
 
 conversations.get('', catchValidationError, fetchAllConversations);
 
-conversations.get('/:id', param('id').custom(value => isValidObjectId(value)), 
+conversations.get('/:id', [check('id').isMongoId()], 
 catchValidationError, fetchConversationById);
 
-conversations.get('/:id/messages', param('id').custom(value => isValidObjectId(value)), 
+conversations.get('/:id/messages', [check('id').isMongoId()], 
 catchValidationError, fetchMessages);
 
-conversations.post('/:id/messages', param('id').custom(value => isValidObjectId(value)), [body('content').exists()]
+conversations.post('/:id/messages', [check('id').isMongoId(), body('content').exists()]
 , catchValidationError, PersistMessage);
 
 conversations.post('',
@@ -34,7 +34,7 @@ conversations.post('',
     return false;
 }), catchValidationError, PersistConversation);
 
-conversations.delete('/:id', param('id').custom(value => isValidObjectId(value))
+conversations.delete('/:id', [check('id').isMongoId()]
 , catchValidationError, DeleteConversation);
 
 module.exports = conversations;

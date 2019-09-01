@@ -8,6 +8,12 @@ const AwardHistory = new Schema({
   value: { type: Number },
 } , {timestamps: true});
 
+const startingPoints = 100;
+const registerActivity = {
+  actionType: 'register',
+  value: startingPoints,
+};
+
 const UserSchema = Schema({
   name: { type: String, required: true },
   sexe: { type: Number, enum: [0, 1, -1], default: 0 },
@@ -28,8 +34,8 @@ const UserSchema = Schema({
     type: String,
     required: true,
   },
-  points: { type: Number, default: 100},
-  awardHistory: [AwardHistory],
+  points: { type: Number, default: startingPoints},
+  awardHistory: { type: [AwardHistory], default: [registerActivity] },
   conversations: [Schema.Types.ObjectId],
   plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
