@@ -1,7 +1,18 @@
+/**
+ * Module dependencies.
+ */
+
+const path = require('path');
 const development = require('./env/development');
 const test = require('./env/test');
 const production = require('./env/production');
-const defaults = {};
+const defaults = {
+  root: path.normalize(__dirname + '/..')
+};
+
+/**
+ * Expose
+ */
 
 module.exports = {
   development: Object.assign({}, development, defaults),
