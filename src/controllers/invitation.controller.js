@@ -27,9 +27,9 @@ export const invitationList = (req, res) => {
 export const respondToAnInvitation = (req, res) => {
     const { id: userId } = req.tokenData;
     const { id } = req.params;
-    const { answer } = req.body;
+    const { answer, planId } = req.body;
 
-    answerInvitation(id, answer, userId)
+    answerInvitation(id, answer, userId, planId)
     .then(response => {
         res.formatResponse(response);
     })
