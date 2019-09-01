@@ -3,7 +3,7 @@ import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
-const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy'];
+const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'awardHistory'];
 const FORBIDEN_PLANS_KEYS = ['likes'];
 
 export const getUserImp = id => {
@@ -24,43 +24,54 @@ export const getUsersPlan = id => {
   return UserModel.findById(id)
     .then(user => {
       if (user && user.status === 'Active') {
-        return PlanModel.find({ _id : { $in : user.plans } }).lean()
-        .then(plans => {
-          return plans.map(plan => {
-            const omittedValues = omit(plan, FORBIDEN_PLANS_KEYS);
+        return PlanModel.paginate({ _id: { $in: user.plans }}, { lean: true })
+          .then(plans => {
+            const { docs, ...rest } = plans;
+            const strippedDocs = docs.map(plan => {
+              const omittedValues = omit(plan, FORBIDEN_PLANS_KEYS);
+              return {
+                ...omittedValues,
+                likes: plan.likes && plan.likes.length,
+              };
+            });
+
             return {
-              ...omittedValues,
-              likes: plan.likes && plan.likes.length,
+              docs: strippedDocs, 
+              ...rest
             };
           });
-          
-        });
       }
-    }); 
+    });
 };
 
 export const searchUser = term => {
-  return UserModel.find({ $text: { $search: term },  status: 'Active'}).lean()
-  .then(users => {
-    return users.map(user => {
-      const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
+  return UserModel.paginate({ $text: { $search: term }, status: 'Active' }, { page: 1, limit: 10, lean: true })
+    .then(users => {
+      const { docs, ...rest } = users;
+      const strippedDocs =  docs.map(user => {
+        const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
+        return {
+          ...omittedValues,
+          conversations: user.conversations.length,
+          plans: user.plans.length,
+        };
+      });
+
       return {
-        ...omittedValues,
-        conversations: user.conversations.length,
-        plans: user.plans.length,
+        docs: strippedDocs,
+        ...rest,
       };
     });
-  });
 };
 
 export const updateUserImp = (id, newData) => {
   return UserModel.updateOne({ _id: id }, newData)
-  .then(() => newData);
+    .then(() => newData);
 };
 
 export const deleteUserImp = id => {
   return UserModel.updateOne({ _id: id }, { status: 'Inactive' })
-  .then(() => ({}));
+    .then(() => ({}));
 };
 
 export const registerUserImp = (name, email, password) => securePassword(password)
@@ -105,7 +116,7 @@ export const changePasswordImp = (id, oldPassword, newPassword) => UserModel.fin
       .then((isMatch) => {
         if (!isMatch) {
           throw new Error('Wrong Password');
-        } 
+        }
         return securePassword(newPassword);
       })
       .then((hash) => {
@@ -114,10 +125,10 @@ export const changePasswordImp = (id, oldPassword, newPassword) => UserModel.fin
       });
   });
 
-  export const addPlan = (id, planId) => {
-    return UserModel.findById(id)
+export const addPlan = (id, planId) => {
+  return UserModel.findById(id)
     .then(user => {
       user.plans.push(planId);
       user.save();
     });
-  };
+};

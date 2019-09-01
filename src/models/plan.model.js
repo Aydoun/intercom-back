@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 const { Schema } = mongoose;
 
@@ -31,5 +32,6 @@ PLanSchema.index({
   },
 });
 
+PLanSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('plan', PLanSchema);

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 const { Schema } = mongoose;
 
@@ -37,5 +38,7 @@ const UserSchema = Schema({
 UserSchema.index({
   name: 'text',
 });
+
+UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('user', UserSchema, 'user');
