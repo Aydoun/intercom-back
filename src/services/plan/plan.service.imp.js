@@ -1,4 +1,5 @@
 import PlanModel from 'models/plan.model';
+import UserModel from 'models/user.model';
 
 exports.savePlanImp = (data) => {
   const newPlan = new PlanModel(data);
@@ -22,4 +23,15 @@ exports.registerLikeImp = (planId, userId) => {
 
     return { likes: plan.likes.length };
   });
+};
+
+exports.unregisterPlanImp = (planId, userId) => {
+  return UserModel.findById(userId)
+  .then(user => {
+     user.plans = user.plans.filter(plan => plan._id.toString() !== planId);
+     return user.save();
+  })
+  .then(savedUser => ({
+    plans: savedUser.plans.length,
+  }));
 };

@@ -7,3 +7,4 @@ exports.updatePlan = P.updatePlanImp;
 exports.removePlan = P.removePlanImp;
 
 exports.registerLike = P.registerLikeImp;
+exports.unregisterPlan = P.unregisterPlanImp;

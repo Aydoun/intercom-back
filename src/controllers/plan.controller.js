@@ -92,3 +92,16 @@ export const likePlan = (req, res) => {
       res.formatResponse(err.message, 401);
   });
 };
+
+export const Unregister = (req, res) => {
+  const { id: planId } = req.params;
+  const { id: userId } = req.tokenData;
+
+  S.unregisterPlan(planId, userId)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};

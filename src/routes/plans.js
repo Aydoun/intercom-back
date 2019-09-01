@@ -19,4 +19,6 @@ plans.delete('/:id', param('id').custom(value => isValidObjectId(value)), catchV
 
 plans.put('/:id/like', param('id').custom(value => isValidObjectId(value)), catchValidationError, C.likePlan);
 
+plans.put('/:id/unregister', param('id').custom(value => isValidObjectId(value)), catchValidationError, C.Unregister);
+
 module.exports = plans;
