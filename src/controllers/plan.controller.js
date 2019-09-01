@@ -105,3 +105,42 @@ export const Unregister = (req, res) => {
       res.formatResponse(err.message, 401);
   });
 };
+
+export const addIssue = (req, res) => {
+  const { id: planId } = req.params;
+  const { id: userId } = req.tokenData;
+
+  S.addIssue(planId, userId, req.body)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};
+
+export const listIssue = (req, res) => {
+  const { id } = req.params;
+
+  S.getIssues(id)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};
+
+export const addIssueComment = (req, res) => {
+  const { id: planId, issueId } = req.params;
+  const { id: userId } = req.tokenData;
+  const { text } = req.body;
+
+  S.addIssueComment(issueId, planId, userId, text)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};

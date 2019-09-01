@@ -35,3 +35,41 @@ exports.unregisterPlanImp = (planId, userId) => {
     plans: savedUser.plans.length,
   }));
 };
+
+exports.addIssueImp = (planId, userId, body) => {
+  const { title, description } = body;
+
+  return PlanModel.findById(planId)
+  .then(plan => {
+    const newIssue = {
+      title, 
+      description,
+      creator: userId,
+    };
+    plan.issues.push(newIssue);
+    return plan.save();
+  })
+  .then(() => ({}));
+};
+
+exports.getIssuesImp = id => {
+  return PlanModel.findById(id)
+  .then(plan => {
+    return plan.issues;
+  });
+};
+
+exports.addIssueCommentImp = (issueId, planId, creator, text) => {
+  return PlanModel.findById(planId)
+  .then(plan => {
+    const issueIndex = plan.issues.findIndex(item => item._id.toString() === issueId);
+    
+    if (issueIndex > -1) {
+      plan.issues[issueIndex].comments.push({
+        creator,
+        text,
+      });
+      return plan.save();
+    } 
+  });
+};

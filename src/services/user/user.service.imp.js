@@ -4,7 +4,7 @@ import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
 const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'awardHistory'];
-const FORBIDEN_PLANS_KEYS = ['likes'];
+const FORBIDEN_PLANS_KEYS = ['likes', 'issues'];
 
 export const getUserImp = id => {
   return UserModel.findById(id).lean()
@@ -32,6 +32,7 @@ export const getUsersPlan = id => {
               return {
                 ...omittedValues,
                 likes: plan.likes && plan.likes.length,
+                issues: plan.issues.length,
               };
             });
 
