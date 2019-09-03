@@ -16,12 +16,9 @@ exports.registerLikeImp = (planId, userId) => {
   .then(plan => {
     const alreadyLiked = plan.likes.indexOf(userId) > -1;
 
-    if (!alreadyLiked) {
-      plan.likes.push(userId);
-      return plan.save();
-    }
+    if (!alreadyLiked) plan.likes.push(userId);
 
-    return { likes: plan.likes.length };
+    return plan.save().then(() => ({ likes: plan.likes.length }));
   });
 };
 
