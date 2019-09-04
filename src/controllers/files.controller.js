@@ -1,4 +1,7 @@
 
+import sharp from 'sharp';
+import systemPath from 'path';
+import fs from 'fs';
 import { updateUser } from 'services/user/user.service';
 import { updatePlan } from 'services/plan/plan.service';
 import { addFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
@@ -16,6 +19,10 @@ exports.processImageUpload = (req, res) => {
   }
   const { query: { type, id: elementId }, file: { path }, tokenData: { id } } = req;
   const url = `${config.host}:${config.port}/${path}`;
+  const absolutePath = systemPath.join(process.cwd(), path);
+
+  sharp(absolutePath).resize(200).png().toBuffer()
+  .then(data => fs.writeFile(absolutePath, data, () => {}));
 
   if (type === 'user') {
     return updateUser(id, { avatar: url })
