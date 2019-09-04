@@ -1,5 +1,6 @@
 
 import { updateUser } from 'services/user/user.service';
+import { updatePlan } from 'services/plan/plan.service';
 import { addFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
 import config from 'config';
 
@@ -13,17 +14,29 @@ exports.processImageUpload = (req, res) => {
       error: 'Error Uploading The File',
     }, 401);
   }
-  const { path } = req.file;
-  const { id } = req.tokenData;
+  const { query: { type, id: elementId }, file: { path }, tokenData: { id } } = req;
   const url = `${config.host}:${config.port}/${path}`;
 
-  return updateUser(id, { avatar: url })
+  if (type === 'user') {
+    return updateUser(id, { avatar: url })
     .then(() => res.formatResponse({
       url,
     }))
     .catch(err => res.formatResponse({
       message: err.message,
-    }), 401);
+    }), 401); 
+  } 
+  else if (type === 'plan' && elementId) {
+    return updatePlan(elementId, { avatar: url })
+    .then(() => res.formatResponse({
+      url,
+    }))
+    .catch(err => res.formatResponse({
+      message: err.message,
+    }), 401); 
+  } else {
+    throw new Error('Invalid parameters');
+  }
 };
 
 exports.addFile = (req, res) => {

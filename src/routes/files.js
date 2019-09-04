@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 import { 
     fileFilter, 
     processImageUpload, 
@@ -15,7 +15,7 @@ import { catchValidationError } from 'utils/validation';
 const files = express.Router();
 const upload = multer({ dest: 'uploads/profiles', fileFilter });
 
-files.post('/upload/image', upload.single('file'), processImageUpload);
+files.post('/upload/image', query('type').exists(), catchValidationError, upload.single('file'), processImageUpload);
 files.post('/addFile', [
     body('repoName').isUUID(),
     body('fileName').not().isEmpty()
