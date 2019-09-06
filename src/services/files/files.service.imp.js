@@ -3,35 +3,35 @@ import path from 'path';
 import fse from 'fs-extra';
 import { getGitPath } from 'utils';
 
-exports.addFileImp = (repoName, fileName) => {
+export const addFileImp = (repoName, fileName) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
   fse.ensureFileSync(writingPath);
 
   return writingPath;
 };
 
-exports.addDirectoryImp = (repoName, directoryName) => {
+export const addDirectoryImp = (repoName, directoryName) => {
   const writingPath = path.join(getGitPath(repoName), directoryName);
   fse.ensureDirSync(writingPath);
 
   return writingPath;
 };
 
-exports.removeFileImp = (repoName, fileName) => {
+export const removeFileImp = (repoName, fileName) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
   fse.removeSync(writingPath);
 
   return writingPath;
 };
 
-exports.addContentImp = (repoName, fileName, content) => {
+export const addContentImp = (repoName, fileName, content) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
 
   fse.outputFileSync(writingPath, content);
   return writingPath;
 };
 
-exports.renameFileImp = (repoName, oldName, newName) => {
+export const renameFileImp = (repoName, oldName, newName) => {
   const repoPath = path.resolve(getGitPath(repoName));
 
   fs.renameSync(`${repoPath}/${oldName}`, `${repoPath}/${newName}`);

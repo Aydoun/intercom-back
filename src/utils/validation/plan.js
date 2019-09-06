@@ -17,7 +17,7 @@ const routeMapper = {
     }
 };
 
-exports.validation = req => {
+export const validation = req => {
     const { method, route } = req;
     console.log(req, 333);
     console.log(req.route, 555);

@@ -4,7 +4,7 @@ import fse from 'fs-extra';
 import { getGitPath, statusToText } from 'utils';
 import PlanModel from 'models/plan.model';
 
-exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
+export const createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
     const fileName = "README.md";
     const fileContent = repoDescription;
     const repoDir = getGitPath(repoName);
@@ -42,7 +42,7 @@ exports.createRepositoryImp = (creator, repoName, repoDescription, initialMessag
     });
 };
 
-exports.getRepositoryHistoryImp = (branch, repoName) => {
+export const getRepositoryHistoryImp = (branch, repoName) => {
     const repoDir = getGitPath(repoName);
     
     return nodegit.Repository.open(repoDir)
@@ -71,7 +71,7 @@ exports.getRepositoryHistoryImp = (branch, repoName) => {
     });
 };
 
-exports.getRepositoryStatusImp = (repoName) => {
+export const getRepositoryStatusImp = (repoName) => {
     const repoDir = getGitPath(repoName);
     
     return nodegit.Repository.open(repoDir)
@@ -91,7 +91,7 @@ exports.getRepositoryStatusImp = (repoName) => {
     });
 };
 
-exports.getRepositoryTreeImp = (branch, repoName) => {
+export const getRepositoryTreeImp = (branch, repoName) => {
     const repoDir = getGitPath(repoName);
     let date;
     let sha;
@@ -117,7 +117,7 @@ exports.getRepositoryTreeImp = (branch, repoName) => {
     });
 };
 
-exports.commitImp = (branch, repoName, user, message) => {
+export const commitImp = (branch, repoName, user, message) => {
     const repoDir = getGitPath(repoName);
     const { username, email } = user;
 
@@ -131,7 +131,7 @@ exports.commitImp = (branch, repoName, user, message) => {
     });
 };
 
-exports.addBranchImp = (repoName, sourceBranch, branchName) => {
+export const addBranchImp = (repoName, sourceBranch, branchName) => {
     let repository;
     const repoDir = getGitPath(repoName);
     
@@ -145,7 +145,7 @@ exports.addBranchImp = (repoName, sourceBranch, branchName) => {
     });
 };
 
-exports.getBranchListImp = repoName => {
+export const getBranchListImp = repoName => {
     const repoDir = getGitPath(repoName);
 
     return nodegit.Repository.open(repoDir)
@@ -159,7 +159,7 @@ exports.getBranchListImp = repoName => {
      });
 };
 
-exports.deleteBranchImp = (repoName, branch) => {
+export const deleteBranchImp = (repoName, branch) => {
     const repoDir = getGitPath(repoName);
 
     return nodegit.Repository.open(repoDir)
@@ -171,7 +171,7 @@ exports.deleteBranchImp = (repoName, branch) => {
     });
 };
 
-exports.mergeToMasterImp = (repoName, branch, user) => {
+export const mergeToMasterImp = (repoName, branch, user) => {
     const repoDir = getGitPath(repoName);
     const { username, email } = user;
 
@@ -183,7 +183,7 @@ exports.mergeToMasterImp = (repoName, branch, user) => {
     });
 };
 
-exports.getRepositoryHistorySummary = (repoId, repoName) => {
+export const getRepositoryHistorySummary = (repoId, repoName) => {
     const repoDir = getGitPath(repoName);
     let foundPLan;
     

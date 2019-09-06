@@ -4,14 +4,14 @@ import systemPath from 'path';
 import fs from 'fs';
 import { updateUser } from 'services/user/user.service';
 import { updatePlan } from 'services/plan/plan.service';
-import { addFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
+import { saveFile, addDirectory, addContent, removeFile, renameFile } from 'services/files/files.service';
 import config from 'config';
 
-exports.fileFilter = (req, file, cb) => {
+export const fileFilter = (req, file, cb) => {
   cb(null, file && file.mimetype.indexOf('image/') === 0);
 };
 
-exports.processImageUpload = (req, res) => {
+export const processImageUpload = (req, res) => {
   if (!req.file) {
     return res.formatResponse({
       error: 'Error Uploading The File',
@@ -46,18 +46,18 @@ exports.processImageUpload = (req, res) => {
   }
 };
 
-exports.addFile = (req, res) => {
+export const addFile = (req, res) => {
   const { repoName, fileName } = req.body;
 
   try {
-    addFile(repoName, fileName);
+    saveFile(repoName, fileName);
     res.formatResponse({});
   } catch(err) {
     res.formatResponse(err.message, 401);
   }
 };
 
-exports.addDir = (req, res) => {
+export const addDir = (req, res) => {
   const { repoName, dirName } = req.body;
 
   try {
@@ -68,7 +68,7 @@ exports.addDir = (req, res) => {
   }
 };
 
-exports.writeContent = (req, res) => {
+export const writeContent = (req, res) => {
   const { repoName, fileName, content } = req.body;
 
   try {
@@ -79,7 +79,7 @@ exports.writeContent = (req, res) => {
   }
 };
 
-exports.changeFileName = (req, res) => {
+export const changeFileName = (req, res) => {
   const { repoName, oldName, newName } = req.body;
 
   try {
@@ -90,7 +90,7 @@ exports.changeFileName = (req, res) => {
   }
 };
 
-exports.deleteFile = (req, res) => {
+export const deleteFile = (req, res) => {
   const { repoName, fileName } = req.body;
 
   try {

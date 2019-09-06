@@ -1,9 +1,9 @@
 import * as C from './conversation.service.imp';
   
-exports.saveConversation = C.saveConversationImp;
-exports.getConversationById = C.getConversationByIdImp;
-exports.getConversationMessages = C.getConversationMessagesImp;
-exports.saveMessage = C.saveMessageImp;
-exports.getAllConversations = C.getAllConversationsImp;
-exports.removeConversation = C.removeConversationImp;
+export const saveConversation = C.saveConversationImp;
+export const getConversationById = C.getConversationByIdImp;
+export const getConversationMessages = C.getConversationMessagesImp;
+export const saveMessage = C.saveMessageImp;
+export const getAllConversations = C.getAllConversationsImp;
+export const removeConversation = C.removeConversationImp;
   

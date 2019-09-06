@@ -3,7 +3,7 @@ import ConversationModel from 'models/conversation.model';
 import UserModel from 'models/user.model';
 import { generateHash } from 'utils';
 
-exports.saveConversationImp = (data) => {
+export const saveConversationImp = (data) => {
   let conversationItem;
   let savedConversation;
   const conversationHash = generateHash(data.participants.sort().join(''));
@@ -31,7 +31,7 @@ exports.saveConversationImp = (data) => {
   .then(() => conversationItem);
 };
 
-exports.getAllConversationsImp = userId => {  
+export const getAllConversationsImp = userId => {  
   return UserModel.findById(userId)
   .then(user => {
     return user.conversations;
@@ -44,21 +44,21 @@ exports.getAllConversationsImp = userId => {
   });
 };
 
-exports.getConversationByIdImp = id => {
+export const getConversationByIdImp = id => {
   return ConversationModel.findById(id).lean()
   .then(conversation => {
     return omit(conversation, ['messages']);
   });
 };
 
-exports.getConversationMessagesImp = id => {
+export const getConversationMessagesImp = id => {
   return ConversationModel.findById(id)
   .then(conversation => {
     return conversation.messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
   });
 };
 
-exports.saveMessageImp = (id, sender, content) => {
+export const saveMessageImp = (id, sender, content) => {
   // Todo prevent send message when user blocked
   return ConversationModel.findById(id)
   .then(conversation => {
@@ -70,7 +70,7 @@ exports.saveMessageImp = (id, sender, content) => {
   });
 };
 
-exports.removeConversationImp = (id, userId) => {
+export const removeConversationImp = (id, userId) => {
   return UserModel.findById(userId)
   .then(user => {
     user.conversations = user.conversations.filter(conversation => conversation === id);

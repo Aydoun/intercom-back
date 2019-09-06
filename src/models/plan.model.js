@@ -29,7 +29,7 @@ const PLanSchema = Schema({
     type: String,
     required: true,
   },
-  likes: { type: [Schema.Types.ObjectId], default: [] },
+  likes: { type: Number, default: 0 },
   avatar: { type: String, default : '' },
   creator: Schema.Types.ObjectId,
   issues: { type: [IssueSchema], default: [] },

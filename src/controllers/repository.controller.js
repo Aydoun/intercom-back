@@ -1,6 +1,6 @@
 import * as S from 'services/repository/repository.service';
 
-exports.fetchHistory = (req, res) => {
+export const fetchHistory = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
 
@@ -13,7 +13,7 @@ exports.fetchHistory = (req, res) => {
     });
 };
 
-exports.listStatus = (req, res) => {
+export const listStatus = (req, res) => {
     const { repoName } = req.params;
 
     S.getRepositoryStatus(repoName)
@@ -25,7 +25,7 @@ exports.listStatus = (req, res) => {
     });
 };
 
-exports.listTree = (req, res) => {
+export const listTree = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
 
@@ -38,7 +38,7 @@ exports.listTree = (req, res) => {
     });
 };
 
-exports.submitCommit = (req, res) => {
+export const submitCommit = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
     const { username, email, message } = req.body;
@@ -57,7 +57,7 @@ exports.submitCommit = (req, res) => {
     });
 };
 
-exports.createBranch = (req, res) => {
+export const createBranch = (req, res) => {
     const { repoName } = req.params;
     const { branch, branchName } = req.query;
 
@@ -70,7 +70,7 @@ exports.createBranch = (req, res) => {
     });
 };
 
-exports.getBranch = (req, res) => {
+export const getBranch = (req, res) => {
     const { repoName } = req.params;
     
     S.getBranchList(repoName)
@@ -82,7 +82,7 @@ exports.getBranch = (req, res) => {
     });
 };
 
-exports.removeBranch = (req, res) => {
+export const removeBranch = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
     
@@ -95,7 +95,7 @@ exports.removeBranch = (req, res) => {
     });
 };
 
-exports.mergeBranch = (req, res) => {
+export const mergeBranch = (req, res) => {
     const { repoName } = req.params;
     const { branch } = req.query;
     const { username, email } = req.body;
@@ -109,7 +109,7 @@ exports.mergeBranch = (req, res) => {
     });
 };
 
-exports.getSummary = (req, res) => {
+export const getSummary = (req, res) => {
     const { repoName } = req.params;
     const { repoId } = req.query;
     

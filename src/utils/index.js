@@ -10,22 +10,22 @@ const genSalt = util.promisify(bcrypt.genSalt);
 const hash = util.promisify(bcrypt.hash);
 const compare = util.promisify(bcrypt.compare);
 
-exports.securePassword = plainPassword => genSalt(10)
+export const securePassword = plainPassword => genSalt(10)
   .then(salt => hash(plainPassword, salt, null));
 
-exports.comparePasswords = (candidatePassword, storedPAssword) => compare(candidatePassword, storedPAssword);
+export const comparePasswords = (candidatePassword, storedPAssword) => compare(candidatePassword, storedPAssword);
 
-exports.isValidObjectId = id => ObjectId.isValid(id);
+export const isValidObjectId = id => ObjectId.isValid(id);
 
-exports.generateToken = userId => jwt.sign({
+export const generateToken = userId => jwt.sign({
   id: userId,
 }, config.jwtSecret);
 
-exports.getGitPath = repoName => `${config.gitPath}/${repoName}`;
+export const getGitPath = repoName => `${config.gitPath}/${repoName}`;
 
-exports.generateHash = data => crypto.createHash('sha256').update(data).digest('hex');
+export const generateHash = data => crypto.createHash('sha256').update(data).digest('hex');
 
-exports.statusToText = status => {
+export const statusToText = status => {
   let words = [];
   
   if (status.isNew()) { words.push("NEW"); }
@@ -37,7 +37,7 @@ exports.statusToText = status => {
   return words.join(" ");
 };
 
-exports.httpCodes = {
+export const httpCodes = {
   SUCCESS: 200,
   FAILURE: 401,
 };

@@ -1,13 +1,13 @@
 import * as I from './repository.service.imp';
   
-exports.createRepository = I.createRepositoryImp;
-exports.getRepositoryHistory = I.getRepositoryHistoryImp;
-exports.getRepositoryStatus = I.getRepositoryStatusImp;
-exports.getRepositoryTree = I.getRepositoryTreeImp;
-exports.commit = I.commitImp;
-exports.addBranch = I.addBranchImp;
-exports.getBranchList = I.getBranchListImp;
-exports.deleteBranch = I.deleteBranchImp;
-exports.mergeToMaster = I.mergeToMasterImp;
-exports.getRepositorySummary = I.getRepositoryHistorySummary;
+export const createRepository = I.createRepositoryImp;
+export const getRepositoryHistory = I.getRepositoryHistoryImp;
+export const getRepositoryStatus = I.getRepositoryStatusImp;
+export const getRepositoryTree = I.getRepositoryTreeImp;
+export const commit = I.commitImp;
+export const addBranch = I.addBranchImp;
+export const getBranchList = I.getBranchListImp;
+export const deleteBranch = I.deleteBranchImp;
+export const mergeToMaster = I.mergeToMasterImp;
+export const getRepositorySummary = I.getRepositoryHistorySummary;
     

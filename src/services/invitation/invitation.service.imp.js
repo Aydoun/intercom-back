@@ -1,7 +1,7 @@
 import InvitationModel from 'models/invitation.model';
 import UserModel from 'models/user.model';
 
-exports.addInvitation = (data, requester) => {
+export const addInvitation = (data, requester) => {
   const newInvitation = new InvitationModel({ ...data, requester });
   return newInvitation.save();
 };

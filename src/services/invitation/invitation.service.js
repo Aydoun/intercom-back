@@ -1,5 +1,5 @@
 import * as I from './invitation.service.imp';
 
-exports.addInvitation = I.addInvitation;
-exports.getInvitationList = I.getInvitationList;
-exports.answerInvitation = I.answerInvitation;
+export const addInvitation = I.addInvitation;
+export const getInvitationList = I.getInvitationList;
+export const answerInvitation = I.answerInvitation;

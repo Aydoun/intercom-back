@@ -1,12 +1,12 @@
 import * as P from './plan.service.imp';
 
-exports.savePlan = P.savePlanImp;
-exports.getPlan = P.getPlanImp;
-exports.searchPlan = P.searchPlan;
-exports.updatePlan = P.updatePlanImp;
-exports.removePlan = P.removePlanImp;
-exports.registerLike = P.registerLikeImp;
-exports.unregisterPlan = P.unregisterPlanImp;
-exports.addIssue = P.addIssueImp;
-exports.getIssues = P.getIssuesImp;
-exports.addIssueComment = P.addIssueCommentImp;
+export const savePlan = P.savePlanImp;
+export const getPlan = P.getPlanImp;
+export const searchPlan = P.searchPlan;
+export const updatePlan = P.updatePlanImp;
+export const removePlan = P.removePlanImp;
+export const registerLike = P.registerLikeImp;
+export const unregisterPlan = P.unregisterPlanImp;
+export const addIssue = P.addIssueImp;
+export const getIssues = P.getIssuesImp;
+export const addIssueComment = P.addIssueCommentImp;

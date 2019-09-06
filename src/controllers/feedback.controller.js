@@ -1,6 +1,6 @@
 import FeedbackModel from 'models/feedback.model';
 
-exports.saveFeedback = (req, res) => {
+export const saveFeedback = (req, res) => {
   const { id } = req.tokenData;
   const { message, score } = req.body;
 

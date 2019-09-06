@@ -1,14 +1,14 @@
 import { sendMail, sendInvite } from 'services/mail/mail.service';
 import { welcomeTemplate } from 'templates/welcome';
 
-exports.sendWelcomeMail = req => {
+export const sendWelcomeMail = req => {
     const { receiver } = req.body;
     const subject = 'Welcome to use Intercom';
 
     sendMail(receiver, welcomeTemplate, subject);
 };
 
-exports.inviteUser = (req, res) => {
+export const inviteUser = (req, res) => {
     const { id } = req.tokenData;
     const { receiver } = req.body;
 

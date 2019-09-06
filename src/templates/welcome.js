@@ -1,4 +1,4 @@
-exports.welcomeHTML = `
+export const welcomeHTML = `
 <html>
     <body>
         <p>Welcome Using Intercom</p>
@@ -6,7 +6,7 @@ exports.welcomeHTML = `
 </html>
 `;
 
-exports.getInviteMarkup = user => `
+export const getInviteMarkup = user => `
 <html>
     <body>
         <p>${user.name} invites to join intercom</p>
