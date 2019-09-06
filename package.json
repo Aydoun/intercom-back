@@ -6,6 +6,7 @@
   "scripts": {
     "test": "export NODE_ENV=test && jest --watch",
     "test:watch": "jest --watch",
+    "test:utils": "jest --testRegex \\.test\\.js$",
     "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
     "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
     "start:prd": "pm2 start ./src/lib/start.js",
@@ -15,7 +16,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testRegex": "\\.spec\\.js$"
+    "testRegex": "\\.spec\\.js$",
+    "testPathIgnorePatterns": ["/node_modules/", "config"]
   },
   "keywords": [
     "Rest",
@@ -52,6 +54,7 @@
     "fs-extra": "^8.0.1",
     "helmet": "^3.20.0",
     "jsonwebtoken": "^8.4.0",
+    "lodash.intersectionwith": "^4.4.0",
     "mongoose": "^5.3.13",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
