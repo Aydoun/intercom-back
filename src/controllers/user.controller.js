@@ -1,12 +1,12 @@
 
-import * as U from 'services/user/user.service';
+import * as S from 'services/user/user.service';
 import { sendMail } from 'services/mail/mail.service';
 import welcomeTemplate from 'templates/welcome';
 
 export const userDetails = (req, res) => {
   const { id } = req.tokenData;
 
-  return U.getUser(id)
+  return S.getUser(id)
     .then(user => res.formatResponse(user))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -14,7 +14,7 @@ export const userDetails = (req, res) => {
 export const getUserById = (req, res) => {
   const { id } = req.params;
 
-  return U.getUser(id)
+  return S.getUser(id)
     .then(user => res.formatResponse(user))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -22,7 +22,7 @@ export const getUserById = (req, res) => {
 export const userPlansList = (req, res) => {
   const { id } = req.tokenData;
 
-  return U.getUsersPlan(id)
+  return S.getUsersPlan(id)
   .then(plans => res.formatResponse(plans))
   .catch(err => res.formatResponse(err.message, 401));
 };
@@ -30,7 +30,7 @@ export const userPlansList = (req, res) => {
 export const searchByname = (req, res) => {
   const { name } = req.query;
 
-  return U.searchUser(name)
+  return S.searchUser(name)
   .then(users => res.formatResponse(users))
   .catch(err => res.formatResponse(err.message, 401));
 };
@@ -38,7 +38,7 @@ export const searchByname = (req, res) => {
 export const login = (req, res) => {
   const { email, password } = req.body;
 
-  return U.loginUser(email, password)
+  return S.loginUser(email, password)
     .then(data => res.formatResponse(data))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -46,7 +46,7 @@ export const login = (req, res) => {
 export const register = (req, res) => {
   const { name, email, password } = req.body;
 
-  return U.registerUser(name, email, password)
+  return S.registerUser(name, email, password)
     .then(data => {
       res.formatResponse(data);
     })
@@ -57,7 +57,7 @@ export const register = (req, res) => {
 export const update = (req, res) => {
   const { id } = req.tokenData;
 
-  return U.updateUser(id, req.body)
+  return S.updateUser(id, req.body)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -65,7 +65,7 @@ export const update = (req, res) => {
 export const remove = (req, res) => {
   const { id } = req.tokenData;
   
-  return U.deleteUser(id)
+  return S.deleteUser(id)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -77,7 +77,7 @@ export const addActivity = (req, res) => {
   //TODO: map action Type to Value
   const value = 100;
   
-  return U.saveActivity(id, actionType, value)
+  return S.saveActivity(id, actionType, value)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
@@ -85,7 +85,16 @@ export const addActivity = (req, res) => {
 export const listActivity = (req, res) => {
   const { id } = req.tokenData;
   
-  return U.getActivity(id)
+  return S.getActivity(id)
+    .then(response => res.formatResponse(response))
+    .catch(err => res.formatResponse(err.message, 401));
+};
+
+export const planIntersection = (req, res) => {
+  const { id: firstUser } = req.tokenData;
+  const { userId: secondUser } = req.query;
+  
+  return S.getIntersection(firstUser, secondUser)
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };

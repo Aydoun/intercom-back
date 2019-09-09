@@ -1,20 +1,30 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js
+  /usr/local/Cellar/node/10.8.0/bin/node /Users/mohamedamine/.yarn/bin/yarn.js add lodash.intersectionBy
 
 PATH: 
-  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Users/mohamedamine/.yarn/bin:/Users/mohamedamine/.config/yarn/global/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/mohamedamine/.yarn/bin:/Users/mohamedamine/.config/yarn/global/node_modules/.bin
 
 Yarn version: 
-  1.13.0
+  1.17.3
 
 Node version: 
-  10.13.0
+  10.8.0
 
 Platform: 
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/Users/mohamedaydoun/Projects/intercom-bakend/node_modules/@jest/transform/node_modules'
+  Error: https://registry.yarnpkg.com/lodash.intersectionBy: Not found
+      at Request.params.callback [as _callback] (/Users/mohamedamine/.yarn/lib/cli.js:66830:18)
+      at Request.self.callback (/Users/mohamedamine/.yarn/lib/cli.js:140464:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (/Users/mohamedamine/.yarn/lib/cli.js:141436:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (/Users/mohamedamine/.yarn/lib/cli.js:141358:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1081:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {
@@ -71,6 +81,7 @@ npm manifest:
       "fs-extra": "^8.0.1",
       "helmet": "^3.20.0",
       "jsonwebtoken": "^8.4.0",
+      "lodash.intersection": "^4.4.0",
       "mongoose": "^5.3.13",
       "mongoose-paginate": "^5.0.3",
       "morgan": "^1.9.1",
@@ -4097,6 +4108,11 @@ Lockfile:
     version "4.3.0"
     resolved "https://registry.yarnpkg.com/lodash.includes/-/lodash.includes-4.3.0.tgz#60bb98a87cb923c68ca1e51325483314849f553f"
     integrity sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=
+  
+  lodash.intersection@^4.4.0:
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/lodash.intersection/-/lodash.intersection-4.4.0.tgz#0a11ba631d0e95c23c7f2f4cbb9a692ed178e705"
+    integrity sha1-ChG6Yx0OlcI8fy9Mu5ppLtF45wU=
   
   lodash.isboolean@^3.0.3:
     version "3.0.3"

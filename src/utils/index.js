@@ -42,6 +42,13 @@ exports.httpCodes = {
   FAILURE: 401,
 };
 
+export const intersect = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) return [];
+  const searchSet = new Set(b);
+
+  return a.filter(x => searchSet.has(x));
+};
+
 export const welcomeJson = {
   name: 'intercom api',
 };

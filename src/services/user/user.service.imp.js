@@ -1,4 +1,5 @@
 import omit from 'object.omit';
+import _intersectionWith from 'lodash.intersectionwith';
 import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
@@ -24,7 +25,7 @@ export const getUsersPlan = id => {
   return UserModel.findById(id)
     .then(user => {
       if (user && user.status === 'Active') {
-        return PlanModel.paginate({ _id: { $in: user.plans }}, { lean: true })
+        return PlanModel.paginate({ _id: { $in: user.plans } }, { lean: true })
           .then(plans => {
             const { docs, ...rest } = plans;
             const strippedDocs = docs.map(plan => {
@@ -37,7 +38,7 @@ export const getUsersPlan = id => {
             });
 
             return {
-              docs: strippedDocs, 
+              docs: strippedDocs,
               ...rest
             };
           });
@@ -49,7 +50,7 @@ export const searchUser = term => {
   return UserModel.paginate({ $text: { $search: term }, status: 'Active' }, { page: 1, limit: 10, lean: true })
     .then(users => {
       const { docs, ...rest } = users;
-      const strippedDocs =  docs.map(user => {
+      const strippedDocs = docs.map(user => {
         const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
         return {
           ...omittedValues,
@@ -144,3 +145,22 @@ export const saveActivity = (id, actionType, value) => {
 };
 
 export const getActivity = id => UserModel.findById(id).then(user => user.awardHistory);
+
+export const getIntersection = (mainUser, otherUsers) => {
+  const toArray = otherUsers.split(',');
+  let response = {};
+
+  return UserModel.find({ _id: { $in: [mainUser, ...toArray] } })
+    .then(users => {
+
+      if (users.length > 0) {
+        const mainUserPlans = users[0].plans;
+
+        users.slice(1).forEach(user => {
+          response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
+        });
+      }
+
+      return response;
+    });
+};

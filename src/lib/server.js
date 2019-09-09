@@ -25,7 +25,7 @@ app.use(TokenCheck);
 app.use('/api', routes);
 
 app.use(function (err, req, res) {
-  res.status(500).formatResponse(err.message);
+  res(err.message);
 });
 
 // Custom Response Wrapper
