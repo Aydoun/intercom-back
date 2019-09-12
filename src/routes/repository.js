@@ -17,7 +17,6 @@ repository.use([
     '/:repoName/commit/:sha/diff', // Postponed
 ], [
     param('repoName').isUUID(),
-    query('branch').exists(),
 ], catchValidationError);
 
 repository.get('/:repoName/history', R.fetchHistory);
