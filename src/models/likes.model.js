@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const LikesSchema = Schema({
-  planId: { type: Schema.Types.ObjectId, required: true },
+  planId: { type: Schema.Types.ObjectId, index: { unique: true }, required: true },
   usersList: [Schema.Types.ObjectId], 
 });
 
