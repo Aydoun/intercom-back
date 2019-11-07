@@ -7,6 +7,7 @@ import mailRoutes from './mail';
 import repositoryRoutes from './repository';
 import InvitationRoutes from './invitation';
 import FeedbackRoutes from './feedback';
+import ActivityRoutes from './activity';
 import { welcomeJson } from 'utils';
 
 const Router = express.Router();
@@ -19,6 +20,7 @@ Router.use('/mail', mailRoutes);
 Router.use('/repository', repositoryRoutes);
 Router.use('/invitation', InvitationRoutes);
 Router.use('/feedback', FeedbackRoutes);
+Router.use('/activity', ActivityRoutes);
 
 Router.use('*', (req, res) => res.formatResponse(welcomeJson));
 
