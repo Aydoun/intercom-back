@@ -70,26 +70,6 @@ export const remove = (req, res) => {
     .catch(err => res.formatResponse(err.message, 401));
 };
 
-export const addActivity = (req, res) => {
-  const { id } = req.tokenData;
-  const { actionType } = req.body;
-
-  //TODO: map action Type to Value
-  const value = 100;
-  
-  return S.saveActivity(id, actionType, value)
-    .then(response => res.formatResponse(response))
-    .catch(err => res.formatResponse(err.message, 401));
-};
-
-export const listActivity = (req, res) => {
-  const { id } = req.tokenData;
-  
-  return S.getActivity(id)
-    .then(response => res.formatResponse(response))
-    .catch(err => res.formatResponse(err.message, 401));
-};
-
 export const planIntersection = (req, res) => {
   const { id: firstUser } = req.tokenData;
   const { userId: secondUser } = req.query;

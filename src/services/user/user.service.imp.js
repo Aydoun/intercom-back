@@ -136,17 +136,6 @@ export const addPlan = (id, planId) => {
     });
 };
 
-export const saveActivity = (id, actionType, value) => {
-  return UserModel.findById(id)
-    .then(user => {
-      user.awardHistory.push({ actionType, value, });
-      user.save();
-    })
-    .then(() => ({}));
-};
-
-export const getActivity = id => UserModel.findById(id).lean().then(user => user.awardHistory);
-
 export const getIntersection = (mainUser, otherUsers) => {
   const toArray = otherUsers.split(',');
   let response = {};
