@@ -36,20 +36,20 @@ plans.put('/:id/unregister', [
   check('id').isMongoId(),
 ], catchValidationError, C.Unregister);
 
-plans.post('/:id/issues', [
-  check('id').isMongoId(),
-  body('title').exists(),
-], catchValidationError, C.addIssue);
+// plans.post('/:id/issues', [
+//   check('id').isMongoId(),
+//   body('title').exists(),
+// ], catchValidationError, C.addIssue);
 
-plans.get('/:id/issues', [
-  check('id').isMongoId(),
-], catchValidationError, C.listIssue);
+// plans.get('/:id/issues', [
+//   check('id').isMongoId(),
+// ], catchValidationError, C.listIssue);
 
-plans.post('/:id/issues/:issueId/comment', [
-  check('id').isMongoId(),
-  check('issueId').isMongoId(),
-  body('text').isString(),
-], catchValidationError, C.addIssueComment);
+// plans.post('/:id/issues/:issueId/comment', [
+//   check('id').isMongoId(),
+//   check('issueId').isMongoId(),
+//   body('text').isString(),
+// ], catchValidationError, C.addIssueComment);
 
 
 module.exports = plans;

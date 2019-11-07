@@ -4,7 +4,7 @@ import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
-const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy'];
+const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'likes'];
 const FORBIDEN_PLANS_KEYS = ['likes', 'issues'];
 
 export const getUserImp = id => {
@@ -16,6 +16,7 @@ export const getUserImp = id => {
           ...omittedValues,
           conversations: user.conversations.length,
           plans: user.plans.length,
+          likes: Object.keys(user.likes).length,
         };
       }
     });

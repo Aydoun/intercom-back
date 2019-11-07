@@ -1,6 +1,5 @@
 import PlanModel from 'models/plan.model';
 import UserModel from 'models/user.model';
-import LikesModel from 'models/likes.model';
 
 export const savePlanImp = (data) => {
   const newPlan = new PlanModel(data);
@@ -13,23 +12,24 @@ export const updatePlanImp = (id, newData) => PlanModel.updateOne({ _id: id }, n
 export const removePlanImp = id => PlanModel.updateOne({ _id: id }, { status: 'Inactive' });
 
 export const registerLikeImp = (planId, userId) => {
-  return LikesModel.find({ planId })
-    .then(likes => {
-      const isUserListed = likes.usersList.find(user => user === userId);
-
-      if (!isUserListed) {
-        const newLike = new LikesModel({ planId, usersList: [userId] });
-        newLike.save();
+  return UserModel.findById(userId)
+    .then(user => {
+      if (!user.likes[planId]) {
+        user.likes[planId] = new Date().getTime();
+        user.markModified('likes');
+        return user.save();
+      }
+    })
+    .then(saved => {
+      if (saved) {
+        return PlanModel.findByIdAndUpdate(planId, { $inc: { likes: 1 } });
+      }
+    })
+    .then(savedPlan => {
+      if (savedPlan) {
+        return { likes: savedPlan.likes + 1 };
       }
     });
-  // return PlanModel.findById(planId)
-  // .then(plan => {
-  //   const alreadyLiked = plan.likes.indexOf(userId) > -1;
-
-  //   if (!alreadyLiked) plan.likes.push(userId);
-
-  //   return plan.save().then(() => ({ likes: plan.likes.length }));
-  // });
 };
 
 export const unregisterPlanImp = (planId, userId) => {

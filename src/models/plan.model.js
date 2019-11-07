@@ -3,18 +3,18 @@ import mongoosePaginate from 'mongoose-paginate';
 
 const { Schema } = mongoose;
 
-const IssueComments = new Schema({
-  text: { type: String, },
-  creator: Schema.Types.ObjectId,
-} , {timestamps: true});
+// const IssueComments = new Schema({
+//   text: { type: String, },
+//   creator: Schema.Types.ObjectId,
+// } , {timestamps: true});
 
-const IssueSchema = Schema({
-  title: { type: String, required: true },
-  description: { type: String, default: '' },
-  comments: { type: [IssueComments], default: [] },
-  creator: { type: Schema.Types.ObjectId, required: true },
-  status: { type: String, enum: ['Open', 'Closed'], default: 'Open' },
-}, { timestamps: true });
+// const IssueSchema = Schema({
+//   title: { type: String, required: true },
+//   description: { type: String, default: '' },
+//   comments: { type: [IssueComments], default: [] },
+//   creator: { type: Schema.Types.ObjectId, required: true },
+//   status: { type: String, enum: ['Open', 'Closed'], default: 'Open' },
+// }, { timestamps: true });
 
 const PLanSchema = Schema({
   title: {
@@ -32,7 +32,7 @@ const PLanSchema = Schema({
   likes: { type: Number, default: 0 },
   avatar: { type: String, default : '' },
   creator: Schema.Types.ObjectId,
-  issues: { type: [IssueSchema], default: [] },
+  // issues: { type: [IssueSchema], default: [] },
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
 }, { timestamps: true });
 
