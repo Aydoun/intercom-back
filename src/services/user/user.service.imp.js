@@ -4,7 +4,7 @@ import { securePassword, comparePasswords, generateToken } from 'utils';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
-const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'awardHistory'];
+const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy'];
 const FORBIDEN_PLANS_KEYS = ['likes', 'issues'];
 
 export const getUserImp = id => {
@@ -152,12 +152,13 @@ export const getIntersection = (mainUser, otherUsers) => {
 
   return UserModel.find({ _id: { $in: [mainUser, ...toArray] } })
     .then(users => {
-
       if (users.length > 0) {
         const mainUserPlans = users[0].plans;
 
         users.forEach(user => {
-          response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
+          if (user._id.toString() !== mainUser) {
+            response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
+          }
         });
       }
 

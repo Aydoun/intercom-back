@@ -37,6 +37,7 @@ const UserSchema = Schema({
   conversations: [Schema.Types.ObjectId],
   plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
+  profileCompleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
 UserSchema.index({
