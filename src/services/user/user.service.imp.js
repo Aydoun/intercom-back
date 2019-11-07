@@ -144,7 +144,7 @@ export const saveActivity = (id, actionType, value) => {
     .then(() => ({}));
 };
 
-export const getActivity = id => UserModel.findById(id).then(user => user.awardHistory);
+export const getActivity = id => UserModel.findById(id).lean().then(user => user.awardHistory);
 
 export const getIntersection = (mainUser, otherUsers) => {
   const toArray = otherUsers.split(',');
@@ -156,7 +156,7 @@ export const getIntersection = (mainUser, otherUsers) => {
       if (users.length > 0) {
         const mainUserPlans = users[0].plans;
 
-        users.slice(1).forEach(user => {
+        users.forEach(user => {
           response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
         });
       }

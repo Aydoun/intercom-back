@@ -20,7 +20,6 @@ Router.use('/repository', repositoryRoutes);
 Router.use('/invitation', InvitationRoutes);
 Router.use('/feedback', FeedbackRoutes);
 
-
 Router.use('*', (req, res) => res.formatResponse(welcomeJson));
 
 module.exports = Router;

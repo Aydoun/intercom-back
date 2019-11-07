@@ -1,18 +1,17 @@
 import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate';
 
 const { Schema } = mongoose;
 
-const AwardHistory = new Schema({
-  actionType: { type: String, },
-  value: { type: Number },
-} , {timestamps: true});
+// const AwardHistory = new Schema({
+//   actionType: { type: String, },
+//   value: { type: Number },
+// } , {timestamps: true});
 
 const startingPoints = 100;
-const registerActivity = {
-  actionType: 'register',
-  value: startingPoints,
-};
+// const registerActivity = {
+//   actionType: 'register',
+//   value: startingPoints,
+// };
 
 const UserSchema = Schema({
   name: { type: String, required: true },
@@ -35,7 +34,6 @@ const UserSchema = Schema({
     required: true,
   },
   points: { type: Number, default: startingPoints},
-  awardHistory: { type: [AwardHistory], default: [registerActivity] },
   conversations: [Schema.Types.ObjectId],
   plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
@@ -44,7 +42,5 @@ const UserSchema = Schema({
 UserSchema.index({
   name: 'text',
 });
-
-UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('user', UserSchema, 'user');
