@@ -39,7 +39,7 @@ const UserSchema = Schema({
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
   profileCompleted: { type: Boolean, default: false },
   likes: { type: Schema.Types.Mixed, default: {} },
-}, { timestamps: true });
+}, { timestamps: true, minimize: false });
 
 UserSchema.index({
   name: 'text',

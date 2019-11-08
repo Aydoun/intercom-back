@@ -6,7 +6,7 @@
   "scripts": {
     "test": "export NODE_ENV=test && jest --watch",
     "test:watch": "jest --watch",
-    "test:utils": "jest --testRegex \\.test\\.js$",
+    "test:unit": "jest --testRegex \\.test\\.js$",
     "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
     "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
     "start:prd": "pm2 start ./src/lib/start.js",

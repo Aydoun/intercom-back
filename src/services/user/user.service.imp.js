@@ -93,12 +93,12 @@ export const registerUserImp = (name, email, password) => securePassword(passwor
   })));
 
 export const loginUserImp = (email, password) => UserModel.findOne({ email }).lean()
-  .then((user) => {
+  .then(user => {
     if (!user || user.status !== 'Active') {
       throw new Error('Authentication failed. User not found.');
     }
     return comparePasswords(password, user.password)
-      .then((isMatch) => {
+      .then(isMatch => {
         if (!isMatch) {
           throw new Error('Authentication failed. Wrong Password');
         } else {
@@ -111,12 +111,12 @@ export const loginUserImp = (email, password) => UserModel.findOne({ email }).le
   });
 
 export const changePasswordImp = (id, oldPassword, newPassword) => UserModel.findById(id)
-  .then((user) => {
+  .then(user => {
     if (!user || user.status !== 'Active') {
       throw new Error('User Not Found');
     }
     return comparePasswords(oldPassword, user.password)
-      .then((isMatch) => {
+      .then(isMatch => {
         if (!isMatch) {
           throw new Error('Wrong Password');
         }
@@ -145,10 +145,9 @@ export const getIntersection = (mainUser, otherUsers) => {
       if (users.length > 0) {
         const mainUserPlans = users[0].plans;
 
-        users.forEach(user => {
-          if (user._id.toString() !== mainUser) {
-            response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
-          }
+        // Skip the user himself
+        users.slice(1).forEach(user => {
+          response[user._id] = _intersectionWith(user.plans, mainUserPlans, (a, b) => a.toString() === b.toString()).length;
         });
       }
 

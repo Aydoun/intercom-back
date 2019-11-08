@@ -1,7 +1,9 @@
 
 import * as S from 'services/user/user.service';
-import { sendMail } from 'services/mail/mail.service';
-import welcomeTemplate from 'templates/welcome';
+// import { sendMail } from 'services/mail/mail.service';
+import { pushActivity } from 'services/activity/activity.service';
+// import welcomeTemplate from 'templates/welcome';
+import { ActivityPoint, ActivityType } from 'constants';
 
 export const userDetails = (req, res) => {
   const { id } = req.tokenData;
@@ -45,12 +47,20 @@ export const login = (req, res) => {
 
 export const register = (req, res) => {
   const { name, email, password } = req.body;
+  let newUserId;
 
   return S.registerUser(name, email, password)
     .then(data => {
-      res.formatResponse(data);
+      newUserId = data._id;
+      return res.formatResponse(data);
     })
-    .then(() => sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom'))
+    .then(() => {
+      const pointValue = ActivityPoint.registration;
+      const typeValue = ActivityType.registration;
+
+      return pushActivity(newUserId, pointValue, typeValue);
+    })
+    // .then(() => sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom'))
     .catch(err => res.formatResponse(err.message, 401));
 };
 
