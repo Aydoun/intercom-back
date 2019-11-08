@@ -1,4 +1,5 @@
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 import morgan  from'morgan';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -7,6 +8,7 @@ import helmet from 'helmet';
 import routes from'routes';
 import auth from 'routes/auth';
 import TokenCheck from 'middlewares/token';
+import swaggerDocument from '../../swagger.json';
 
 const app = express();
 
@@ -20,8 +22,10 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan('dev')); // log every request to the console
 app.use('/uploads', express.static('uploads'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(auth);
 app.use(TokenCheck);
+
 app.use('/api', routes);
 
 app.use(function (err, req, res) {

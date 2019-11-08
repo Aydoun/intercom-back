@@ -17,7 +17,10 @@
   "jest": {
     "testEnvironment": "node",
     "testRegex": "\\.spec\\.js$",
-    "testPathIgnorePatterns": ["/node_modules/", "config"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "config"
+    ]
   },
   "keywords": [
     "Rest",
@@ -63,6 +66,7 @@
     "nodemailer": "^6.2.1",
     "object.omit": "^3.0.0",
     "sharp": "^0.23.0",
+    "swagger-ui-express": "^4.1.2",
     "uuid": "^3.3.2"
   }
 }
