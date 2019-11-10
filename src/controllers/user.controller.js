@@ -47,18 +47,20 @@ export const login = (req, res) => {
 
 export const register = (req, res) => {
   const { name, email, password } = req.body;
-  let newUserId;
+  let newUser;
 
   return S.registerUser(name, email, password)
     .then(data => {
-      newUserId = data._id;
-      return res.formatResponse(data);
+      newUser = data;      
     })
     .then(() => {
       const pointValue = ActivityPoint.registration;
       const typeValue = ActivityType.registration;
 
-      return pushActivity(newUserId, pointValue, typeValue);
+      return pushActivity(newUser._id, pointValue, typeValue);
+    })
+    .then(() => {
+      return res.formatResponse(newUser);
     })
     // .then(() => sendMail(data.email, welcomeTemplate, 'Welcome to use Intercom'))
     .catch(err => res.formatResponse(err.message, 401));

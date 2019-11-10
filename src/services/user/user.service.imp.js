@@ -71,7 +71,7 @@ export const registerUserImp = (name, email, password) => securePassword(passwor
     return newUser.save();
   })
   .then(user => (({
-    ...omit(user.toObject(), FORBIDEN_USERS_KEYS),
+    _id: user._id,
     token: generateToken(user._id),
   })));
 
@@ -86,7 +86,6 @@ export const loginUserImp = (email, password) => UserModel.findOne({ email }).le
           throw new Error('Authentication failed. Wrong Password');
         } else {
           return {
-            ...omit(user, FORBIDEN_USERS_KEYS),
             token: generateToken(user._id),
           };
         }
