@@ -9,7 +9,6 @@ const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'l
 export const getUserImp = id => {
   return UserModel.findById(id).lean()
     .then(user => {
-      console.log(user, 'user');
       if (user && user.status === 'Active') {
         const omittedValues = omit(user, FORBIDEN_USERS_KEYS);
         return {
