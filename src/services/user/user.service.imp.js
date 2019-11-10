@@ -5,7 +5,6 @@ import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
 const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'likes'];
-const FORBIDEN_PLANS_KEYS = ['likes', 'issues'];
 
 export const getUserImp = id => {
   return UserModel.findById(id).lean()
@@ -26,23 +25,7 @@ export const getUsersPlan = id => {
   return UserModel.findById(id)
     .then(user => {
       if (user && user.status === 'Active') {
-        return PlanModel.paginate({ _id: { $in: user.plans } }, { lean: true })
-          .then(plans => {
-            const { docs, ...rest } = plans;
-            const strippedDocs = docs.map(plan => {
-              const omittedValues = omit(plan, FORBIDEN_PLANS_KEYS);
-              return {
-                ...omittedValues,
-                likes: plan.likes && plan.likes.length,
-                issues: plan.issues.length,
-              };
-            });
-
-            return {
-              docs: strippedDocs,
-              ...rest
-            };
-          });
+        return PlanModel.paginate({ _id: { $in: user.plans } }, { lean: true });
       }
     });
 };
