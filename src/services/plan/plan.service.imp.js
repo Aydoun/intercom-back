@@ -8,7 +8,12 @@ export const savePlanImp = (data) => {
 
 export const getPlanImp = id => PlanModel.find({ _id: id, status: 'Active' });
 export const searchPlan = term => PlanModel.find({ $text: { $search: term }, status: 'Active' });
-export const updatePlanImp = (id, newData) => PlanModel.updateOne({ _id: id }, newData);
+export const updatePlanImp = (id, newData) => {
+  return PlanModel.updateOne({ _id: id }, newData)
+  .then(() => {
+    return newData;
+  });
+};
 export const removePlanImp = id => PlanModel.updateOne({ _id: id }, { status: 'Inactive' });
 
 export const registerLikeImp = (planId, userId) => {

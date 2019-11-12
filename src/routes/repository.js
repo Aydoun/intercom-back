@@ -33,6 +33,7 @@ repository.get('/:repoName/file', [
   param('repoName').isUUID(),
   query('filename').exists(),
   query('branch').exists(),
+  query('sha').exists(),
 ], catchValidationError, R.getFileContent);
 
 repository.post('/:repoName/commit', [

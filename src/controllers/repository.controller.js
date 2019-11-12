@@ -124,9 +124,9 @@ export const getSummary = (req, res) => {
 
 export const getFileContent = (req, res) => {
   const { repoName } = req.params;
-  const { filename } = req.query;
+  const { filename, sha } = req.query;
   
-  S.readFile(repoName, filename)
+  S.readFile(repoName, filename, sha)
   .then(response => {
       res.formatResponse(response);
   })
