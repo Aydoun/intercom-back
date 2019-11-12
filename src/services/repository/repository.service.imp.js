@@ -221,6 +221,24 @@ export const getRepositoryHistorySummary = (repoId, repoName) => {
     });
 };
 
+export const readFile = (repoName, filename) => {
+  const repoDir = getGitPath(repoName);
+  
+  return nodegit.Repository.open(repoDir)
+  .then(repo => {
+    return repo.getHeadCommit();
+  })
+  .then(commit => {
+    return commit.getEntry(filename);
+  })
+  .then(entry => {
+    return entry.getBlob();
+  })
+  .then(blob => {
+    return blob.toString().split("\n");
+  });
+};
+
 const registerCommit = (inputs, repo, branch) => {
   const { username, email, message } = inputs;
   var index;

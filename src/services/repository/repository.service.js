@@ -10,4 +10,5 @@ export const getBranchList = I.getBranchListImp;
 export const deleteBranch = I.deleteBranchImp;
 export const mergeToMaster = I.mergeToMasterImp;
 export const getRepositorySummary = I.getRepositoryHistorySummary;
+export const readFile = I.readFile;
     

@@ -27,6 +27,7 @@ const UserSchema = Schema({
   plans: [Schema.Types.ObjectId],
   status: { type: String, enum: ['Pending', 'Active', 'Inactive', 'Banned'], default: 'Active' },
   profileCompleted: { type: Boolean, default: false },
+  confirmed: { type: Boolean, default: false },
   likes: { type: Schema.Types.Mixed, default: {} },
 }, { timestamps: true, minimize: false });
 

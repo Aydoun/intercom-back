@@ -121,3 +121,16 @@ export const getSummary = (req, res) => {
         res.formatResponse(err.message, 401);
     });
 };
+
+export const getFileContent = (req, res) => {
+  const { repoName } = req.params;
+  const { filename } = req.query;
+  
+  S.readFile(repoName, filename)
+  .then(response => {
+      res.formatResponse(response);
+  })
+  .catch(err => {
+      res.formatResponse(err.message, 401);
+  });
+};

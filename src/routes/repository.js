@@ -8,7 +8,7 @@ const repository = express.Router();
 repository.use([
     '/:repoName/history', // Done
     '/:repoName/commit', // Done
-    '/:repoName/file',
+    '/:repoName/file', // Done
     '/:repoName/tree', // Done
     '/:repoName/participants',
     '/:repoName/status', // Done
@@ -29,6 +29,11 @@ repository.get('/:repoName/summary', [
   param('repoName').isUUID(),
   query('repoId').exists(),
 ], catchValidationError, R.getSummary);
+repository.get('/:repoName/file', [
+  param('repoName').isUUID(),
+  query('filename').exists(),
+  query('branch').exists(),
+], catchValidationError, R.getFileContent);
 
 repository.post('/:repoName/commit', [
     body('username').exists(),
