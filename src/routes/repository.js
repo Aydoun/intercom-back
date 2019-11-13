@@ -35,6 +35,10 @@ repository.get('/:repoName/file', [
   query('branch').exists(),
   query('sha').exists(),
 ], catchValidationError, R.getFileContent);
+repository.get('/:repoName/walk', [
+  param('repoName').isUUID(),
+  query('sha').exists(),
+], catchValidationError, R.walkTree);
 
 repository.post('/:repoName/commit', [
     body('username').exists(),

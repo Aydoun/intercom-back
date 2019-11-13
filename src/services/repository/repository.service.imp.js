@@ -5,10 +5,10 @@ import { getGitPath, statusToText } from 'utils';
 import PlanModel from 'models/plan.model';
 
 export const createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
-    const fileName = "README.md";
-    const fileContent = repoDescription;
-    const repoDir = getGitPath(repoName);
-    const { username, email } = creator;
+  const fileName = "README.md";
+  const fileContent = repoDescription;
+  const repoDir = getGitPath(repoName);
+  const { username, email } = creator;
 
   let repository;
   let index;
@@ -35,10 +35,9 @@ export const createRepositoryImp = (creator, repoName, repoDescription, initialM
       return index.writeTree();
     })
     .then(oid => {
-      const author = nodegit.Signature.now(username, email);
-      const committer = nodegit.Signature.now(username, email);
+      const signature = nodegit.Signature.now(username, email);
 
-      return repository.createCommit("HEAD", author, committer, initialMessage, oid, []);
+      return repository.createCommit("HEAD", signature, signature, initialMessage, oid, []);
     });
 };
 
@@ -107,10 +106,10 @@ export const getRepositoryTreeImp = (branch, repoName) => {
     })
     .then(tree => {
       return tree.entries().map(entry => ({
-        key: entry.sha(),
-        sha,
+        entrysha: entry.sha(),
+        commitsha: sha,
         date,
-        isDirectory: entry.isDirectory(),
+        isDirectory: entry.isTree(),
         isFile: entry.isFile(),
         name: entry.name(),
       }));
@@ -236,6 +235,23 @@ export const readFile = (repoName, filename, sha) => {
   })
   .then(blob => {
     return blob.toString().split("\n").filter(Boolean);
+  });
+};
+
+export const walkRepoTree = (repoName, sha) => {
+  const repoDir = getGitPath(repoName);
+  
+  return nodegit.Repository.open(repoDir)
+  .then(repo => {
+    return repo.getTree(sha);
+  })
+  .then(tree => {
+    return tree.entries().map(entry => ({
+      entrysha: entry.sha(),
+      isDirectory: entry.isTree(),
+      isFile: entry.isFile(),
+      name: entry.name(),
+    }));
   });
 };
 

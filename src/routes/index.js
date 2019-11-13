@@ -8,6 +8,7 @@ import repositoryRoutes from './repository';
 import InvitationRoutes from './invitation';
 import FeedbackRoutes from './feedback';
 import ActivityRoutes from './activity';
+import ExperimentsRoutes from './experiment';
 import { welcomeJson } from 'utils';
 
 const Router = express.Router();
@@ -21,6 +22,7 @@ Router.use('/repository', repositoryRoutes);
 Router.use('/invitation', InvitationRoutes);
 Router.use('/feedback', FeedbackRoutes);
 Router.use('/activity', ActivityRoutes);
+Router.use('/experiment', ExperimentsRoutes);
 
 Router.use('*', (req, res) => res.formatResponse(welcomeJson));
 

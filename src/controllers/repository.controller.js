@@ -133,3 +133,16 @@ export const getFileContent = (req, res) => {
       res.formatResponse(err.message, 401);
   });
 };
+
+export const walkTree = (req, res) => {
+  const { repoName } = req.params;
+  const { sha } = req.query;
+
+  S.walkRepoTree(repoName, sha)
+    .then(response => {
+        res.formatResponse(response);
+    })
+    .catch(err => {
+        res.formatResponse(err.message, 401);
+    }); 
+};
