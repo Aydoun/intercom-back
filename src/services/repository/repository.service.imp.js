@@ -241,14 +241,18 @@ export const readFile = (repoName, filename, sha) => {
 
 const registerCommit = (inputs, repo, branch) => {
   const { username, email, message } = inputs;
-  var index;
-  var oid;
+  let index;
+  let oid;
 
   return repo.refreshIndex()
     .then(indexResult => {
       index = indexResult;
-      index.addAll(['.']);
-      index.write();
+      return index.addAll(['.']);
+    })
+    .then(() => {
+      return index.write();
+    })
+    .then(() => {
       return index.writeTree();
     })
     .then(oidResult => {
@@ -256,9 +260,8 @@ const registerCommit = (inputs, repo, branch) => {
       return repo.getBranchCommit(branch);
     })
     .then(parent => {
-      const author = nodegit.Signature.now(username, email);
-      const committer = nodegit.Signature.now(username, email);
+      const signature = nodegit.Signature.now(username, email);
 
-      return repo.createCommit('HEAD', author, committer, message, oid, [parent]);
+      return repo.createCommit('HEAD', signature, signature, message, oid, [parent]);
     });
 };

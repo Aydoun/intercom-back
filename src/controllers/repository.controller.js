@@ -40,17 +40,16 @@ export const listTree = (req, res) => {
 
 export const submitCommit = (req, res) => {
     const { repoName } = req.params;
-    const { branch } = req.query;
-    const { username, email, message } = req.body;
+    const { username, email, message, branch } = req.body;
     // TODO: Remove Status Check for empty commits!
-    S.getRepositoryStatus(repoName)
+    return S.getRepositoryStatus(repoName)
     .then(response => {
         if (Object.keys(response).length !== 0) {
-            return commit(branch, repoName, { username, email }, message);
+            return S.commit(branch, repoName, { username, email }, message);
         } 
     })
     .then(commit => {
-        res.formatResponse(commit ? commit.tostrS() : {});
+        res.formatResponse(commit ? commit.tostrS() : undefined);
     })
     .catch(err => {
         res.formatResponse(err.message, 401);
@@ -124,9 +123,9 @@ export const getSummary = (req, res) => {
 
 export const getFileContent = (req, res) => {
   const { repoName } = req.params;
-  const { filename, sha } = req.query;
+  const { fileName, sha } = req.query;
   
-  S.readFile(repoName, filename, sha)
+  S.readFile(repoName, fileName, sha)
   .then(response => {
       res.formatResponse(response);
   })

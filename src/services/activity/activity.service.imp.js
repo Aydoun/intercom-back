@@ -4,7 +4,7 @@ import UserModel from 'models/user.model';
 export const getActivityImp = user => {
   return ActivityModel.find({ user })
   .then(activity => {
-    return activity;
+    return activity.length > 0 ? activity[0] : {};
   });
 };
 

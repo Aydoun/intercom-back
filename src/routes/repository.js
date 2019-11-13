@@ -31,7 +31,7 @@ repository.get('/:repoName/summary', [
 ], catchValidationError, R.getSummary);
 repository.get('/:repoName/file', [
   param('repoName').isUUID(),
-  query('filename').exists(),
+  query('fileName').exists(),
   query('branch').exists(),
   query('sha').exists(),
 ], catchValidationError, R.getFileContent);
@@ -40,6 +40,7 @@ repository.post('/:repoName/commit', [
     body('username').exists(),
     body('email').isEmail(),
     body('message').exists(),
+    body('branch').exists(),
 ], catchValidationError, R.submitCommit);
 repository.post('/:repoName/branch', [
     param('repoName').isUUID(),
