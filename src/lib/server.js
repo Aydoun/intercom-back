@@ -33,13 +33,14 @@ app.use(function (err, req, res) {
 });
 
 // Custom Response Wrapper
-express.response.formatResponse = function(response, httpCode = 200) {
+express.response.formatResponse = function(response, httpCode = 200, value) {
   const correctedHttpCode = typeof response !== 'undefined' ? httpCode : 401;
 
   return this.send({ 
     response: response || {}, 
     httpCode: correctedHttpCode, 
-    status: correctedHttpCode >= 200 && correctedHttpCode < 300 
+    status: correctedHttpCode >= 200 && correctedHttpCode < 300,
+    value: value || 0,
   });
 };
 
