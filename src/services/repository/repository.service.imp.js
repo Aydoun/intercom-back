@@ -3,6 +3,7 @@ import path from 'path';
 import fse from 'fs-extra';
 import { getGitPath, statusToText } from 'utils';
 import PlanModel from 'models/plan.model';
+import { readContent } from '../files/files.service';
 
 export const createRepositoryImp = (creator, repoName, repoDescription, initialMessage) => {
   const fileName = "README.md";
@@ -117,16 +118,11 @@ export const getRepositoryTreeImp = (branch, repoName) => {
 };
 
 export const commitImp = (branch, repoName, user, message) => {
-    const repoDir = getGitPath(repoName);
-    const { username, email } = user;
+  const repoDir = getGitPath(repoName);
 
   return nodegit.Repository.open(repoDir)
     .then(repo => {
-      return registerCommit({
-        username,
-        email,
-        message,
-      }, repo, branch);
+      return registerCommit(Object.assign({}, user, { message }), repo, branch);
     });
 };
 
@@ -221,21 +217,17 @@ export const getRepositoryHistorySummary = (repoId, repoName) => {
 };
 
 export const readFile = (repoName, filename, sha) => {
+  if (!sha) {
+    return readContent(repoName, filename);
+  }
+
   const repoDir = getGitPath(repoName);
-  
+
   return nodegit.Repository.open(repoDir)
-  .then(repo => {
-    return repo.getCommit(sha);
-  })
-  .then(commit => {
-    return commit.getEntry(filename);
-  })
-  .then(entry => {
-    return entry.getBlob();
-  })
-  .then(blob => {
-    return blob.toString().split("\n").filter(Boolean);
-  });
+  .then(repo => repo.getCommit(sha))
+  .then(commit => commit.getEntry(filename))
+  .then(entry => entry.getBlob())
+  .then(blob => blob);
 };
 
 export const walkRepoTree = (repoName, sha) => {
@@ -278,6 +270,6 @@ const registerCommit = (inputs, repo, branch) => {
     .then(parent => {
       const signature = nodegit.Signature.now(username, email);
 
-      return repo.createCommit('HEAD', signature, signature, message, oid, [parent]);
+      return repo.createCommit(`refs/heads/${branch}`, signature, signature, message, oid, [parent]);
     });
 };

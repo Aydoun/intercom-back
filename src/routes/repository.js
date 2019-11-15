@@ -33,7 +33,6 @@ repository.get('/:repoName/file', [
   param('repoName').isUUID(),
   query('fileName').exists(),
   query('branch').exists(),
-  query('sha').exists(),
 ], catchValidationError, R.getFileContent);
 repository.get('/:repoName/walk', [
   param('repoName').isUUID(),

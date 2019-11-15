@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import fse from 'fs-extra';
+import util from 'util';
 import { getGitPath } from 'utils';
+
+const readFile = util.promisify(fs.readFile);
 
 export const addFileImp = (repoName, fileName) => {
   const writingPath = path.join(getGitPath(repoName), fileName);
@@ -36,4 +39,10 @@ export const renameFileImp = (repoName, oldName, newName) => {
 
   fs.renameSync(`${repoPath}/${oldName}`, `${repoPath}/${newName}`);
   return `${repoPath}/${newName}`;
+};
+
+export const readContent = (repoName, filePath) => {
+  const readingPath = path.join(getGitPath(repoName), filePath);
+
+  return readFile(readingPath);
 };

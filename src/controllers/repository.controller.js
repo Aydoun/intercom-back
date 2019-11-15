@@ -127,7 +127,7 @@ export const getFileContent = (req, res) => {
   
   S.readFile(repoName, fileName, sha)
   .then(response => {
-      res.formatResponse(response);
+      res.formatResponse(response.toString().split("\n").filter(Boolean));
   })
   .catch(err => {
       res.formatResponse(err.message, 401);
