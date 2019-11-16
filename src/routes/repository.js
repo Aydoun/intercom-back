@@ -21,7 +21,10 @@ repository.use([
 
 repository.get('/:repoName/history', R.fetchHistory);
 repository.get('/:repoName/status', R.listStatus);
-repository.get('/:repoName/tree', R.listTree);
+repository.get('/:repoName/tree', [
+  param('repoName').isUUID(),
+  query('branch').exists(),
+], catchValidationError, R.listTree);
 repository.get('/:repoName/branch', [
   param('repoName').isUUID(),
 ], catchValidationError, R.getBranch);
@@ -47,7 +50,6 @@ repository.post('/:repoName/commit', [
 ], catchValidationError, R.submitCommit);
 repository.post('/:repoName/branch', [
     param('repoName').isUUID(),
-    query('branch').exists(),
     query('branchName').exists(),
 ], catchValidationError, R.createBranch);
 repository.post('/:repoName/merge', [

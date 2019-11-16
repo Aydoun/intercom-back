@@ -106,8 +106,9 @@ export const getRepositoryTreeImp = (branch, repoName) => {
       return commit.getTree();
     })
     .then(tree => {
-      return tree.entries().map(entry => ({
+      return tree.entries().map((entry, index) => ({
         entrysha: entry.sha(),
+        key: index,
         commitsha: sha,
         date,
         isDirectory: entry.isTree(),
@@ -126,14 +127,14 @@ export const commitImp = (branch, repoName, user, message) => {
     });
 };
 
-export const addBranchImp = (repoName, sourceBranch, branchName) => {
+export const addBranchImp = (repoName, branchName) => {
     let repository;
     const repoDir = getGitPath(repoName);
     
     return nodegit.Repository.open(repoDir)
     .then(repo => {
       repository = repo;
-      return repo.getBranchCommit(sourceBranch);
+      return repo.getMasterCommit();
     })
     .then(commit => {
       return repository.createBranch(branchName.replace(/ /g, '-'), commit, 0);

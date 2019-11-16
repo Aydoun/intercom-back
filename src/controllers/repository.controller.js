@@ -30,12 +30,8 @@ export const listTree = (req, res) => {
     const { branch } = req.query;
 
     S.getRepositoryTree(branch, repoName)
-    .then(tree => {
-        res.formatResponse(tree);
-    })
-    .catch(err => {
-        res.formatResponse(err.message, 401);
-    });
+    .then(tree => res.formatResponse(tree))
+    .catch(err => res.formatResponse(err.message, 401));
 };
 
 export const submitCommit = (req, res) => {
@@ -58,15 +54,11 @@ export const submitCommit = (req, res) => {
 
 export const createBranch = (req, res) => {
     const { repoName } = req.params;
-    const { branch, branchName } = req.query;
+    const { branchName } = req.query;
 
-    S.addBranch(repoName, branch, branchName)
-    .then(response => {
-        res.formatResponse(response);
-    })
-    .catch(err => {
-        res.formatResponse(err.message, 401);
-    });
+    S.addBranch(repoName, branchName)
+    .then(response => res.formatResponse(response))
+    .catch(err => res.formatResponse(err.message, 401));
 };
 
 export const getBranch = (req, res) => {
