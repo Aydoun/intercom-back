@@ -43,9 +43,9 @@ export const createRepositoryImp = (creator, repoName, repoDescription, initialM
 };
 
 export const getRepositoryHistoryImp = (branch, repoName) => {
-    const repoDir = getGitPath(repoName);
-    
-    return nodegit.Repository.open(repoDir)
+  const repoDir = getGitPath(repoName);
+
+  return nodegit.Repository.open(repoDir)
     .then(repository => {
       return repository.getBranchCommit(branch);
     })
@@ -72,9 +72,9 @@ export const getRepositoryHistoryImp = (branch, repoName) => {
 };
 
 export const getRepositoryStatusImp = (repoName) => {
-    const repoDir = getGitPath(repoName);
-    
-    return nodegit.Repository.open(repoDir)
+  const repoDir = getGitPath(repoName);
+
+  return nodegit.Repository.open(repoDir)
     .then(repo => {
       return repo.getStatus();
     })
@@ -91,31 +91,30 @@ export const getRepositoryStatusImp = (repoName) => {
     });
 };
 
-export const getRepositoryTreeImp = (branch, repoName) => {
-    const repoDir = getGitPath(repoName);
-    let date;
-    let sha;
+export const getRepositoryTreeImp = (branch, repoName, sha) => {
+  const repoDir = getGitPath(repoName);
+  let date;
 
   return nodegit.Repository.open(repoDir)
     .then(repo => {
-      return repo.getBranchCommit(branch);
+      if (!sha) {
+        return repo.getBranchCommit(branch)
+          .then(commit => {
+            date = commit.date();
+            return commit.getTree();
+          });
+      } else {
+        return repo.getTree(sha);
+      }
     })
-    .then(commit => {
-      date = commit.date();
-      sha = commit.sha();
-      return commit.getTree();
-    })
-    .then(tree => {
-      return tree.entries().map((entry, index) => ({
-        entrysha: entry.sha(),
-        key: index,
-        commitsha: sha,
-        date,
-        isDirectory: entry.isTree(),
-        isFile: entry.isFile(),
-        name: entry.name(),
-      }));
-    });
+    .then(tree => tree.entries().map((entry, index) => ({
+      entrysha: entry.sha(),
+      key: index,
+      date,
+      isDirectory: entry.isTree(),
+      isFile: entry.isFile(),
+      name: entry.name(),
+    })));
 };
 
 export const commitImp = (branch, repoName, user, message) => {
@@ -128,10 +127,10 @@ export const commitImp = (branch, repoName, user, message) => {
 };
 
 export const addBranchImp = (repoName, branchName) => {
-    let repository;
-    const repoDir = getGitPath(repoName);
-    
-    return nodegit.Repository.open(repoDir)
+  let repository;
+  const repoDir = getGitPath(repoName);
+
+  return nodegit.Repository.open(repoDir)
     .then(repo => {
       repository = repo;
       return repo.getMasterCommit();
@@ -142,7 +141,7 @@ export const addBranchImp = (repoName, branchName) => {
 };
 
 export const getBranchListImp = repoName => {
-    const repoDir = getGitPath(repoName);
+  const repoDir = getGitPath(repoName);
 
   return nodegit.Repository.open(repoDir)
     .then(repo => {
@@ -156,7 +155,7 @@ export const getBranchListImp = repoName => {
 };
 
 export const deleteBranchImp = (repoName, branch) => {
-    const repoDir = getGitPath(repoName);
+  const repoDir = getGitPath(repoName);
 
   return nodegit.Repository.open(repoDir)
     .then(repo => {
@@ -168,8 +167,8 @@ export const deleteBranchImp = (repoName, branch) => {
 };
 
 export const mergeToMasterImp = (repoName, branch, user) => {
-    const repoDir = getGitPath(repoName);
-    const { username, email } = user;
+  const repoDir = getGitPath(repoName);
+  const { username, email } = user;
 
   return nodegit.Repository.open(repoDir)
     .then(repo => {
@@ -180,10 +179,10 @@ export const mergeToMasterImp = (repoName, branch, user) => {
 };
 
 export const getRepositoryHistorySummary = (repoId, repoName) => {
-    const repoDir = getGitPath(repoName);
-    let foundPLan;
-    
-    return PlanModel.findById(repoId)
+  const repoDir = getGitPath(repoName);
+  let foundPLan;
+
+  return PlanModel.findById(repoId)
     .then(plan => {
       foundPLan = plan;
       return nodegit.Repository.open(repoDir);
@@ -225,27 +224,27 @@ export const readFile = (repoName, filename, sha) => {
   const repoDir = getGitPath(repoName);
 
   return nodegit.Repository.open(repoDir)
-  .then(repo => repo.getCommit(sha))
-  .then(commit => commit.getEntry(filename))
-  .then(entry => entry.getBlob())
-  .then(blob => blob);
+    .then(repo => repo.getCommit(sha))
+    .then(commit => commit.getEntry(filename))
+    .then(entry => entry.getBlob())
+    .then(blob => blob);
 };
 
 export const walkRepoTree = (repoName, sha) => {
   const repoDir = getGitPath(repoName);
-  
+
   return nodegit.Repository.open(repoDir)
-  .then(repo => {
-    return repo.getTree(sha);
-  })
-  .then(tree => {
-    return tree.entries().map(entry => ({
-      entrysha: entry.sha(),
-      isDirectory: entry.isTree(),
-      isFile: entry.isFile(),
-      name: entry.name(),
-    }));
-  });
+    .then(repo => {
+      return repo.getTree(sha);
+    })
+    .then(tree => {
+      return tree.entries().map(entry => ({
+        entrysha: entry.sha(),
+        isDirectory: entry.isTree(),
+        isFile: entry.isFile(),
+        name: entry.name(),
+      }));
+    });
 };
 
 const registerCommit = (inputs, repo, branch) => {

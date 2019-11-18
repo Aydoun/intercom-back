@@ -5,6 +5,8 @@ import { pushActivity } from 'services/activity/activity.service';
 // import welcomeTemplate from 'templates/welcome';
 import { ActivityPoint, ActivityType } from 'constants';
 
+const ALLOWED_UPDATE_KEYS = ['name', 'bio'];
+
 export const userDetails = (req, res) => {
   const { id } = req.tokenData;
 
@@ -66,8 +68,24 @@ export const register = (req, res) => {
 export const update = (req, res) => {
   const { id } = req.tokenData;
 
+  if (!updateAllowed(req.body)) {
+    return res.formatResponse({}, 401);
+  }
+
+  const pointValue = ActivityPoint.completeProfile;
+  const typeValue = ActivityType.completeProfile;
+
   return S.updateUser(id, req.body)
-    .then(response => res.formatResponse(response))
+    .then(response => {
+      res.formatResponse(response, 200, response && response.value);
+      return response && response.value;
+    })
+    .then(value => {
+      if (value) {
+        // save complete profile event
+        pushActivity(id, pointValue, typeValue);
+      }
+    })
     .catch(err => res.formatResponse(err.message, 401));
 };
 
@@ -87,3 +105,9 @@ export const planIntersection = (req, res) => {
     .then(response => res.formatResponse(response))
     .catch(err => res.formatResponse(err.message, 401));
 };
+
+const updateAllowed = data => Object.keys(data).every(key => {
+  return typeof data[key] === 'string' && 
+    data[key].length > 0 &&
+    ALLOWED_UPDATE_KEYS.indexOf(key) > -1;
+});

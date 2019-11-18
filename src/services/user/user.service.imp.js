@@ -1,10 +1,12 @@
 import omit from 'object.omit';
 import _intersectionWith from 'lodash.intersectionwith';
 import { securePassword, comparePasswords, generateToken } from 'utils';
+import { ActivityPoint } from 'constants';
 import UserModel from 'models/user.model';
 import PlanModel from 'models/plan.model';
 
 const FORBIDEN_USERS_KEYS = ['password', 'conversations', 'plans', 'privacy', 'likes'];
+
 
 export const getUserImp = id => {
   return UserModel.findById(id).lean()
@@ -51,8 +53,23 @@ export const searchUser = term => {
 };
 
 export const updateUserImp = (id, newData) => {
-  return UserModel.updateOne({ _id: id }, newData)
-    .then(() => newData);
+  return UserModel.findByIdAndUpdate(id, newData)
+    .then(document => {
+      const newDocument = Object.assign({}, document.toObject(), newData);
+      const { bio, name } = newDocument;
+
+      if (
+        !newDocument.profileCompleted &&
+        bio &&
+        name
+      ) {
+        document.profileCompleted = true;
+        return document.save()
+        .then(() => ({ ...newData, value: ActivityPoint.completeProfile }));
+      }
+
+      return newData;
+    });
 };
 
 export const deleteUserImp = id => {
