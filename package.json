@@ -10,8 +10,8 @@
     "start": "export NODE_ENV=development && nodemon src/lib/start",
     "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
     "start:prd": "pm2 start ./src/lib/start.js",
-    "develop": "nodemon --inspect-brk ./src/lib/start",
-    "lint": "eslint . --fix"
+    "develop": "nodemon --inspect-brk src/lib/start",
+    "lint": "eslint ."
   },
   "jest": {
     "testEnvironment": "node",
