@@ -5,51 +5,58 @@ import { catchValidationError } from 'utils/validation';
 
 const plans = express.Router();
 
-plans.get('/search', 
-  query('term').exists()
-, catchValidationError, C.searchPlan);
+plans.get(
+  '/search',
+  query('term').exists(),
+  catchValidationError,
+  C.searchPlan
+);
 
-plans.get('/:id', [
-  check('id').isMongoId(),
-], catchValidationError, C.getPlanById);
+plans.get(
+  '/:id',
+  [check('id').isMongoId()],
+  catchValidationError,
+  C.getPlanById
+);
 
-plans.post('', [
+plans.post(
+  '',
+  [
     body('username').exists(),
     body('email').isEmail(),
     body('description').exists(),
-    body('title').exists(),
-], catchValidationError, C.PersistPlan);
+    body('title').exists()
+  ],
+  catchValidationError,
+  C.PersistPlan
+);
 
-plans.put('/:id', [
-  check('id').isMongoId(),
-], catchValidationError, C.updateById);
+plans.put(
+  '/:id',
+  [check('id').isMongoId()],
+  catchValidationError,
+  C.updateById
+);
 
-plans.delete('/:id', [
-  check('id').isMongoId(),
-], catchValidationError, C.removeById);
+plans.delete(
+  '/:id',
+  [check('id').isMongoId()],
+  catchValidationError,
+  C.removeById
+);
 
-plans.put('/:id/like', [
-  check('id').isMongoId(),
-], catchValidationError, C.likePlan);
+plans.put(
+  '/:id/like',
+  [check('id').isMongoId()],
+  catchValidationError,
+  C.likePlan
+);
 
-plans.put('/:id/unregister', [
-  check('id').isMongoId(),
-], catchValidationError, C.Unregister);
-
-// plans.post('/:id/issues', [
-//   check('id').isMongoId(),
-//   body('title').exists(),
-// ], catchValidationError, C.addIssue);
-
-// plans.get('/:id/issues', [
-//   check('id').isMongoId(),
-// ], catchValidationError, C.listIssue);
-
-// plans.post('/:id/issues/:issueId/comment', [
-//   check('id').isMongoId(),
-//   check('issueId').isMongoId(),
-//   body('text').isString(),
-// ], catchValidationError, C.addIssueComment);
-
+plans.put(
+  '/:id/unregister',
+  [check('id').isMongoId()],
+  catchValidationError,
+  C.Unregister
+);
 
 module.exports = plans;

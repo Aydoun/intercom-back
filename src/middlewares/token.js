@@ -1,12 +1,11 @@
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-// Token Check
 const TokenCheck = (req, res, next) => {
   const token = req.headers['x-api-key'] || req.query.token;
   if (token) {
     try {
-      const decoded = jwt.decode(token, config.secret);
+      const decoded = jwt.verify(token, config.jwtSecret);
       req.tokenData = decoded;
       next();
     } catch (err) {
@@ -17,4 +16,4 @@ const TokenCheck = (req, res, next) => {
   }
 };
 
-module.exports = TokenCheck;
+export default TokenCheck;

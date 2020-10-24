@@ -7,12 +7,11 @@
     "test": "export NODE_ENV=test && jest --watch",
     "test:watch": "jest --watch",
     "test:unit": "jest --testRegex \\.test\\.js$",
-    "start": "export NODE_ENV=development && nodemon --ignore '__tests__' ./src/lib/start",
+    "start": "export NODE_ENV=development && nodemon src/lib/start",
     "start:test": "export NODE_ENV=test && nodemon --ignore '__tests__' ./src/lib/start",
     "start:prd": "pm2 start ./src/lib/start.js",
-    "develop": "nodemon --inspect-brk ./src/lib/start",
-    "lint": "eslint . --fix",
-    "precommit": "yarn lint"
+    "develop": "nodemon --inspect-brk src/lib/start",
+    "lint": "eslint ."
   },
   "jest": {
     "testEnvironment": "node",
@@ -62,7 +61,7 @@
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "nodegit": "^0.24.3",
+    "nodegit": "^0.27.0",
     "nodemailer": "^6.2.1",
     "object.omit": "^3.0.0",
     "sharp": "^0.23.0",

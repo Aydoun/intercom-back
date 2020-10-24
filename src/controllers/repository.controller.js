@@ -9,7 +9,7 @@ export const fetchHistory = (req, res) => {
       res.formatResponse(history);
     })
     .catch(err => {
-      res.formatResponse(err.message, 401);
+      res.formatResponse(err.message + ' /messg', 401);
     });
 };
 
@@ -54,10 +54,10 @@ export const submitCommit = (req, res) => {
 
 export const createBranch = (req, res) => {
   const { repoName } = req.params;
-  const { branchName } = req.query;
+  const { branch } = req.body;
 
-  S.addBranch(repoName, branchName)
-    .then(response => res.formatResponse(response))
+  S.addBranch(repoName, branch)
+    .then(response => res.formatResponse({ branch: response }))
     .catch(err => res.formatResponse(err.message, 401));
 };
 
@@ -75,7 +75,7 @@ export const getBranch = (req, res) => {
 
 export const removeBranch = (req, res) => {
   const { repoName } = req.params;
-  const { branch } = req.query;
+  const { branch } = req.body;
 
   S.deleteBranch(repoName, branch)
     .then(response => {
@@ -119,7 +119,12 @@ export const getFileContent = (req, res) => {
 
   S.readFile(repoName, fileName, sha)
     .then(response => {
-      res.formatResponse(response.toString().split("\n").filter(Boolean));
+      res.formatResponse(
+        response
+          .toString()
+          .split('\n')
+          .filter(Boolean)
+      );
     })
     .catch(err => {
       res.formatResponse(err.message, 401);
