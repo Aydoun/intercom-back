@@ -1,11 +1,11 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
-import morgan  from'morgan';
+import morgan from 'morgan';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-import routes from'routes';
+import routes from 'routes';
 import auth from 'routes/auth';
 import TokenCheck from 'middlewares/token';
 import swaggerDocument from '../../swagger.json';
@@ -13,7 +13,13 @@ import swaggerDocument from '../../swagger.json';
 const app = express();
 
 // Body Parsing
-app.use(bodyParser.urlencoded({ extended: 'true', limit: '50mb', parameterLimit: 10000 }));
+app.use(
+  bodyParser.urlencoded({
+    extended: 'true',
+    limit: '50mb',
+    parameterLimit: 10000
+  })
+);
 app.use(bodyParser.json({ limit: '10mb' }));
 
 // Express Middlewares
@@ -28,7 +34,7 @@ app.use(TokenCheck);
 
 app.use('/api', routes);
 
-app.use(function (err, req, res) {
+app.use(function(err, req, res) {
   res(err.message);
 });
 
@@ -36,11 +42,12 @@ app.use(function (err, req, res) {
 express.response.formatResponse = function(response, httpCode = 200, value) {
   const correctedHttpCode = typeof response !== 'undefined' ? httpCode : 401;
 
-  return this.send({ 
-    response: response || {}, 
-    httpCode: correctedHttpCode, 
+  console.log('response :>> ', Boolean(response));
+  return this.send({
+    response: response || {},
+    httpCode: correctedHttpCode,
     status: correctedHttpCode >= 200 && correctedHttpCode < 300,
-    value: value || 0,
+    value: value || 0
   });
 };
 

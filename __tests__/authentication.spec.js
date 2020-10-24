@@ -1,24 +1,23 @@
-const chai = require("chai"),
-  chaiHttp = require("chai-http");
-const faker = require("faker");
-const { baseUrl } = require("../src/config");
-const testUser = require("./fixtures/user.json");
-const { describesKey } = require("express-validator/src/base");
+const chai = require('chai'),
+  chaiHttp = require('chai-http');
+const faker = require('faker');
+const { baseUrl } = require('../src/config');
+import testUser from './fixtures/user.json';
 chai.use(chaiHttp);
 
-describe("Authentication Suite", () => {
-  describe("Registration Suite", () => {
-    let fakeUser = {
+describe('Authentication Suite', () => {
+  describe('Registration Suite', () => {
+    const fakeUser = {
       name: faker.internet.userName(),
       email: faker.internet.email().toLowerCase(),
-      password: faker.internet.password(),
+      password: faker.internet.password()
     };
 
-    it("Should Reject incorrect email", (done) => {
+    it('Should Reject incorrect email', done => {
       chai
         .request(baseUrl)
-        .post("/user/register")
-        .send({ email: "not an email", name: "name", password: "00000000" })
+        .post('/user/register')
+        .send({ email: 'not an email', name: 'name', password: '00000000' })
         .end(function(err, res) {
           expect(err).toBeFalsy();
           const { status } = res.body;
@@ -28,11 +27,11 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("Should Reject Passwords less than 8 characters", (done) => {
+    it('Should Reject Passwords less than 8 characters', done => {
       chai
         .request(baseUrl)
-        .post("/user/register")
-        .send({ email: "email@gmail.com", name: "name", password: "000000" })
+        .post('/user/register')
+        .send({ email: 'email@gmail.com', name: 'name', password: '000000' })
         .end(function(err, res) {
           const { status } = res.body;
           expect(status).toEqual(false);
@@ -41,11 +40,11 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("Should Reject request with empty name", (done) => {
+    it('Should Reject request with empty name', done => {
       chai
         .request(baseUrl)
-        .post("/user/register")
-        .send({ email: "email@gmail.com", name: "", password: "00000000" })
+        .post('/user/register')
+        .send({ email: 'email@gmail.com', name: '', password: '00000000' })
         .end(function(err, res) {
           expect(err).toBeFalsy();
           const { status } = res.body;
@@ -55,10 +54,10 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("Should Reject registering similar email addresses", (done) => {
+    it('Should Reject registering similar email addresses', done => {
       chai
         .request(baseUrl)
-        .post("/user/register")
+        .post('/user/register')
         .send(testUser)
         .end(function(err, res) {
           expect(err).toBeFalsy();
@@ -69,16 +68,16 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("should Register new user", (done) => {
+    it('should Register new user', done => {
       chai
         .request(baseUrl)
-        .post("/user/register")
+        .post('/user/register')
         .send(fakeUser)
         .end((err, res) => {
           const {
             httpCode,
             status,
-            response: { token, name, email },
+            response: { token, name, email }
           } = res.body;
           expect(status).toEqual(true);
           expect(httpCode).toEqual(200);
@@ -90,13 +89,13 @@ describe("Authentication Suite", () => {
     });
   });
 
-  describe("Login Suite", () => {
-    it("Should Reject incorrect email", (done) => {
+  describe('Login Suite', () => {
+    it('Should Reject incorrect email', done => {
       chai
         .request(baseUrl)
-        .post("/user/login")
-        .send({ email: "not an email", password: "00000000" })
-        .then((data) => {
+        .post('/user/login')
+        .send({ email: 'not an email', password: '00000000' })
+        .then(data => {
           const { httpCode, status } = data.body;
 
           expect(status).toEqual(false);
@@ -105,12 +104,12 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("Should Reject Incorrect Password", (done) => {
+    it('Should Reject Incorrect Password', done => {
       chai
         .request(baseUrl)
-        .post("/user/login")
-        .send({ email: testUser.email, password: "000000" })
-        .then((data) => {
+        .post('/user/login')
+        .send({ email: testUser.email, password: '000000' })
+        .then(data => {
           const { httpCode, status } = data.body;
 
           expect(status).toEqual(false);
@@ -119,16 +118,16 @@ describe("Authentication Suite", () => {
         });
     });
 
-    it("Should to Able a user to login", (done) => {
+    it('Should let a user login', done => {
       chai
         .request(baseUrl)
-        .post("/user/login")
+        .post('/user/login')
         .send(testUser)
         .end((err, res) => {
           const {
             status,
             httpCode,
-            response: { token },
+            response: { token }
           } = res.body;
 
           expect(status).toEqual(true);
