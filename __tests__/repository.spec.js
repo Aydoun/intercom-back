@@ -1,11 +1,11 @@
 import fs from 'fs';
 import uuid from 'uuid/v1';
-const chai = require('chai'),
-  chaiHttp = require('chai-http');
-const faker = require('faker');
-const { baseUrl, gitPath } = require('../src/config');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import { baseUrl, gitPath } from '../src/config';
 import testUser from './fixtures/user.json';
-const { createRepository } = require('services/repository/repository.service');
+import { createRepository } from 'services/repository/repository.service';
+import { addContent } from 'services/files/files.service';
 chai.use(chaiHttp);
 
 describe('Repository Test Suite', () => {
@@ -82,6 +82,87 @@ describe('Repository Test Suite', () => {
         expect(err).toBeFalsy();
         expect(response.length).toBe(2);
         expect(response.includes('develop-the-world')).toBeTruthy();
+        done();
+      });
+  });
+
+  it("should retrieve repo's status", done => {
+    addContent(repoName, 'file.txt', 'some content');
+    chai
+      .request(baseUrl)
+      .get(`/repository/${repoName}/status`)
+      .set('x-api-key', appToken)
+      .end(function(err, res) {
+        const { response, status } = res.body;
+        expect(err).toBeFalsy();
+        expect(status).toBeTruthy();
+        expect(response.NEW.includes('file.txt')).toBeTruthy();
+        done();
+      });
+  });
+
+  it('should add a new commit', done => {
+    chai
+      .request(baseUrl)
+      .post(`/repository/${repoName}/commit`)
+      .send({
+        username,
+        email,
+        message: 'second commit to the repo',
+        branch: 'master'
+      })
+      .set('x-api-key', appToken)
+      .end((err, res) => {
+        const { response, status } = res.body;
+        expect(err).toBeFalsy();
+        expect(status).toBeTruthy();
+        expect(typeof response).toEqual('string');
+        done();
+      });
+  });
+
+  it("should list repository's history log with newly made commit", done => {
+    chai
+      .request(baseUrl)
+      .get(`/repository/${repoName}/history`)
+      .query({ branch: 'master' })
+      .set('x-api-key', appToken)
+      .end(function(err, res) {
+        const { response } = res.body;
+        expect(err).toBeFalsy();
+        expect(response.length).toEqual(2);
+        expect(response[0].email).toEqual(email);
+        expect(response[0].author).toEqual(username);
+        expect(response[0].comment).toEqual('second commit to the repo');
+        done();
+      });
+  });
+
+  it('should delete a branch', done => {
+    chai
+      .request(baseUrl)
+      .delete(`/repository/${repoName}/branch`)
+      .send({ branch: 'develop-the-world' })
+      .set('x-api-key', appToken)
+      .end(function(err, res) {
+        const { status } = res.body;
+        expect(err).toBeFalsy();
+        expect(status).toBeTruthy();
+        done();
+      });
+  });
+
+  it('should list the current repos branches', done => {
+    chai
+      .request(baseUrl)
+      .get(`/repository/${repoName}/branch`)
+      .set('x-api-key', appToken)
+      .end(function(err, res) {
+        const { response, status } = res.body;
+        expect(err).toBeFalsy();
+        expect(status).toBeTruthy();
+        expect(response.length).toBe(1);
+        expect(response.includes('develop-the-world')).toBeFalsy();
         done();
       });
   });

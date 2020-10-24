@@ -11,7 +11,7 @@ repository.get(
   catchValidationError,
   R.fetchHistory
 );
-repository.get('/:repoName/status', R.listStatus);
+repository.get('/:repoName/status', [param('repoName').isUUID()], R.listStatus);
 repository.get(
   '/:repoName/tree',
   [param('repoName').isUUID(), query('branch').exists()],
@@ -73,7 +73,7 @@ repository.post(
 
 repository.delete(
   '/:repoName/branch',
-  [param('repoName').isUUID(), query('branch').exists()],
+  [param('repoName').isUUID(), body('branch').exists()],
   catchValidationError,
   R.removeBranch
 );

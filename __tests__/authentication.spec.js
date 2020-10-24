@@ -1,7 +1,7 @@
-const chai = require('chai'),
-  chaiHttp = require('chai-http');
-const faker = require('faker');
-const { baseUrl } = require('../src/config');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import faker from 'faker';
+import { baseUrl } from '../src/config';
 import testUser from './fixtures/user.json';
 chai.use(chaiHttp);
 
@@ -22,7 +22,6 @@ describe('Authentication Suite', () => {
           expect(err).toBeFalsy();
           const { status } = res.body;
           expect(status).toEqual(false);
-
           done();
         });
     });
@@ -35,7 +34,6 @@ describe('Authentication Suite', () => {
         .end(function(err, res) {
           const { status } = res.body;
           expect(status).toEqual(false);
-
           done();
         });
     });
@@ -49,7 +47,6 @@ describe('Authentication Suite', () => {
           expect(err).toBeFalsy();
           const { status } = res.body;
           expect(status).toEqual(false);
-
           done();
         });
     });
@@ -63,7 +60,6 @@ describe('Authentication Suite', () => {
           expect(err).toBeFalsy();
           const { status } = res.body;
           expect(status).toEqual(false);
-
           done();
         });
     });
@@ -83,7 +79,6 @@ describe('Authentication Suite', () => {
           expect(httpCode).toEqual(200);
           expect(name).toEqual(fakeUser.name);
           expect(email).toEqual(fakeUser.email);
-
           done();
         });
     });
@@ -97,7 +92,6 @@ describe('Authentication Suite', () => {
         .send({ email: 'not an email', password: '00000000' })
         .then(data => {
           const { httpCode, status } = data.body;
-
           expect(status).toEqual(false);
           expect(httpCode).not.toEqual(200);
           done();
@@ -111,7 +105,6 @@ describe('Authentication Suite', () => {
         .send({ email: testUser.email, password: '000000' })
         .then(data => {
           const { httpCode, status } = data.body;
-
           expect(status).toEqual(false);
           expect(httpCode).not.toEqual(200);
           done();
@@ -129,7 +122,6 @@ describe('Authentication Suite', () => {
             httpCode,
             response: { token }
           } = res.body;
-
           expect(status).toEqual(true);
           expect(httpCode).toEqual(200);
           expect(token).not.toBeUndefined();

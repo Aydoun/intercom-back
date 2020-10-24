@@ -75,7 +75,7 @@ export const getBranch = (req, res) => {
 
 export const removeBranch = (req, res) => {
   const { repoName } = req.params;
-  const { branch } = req.query;
+  const { branch } = req.body;
 
   S.deleteBranch(repoName, branch)
     .then(response => {
