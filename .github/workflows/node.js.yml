@@ -22,3 +22,5 @@ jobs:
 
     - name: "Integration Test Suite"
       run: npm test
+env:
+  CI: true
